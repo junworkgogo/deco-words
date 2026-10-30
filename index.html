@@ -427,7 +427,7 @@ const RULES = $("rules").textContent;
 const CAMBRIDGE = "https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/";
 const API = "https://generativelanguage.googleapis.com/v1beta/";
 const LS_KEY = "decoWords.geminiKey";
-const LS_MODEL = "decoWords.model.v2"; // 換了選模型的規則，舊的記錄（decoWords.geminiModel）不再沿用
+const LS_MODEL = "decoWords.model.v3"; // 換了選模型的規則，舊的記錄（decoWords.geminiModel、decoWords.model.v2）不再沿用
 
 // Gemini 回傳 JSON 的格式（只用最基本的欄位，避免 API 不認得）
 const WORD_SCHEMA = {
@@ -684,24 +684,27 @@ function newestFirst(a, b) {
   return b1 - a1 || b2 - a2;
 }
 
-// 2026-10-30 用真金鑰實測：3.8-flash 26 秒～超過 60 秒；3.6-flash（幾乎不思考）4–6 秒 → 有 3.6-flash 就用它
-const PREFERRED_MODEL = "gemini-3.6-flash";
+// 2026-10-30 用真金鑰實測：3.8-flash 26 秒～超過 60 秒；3.6-flash 4–6 秒但免費一天只有 20 次；
+// 3.5-flash-lite 4.3 秒、免費一天 500 次 → 使用者選「全部改用輕量版」
+const PREFERRED_MODEL = "gemini-3.5-flash-lite";
 
-// 免費方案用 Flash：優先用實測最快的那個，其次選版本最新的正式版，再其次用 Google 的「最新 Flash」別名
+// 免費方案用輕量版：優先用實測過的那個，其次選版本最新的正式輕量版，再其次用 Google 的「最新輕量版」別名；
+// 都沒有才退回一般 Flash
 function pickModel(models) {
   const names = (Array.isArray(models) ? models : [])
     .filter((m) => m && Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes("generateContent"))
     .map((m) => String(m.name || "").replace(/^models\//, ""));
   if (names.includes(PREFERRED_MODEL)) return PREFERRED_MODEL;
+  const lite = names.filter((n) => /^gemini-\d+(?:\.\d+)?-flash-lite$/.test(n)).sort(newestFirst);
+  if (lite.length) return lite[0];
+  if (names.includes(BACKUP_MODEL)) return BACKUP_MODEL;
   const stable = names.filter((n) => /^gemini-\d+(?:\.\d+)?-flash$/.test(n)).sort(newestFirst);
   if (stable.length) return stable[0];
   if (names.includes("gemini-flash-latest")) return "gemini-flash-latest";
   const other = names
     .filter((n) => /^gemini-\d+(?:\.\d+)?-flash(?!-lite)/.test(n) && !/(image|tts|audio|live|embed|thinking)/.test(n))
     .sort(newestFirst);
-  if (other.length) return other[0];
-  const lite = names.filter((n) => /^gemini-\d+(?:\.\d+)?-flash-lite$/.test(n)).sort(newestFirst);
-  return lite.length ? lite[0] : "";
+  return other.length ? other[0] : "";
 }
 
 async function findModel(key, signal) {
@@ -750,7 +753,8 @@ function thinkBackoff(m) {
   saveLS(LS_THINK, JSON.stringify(thinkStep));
 }
 
-// 主要模型忙線或超過 FIRST_TRY 秒還沒好，就改用 Google 的「最新輕量版」再試一次（實測約 4 秒）
+// 主要模型忙線或超過 FIRST_TRY 秒還沒好，就改用 Google 的「最新輕量版」別名再試一次
+// （別名可能就指向主要模型本身，那就等於同一個模型重試一次；忙線多半是一時的）
 const BACKUP_MODEL = "gemini-flash-lite-latest";
 const FIRST_TRY = 20;
 
