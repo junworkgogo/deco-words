@@ -525,6 +525,7 @@ let busy = false;
 let ctl = null;
 let waitTimer = null;
 let waitStart = 0;
+const TIME_LIMIT = 60; // 秒；超過就自動停止，免得一直轉
 
 /* ---------- 小工具 ---------- */
 
@@ -727,12 +728,18 @@ function genConfig(level) {
   return null;
 }
 
+// Flash 模型預設會先「思考」一陣子才回答，很慢；請它少想一點（Gemini 3 以後才吃這個設定，不吃就拿掉）
+const LS_THINK = "decoWords.think";
+let thinkOff = loadLS(LS_THINK) === "off";
+
 const BLOCKED = ["SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT", "SPII", "LANGUAGE", "IMAGE_SAFETY"];
 
 async function askGemini(title, note, fresh, signal) {
   if (!model) {
     model = await findModel(apiKey, signal);
     saveLS(LS_MODEL, model);
+    thinkOff = false;
+    saveLS(LS_THINK, "");
     showKeyState();
   }
   let input = "標題：" + title;
@@ -744,8 +751,9 @@ async function askGemini(title, note, fresh, signal) {
       systemInstruction: { parts: [{ text: RULES }] },
       contents: [{ role: "user", parts: [{ text: input }] }],
     };
-    const gc = genConfig(formatLevel);
-    if (gc) payload.generationConfig = gc;
+    const gc = genConfig(formatLevel) || {};
+    if (!thinkOff) gc.thinkingConfig = { thinkingLevel: "LOW" };
+    if (Object.keys(gc).length) payload.generationConfig = gc;
     try {
       data = await gfetch("models/" + encodeURIComponent(model) + ":generateContent", apiKey, {
         method: "POST",
@@ -754,6 +762,12 @@ async function askGemini(title, note, fresh, signal) {
       });
       break;
     } catch (e) {
+      // 模型不接受「少想一點」的設定時，拿掉再送一次
+      if (e instanceof ApiError && e.status === 400 && e.kind === "unknown" && !thinkOff && /thinking/i.test(e.detail)) {
+        thinkOff = true;
+        saveLS(LS_THINK, "off");
+        continue;
+      }
       // Google 不接受輸出格式設定時，改用較簡單的設定再送一次（最多退兩級；規則文字本身已寫明 JSON 格式）
       if (e instanceof ApiError && e.status === 400 && e.kind === "unknown" && FORMAT_ERR.test(e.detail) && formatLevel < 2) {
         formatLevel += 1;
@@ -779,6 +793,7 @@ async function askGemini(title, note, fresh, signal) {
 
 const MESSAGES = {
   cancelled: { text: "已停止。", kind: "info" },
+  timeout: { text: "Google 超過 60 秒沒有回應，已自動停止。請再按一次「產生」；一直這樣的話，可能是 Google 那邊壅塞，晚點再試。", kind: "error" },
   bad_key: { text: "金鑰不正確。請到 Google AI Studio 重新複製金鑰，按上方「更換金鑰」再貼一次。", kind: "error" },
   region: { text: "Google 表示目前所在的地區不能使用 Gemini API。", kind: "error" },
   denied: { text: "這組金鑰沒有使用 Gemini 的權限，請到 Google AI Studio 重新建立一組金鑰。", kind: "error" },
@@ -818,8 +833,10 @@ async function saveKey() {
     const picked = await findModel(key);
     apiKey = key;
     model = picked;
+    thinkOff = false;
     saveLS(LS_KEY, apiKey);
     saveLS(LS_MODEL, model);
+    saveLS(LS_THINK, "");
     els.keyInput.value = "";
     showKeyState(false);
     els.sr.textContent = "金鑰已儲存";
@@ -1007,7 +1024,9 @@ function setBusy(b) {
 
 function updateWait() {
   const s = Math.floor((Date.now() - waitStart) / 1000);
-  els.wait.textContent = "產生中…（已等候 " + s + " 秒，通常 5–30 秒）";
+  els.wait.textContent = s < 20
+    ? "產生中…（已等候 " + s + " 秒）"
+    : "產生中…（已等候 " + s + " 秒，Google 比平常慢；" + TIME_LIMIT + " 秒還沒好會自動停止）";
 }
 function startWait() {
   waitStart = Date.now();
@@ -1041,6 +1060,8 @@ async function runGenerate(fresh) {
 
   const controller = new AbortController();
   ctl = controller;
+  let timedOut = false;
+  const timer = setTimeout(() => { timedOut = true; controller.abort(); }, TIME_LIMIT * 1000);
   setBusy(true);
   startWait();
   try {
@@ -1056,13 +1077,15 @@ async function runGenerate(fresh) {
     els.sr.textContent = "已產生結果";
     if (isNarrow()) els.results.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" });
   } catch (e) {
-    const kind = e instanceof ApiError ? e.kind : "unknown";
+    let kind = e instanceof ApiError ? e.kind : "unknown";
+    if (kind === "cancelled" && timedOut) kind = "timeout";
     if (!(e instanceof ApiError)) console.error(e);
     if (kind === "no_model") { model = ""; saveLS(LS_MODEL, ""); showKeyState(); }
     const m = MESSAGES[kind] || MESSAGES.unknown;
     const showDetail = kind === "unknown" || kind === "denied" || kind === "no_model" || kind === "network";
     showMsg(m.text, m.kind, showDetail && e && e.detail ? e.detail : "", kind === "network" ? "連線細節：" : "");
   } finally {
+    clearTimeout(timer);
     endWait();
     setBusy(false);
     ctl = null;
