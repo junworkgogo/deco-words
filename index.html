@@ -43,12 +43,17 @@
   /* 細顆粒：內嵌 SVG（feTurbulence 雜訊轉灰階），不載入任何外部圖檔。--grain-s 是同一張圖、自帶較低強度，給 hover 底色用 */
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain-s: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
-  /* 按鈕 hover 底色：#1D4ED8 為中心的深藍漸層（文字區），銀色光澤只放在右上角邊緣（離文字遠），上面再蓋一層細顆粒；
-     顆粒會讓個別像素變亮約 27 階，所以底色取偏深，逐像素最差值也要 ≥4.5:1 */
-  --hover-fill:
-    var(--grain-s),
-    radial-gradient(ellipse 26% 60% at 100% 0%, rgba(230, 234, 240, .38) 0%, rgba(230, 234, 240, 0) 100%),
-    linear-gradient(135deg, #1B49CC 0%, #1D4ED8 50%, #2358E0 100%);
+  /* 流動漸層（2026-10-30 使用者看 ShaderGradient 後選「A 藍色流動」）：靛紫、深青藍、品牌藍三團色光在藍底上慢慢漂。
+     只換色相、不變亮。每個顏色對白字都 ≥6:1，是因為顆粒會讓個別像素變亮約兩成；樣本版用 5.6:1 的顏色，
+     實測逐像素最差只剩 4.53:1，所以壓深到現在的值，不要隨手調亮。--flow-size 讓色光比元素大，移動 background-position 才看得到流動 */
+  --flow:
+    radial-gradient(ellipse 38% 60% at 25% 35%, rgba(93, 71, 222, .95) 0%, rgba(93, 71, 222, 0) 70%),
+    radial-gradient(ellipse 34% 60% at 75% 65%, rgba(10, 98, 188, .95) 0%, rgba(10, 98, 188, 0) 70%),
+    radial-gradient(ellipse 40% 60% at 55% 20%, rgba(54, 84, 217, .8) 0%, rgba(54, 84, 217, 0) 70%),
+    linear-gradient(125deg, #1E40AF 0%, #2B55D8 30%, #3B4FD8 50%, #0A60B9 70%, #1D4ED8 100%);
+  --flow-size: 170% 200%, 180% 210%, 160% 190%, 220% 220%;
+  /* 按鈕 hover 底色：同一個流動漸層，上面蓋一層較淡的顆粒（--grain-s）。用全強度 --grain 實測白字最差 2.7:1 */
+  --hover-fill: var(--grain-s), var(--flow);
   --hover-fill-danger:
     var(--grain-s),
     radial-gradient(ellipse 26% 60% at 100% 0%, rgba(240, 220, 218, .3) 0%, rgba(240, 220, 218, 0) 100%),
@@ -209,12 +214,11 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   user-select: none;
   transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
-/* 已選的漸層末端用 #2E6BE8（設計稿 #3B7BF0）：白字要 ≥4.5:1，#3B7BF0 只有 3.98:1，再疊顆粒要留餘裕 */
+/* 已選：底色是共用的流動漸層（見「有顏色的地方共用的流動底」） */
 .tick input:checked + span {
   position: relative;
   isolation: isolate;
   color: #fff;
-  background: linear-gradient(90deg, #2563EB 0%, #2E6BE8 100%);
   border-color: transparent;
   box-shadow: 0 6px 16px rgba(37, 99, 235, .3);
 }
@@ -230,7 +234,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   background-image: var(--grain);
   background-size: 180px 180px;
   mix-blend-mode: soft-light;
-  opacity: .1;
+  opacity: .3; /* 2026-10-30 使用者要「有點躁點感」，從 .1 加重 */
 }
 /* 未選的勾選膠囊：移上去／鍵盤對焦時變淡藍底、藍框、藍字 */
 .tick input:focus-visible + span { outline: 3px solid var(--ring); outline-offset: 2px; }
@@ -259,7 +263,6 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 .btn svg { width: 18px; height: 18px; }
 .btn-primary {
   color: #fff;
-  background: linear-gradient(90deg, #2563EB 0%, #2E6BE8 100%);
   box-shadow: 0 8px 18px rgba(37, 99, 235, .26);
 }
 .btn-secondary { color: var(--ctl-fg); background: var(--ctl-bg); box-shadow: var(--shadow-btn); }
@@ -281,10 +284,16 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   opacity: 0;
   transition: opacity .3s ease;
 }
-.btn-secondary::before, .pill-btn::before, .copy::before { background-image: var(--hover-fill); background-blend-mode: soft-light, normal, normal; }
-.btn-danger::before { background-image: var(--hover-fill-danger); }
+.btn-secondary::before, .pill-btn::before, .copy::before {
+  background-image: var(--hover-fill);
+  background-blend-mode: soft-light, normal, normal, normal, normal;
+  background-size: 180px 180px, var(--flow-size);
+  background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%;
+  animation: flow-g 12s ease-in-out infinite alternate paused; /* 平常看不見就不動，省得每顆複製鈕都在背後重畫 */
+}
+.btn-danger::before { background-image: var(--hover-fill-danger); background-size: auto; background-position: 0 0; animation: none; }
 .btn-secondary:focus-visible, .pill-btn:focus-visible, .copy:focus-visible { color: #fff; box-shadow: var(--glow-shadow); }
-.btn-secondary:focus-visible::before, .pill-btn:focus-visible::before, .copy:focus-visible::before { opacity: 1; }
+.btn-secondary:focus-visible::before, .pill-btn:focus-visible::before, .copy:focus-visible::before { opacity: 1; animation-play-state: running; }
 .btn-danger:focus-visible { box-shadow: 0 6px 16px rgba(180, 35, 24, .28); }
 
 .actions { display: flex; flex-direction: column; gap: 10px; }
@@ -314,36 +323,37 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 }
 .pill-btn svg { width: 14px; height: 14px; }
 
-/* 「產生」鈕：像水一樣緩緩流動。底色是飽和藍，上面疊亮藍與半透明銀光（radial-gradient），各層大小不同，
-   用同一個 keyframes 移動 background-position，各層就會用不同速度流過去。
-   最上層是固定不動的深藍「墊底光」（圓心在「產生」兩字正後方，用 px 定位，--text-x 隨字級調整），
-   銀光與亮藍流過字的時候被它壓住，白字在任何時刻都 ≥4.5:1。銀光與亮藍的不透明度是用取樣量出來的，不要隨手調高 */
+/* 有顏色的地方共用的流動底：已選勾選項、主要按鈕（產生、儲存金鑰）。三團色光大小不同、
+   用同一個 keyframes 移動 background-position，就會用不同速度流過去。background-position 寫成 keyframes 0%，
+   減少動態設定時就停在這一格 */
+.tick input:checked + span, .btn-primary {
+  background-color: #2563EB;
+  background-image: var(--flow);
+  background-size: var(--flow-size);
+  background-position: 0% 0%, 100% 100%, 50% 0%, 0% 50%;
+  animation: flow 12s ease-in-out infinite alternate;
+}
+@keyframes flow {
+  0%   { background-position: 0% 0%, 100% 100%, 50% 0%, 0% 50%; }
+  50%  { background-position: 100% 50%, 0% 50%, 0% 100%, 100% 50%; }
+  100% { background-position: 50% 100%, 50% 0%, 100% 50%, 50% 0%; }
+}
+/* 最上面多一層顆粒的版本（hover 底層、主標／副標標籤、結果標題前的小直線）：第一層是顆粒，位置固定 */
+@keyframes flow-g {
+  0%   { background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%; }
+  50%  { background-position: 0 0, 100% 50%, 0% 50%, 0% 100%, 100% 50%; }
+  100% { background-position: 0 0, 50% 100%, 50% 0%, 100% 50%, 50% 0%; }
+}
 .btn-go {
-  --text-x: 40px;
   gap: 10px;
   justify-content: flex-start;
   min-height: 52px;
   padding: 0 8px 0 22px;
   font-size: 16px;
   letter-spacing: .04em;
-  background-color: #2563EB;
-  background-image:
-    radial-gradient(ellipse 110px 90% at var(--text-x) 50%, rgba(29, 78, 216, .96) 0%, rgba(29, 78, 216, .85) 50%, rgba(29, 78, 216, 0) 100%),
-    radial-gradient(ellipse 30% 55% at 50% 50%, rgba(230, 234, 240, .42) 0%, rgba(230, 234, 240, 0) 100%),
-    radial-gradient(ellipse 34% 60% at 50% 50%, rgba(127, 178, 255, .65) 0%, rgba(127, 178, 255, 0) 100%),
-    radial-gradient(ellipse 38% 70% at 50% 50%, rgba(91, 155, 248, .65) 0%, rgba(91, 155, 248, 0) 100%),
-    linear-gradient(100deg, #2563EB 0%, #3B7BF0 50%, #2563EB 100%);
-  background-size: 100% 100%, 200% 210%, 230% 240%, 210% 260%, 220% 100%;
-  background-position: 0% 0%, 0% 30%, 100% 70%, 0% 100%, 0% 50%;
-  animation: btn-flow 10s ease-in-out infinite alternate;
   box-shadow: 0 10px 24px rgba(37, 99, 235, .3), inset 0 1px 0 rgba(255, 255, 255, .3);
-  text-shadow: 0 1px 2px rgba(15, 23, 42, .2);
+  text-shadow: 0 1px 2px rgba(15, 23, 42, .25);
 }
-@keyframes btn-flow {
-  0%   { background-position: 0% 0%, 0% 30%, 100% 70%, 0% 100%, 0% 50%; }
-  100% { background-position: 0% 0%, 100% 70%, 0% 30%, 100% 0%, 100% 50%; }
-}
-.btn-go::after { opacity: .12; }
 /* hover／對焦再亮一階：右側邊緣多一層亮藍與銀光（刻意離開文字），光暈加大 */
 .btn-go::before {
   background:
@@ -359,7 +369,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 
 /* 結果面板 */
 .results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-bottom: 14px; padding-inline: 2px; }
-.results-head .bar { flex: none; width: 3px; height: 20px; border-radius: 2px; background: var(--accent); }
+.results-head .bar { flex: none; width: 3px; height: 20px; border-radius: 2px; }
 .results-head h2 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
 .result-body { position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0; } /* position:relative：卡片裡 sr-only 的絕對定位文字才會被捲動容器裁掉，不撐高整頁 */
 .result-body:focus-visible { outline-offset: 0; border-radius: 12px; }
@@ -379,6 +389,15 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 }
 .badge { margin-bottom: 8px; }
 .badge-soft { color: var(--badge-soft-fg); background: var(--badge-soft-bg); }
+.badge:not(.badge-soft), .results-head .bar {
+  color: #fff;
+  background-color: #2563EB;
+  background-image: var(--grain-s), var(--flow);
+  background-blend-mode: soft-light, normal, normal, normal, normal;
+  background-size: 180px 180px, var(--flow-size);
+  background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%;
+  animation: flow-g 12s ease-in-out infinite alternate;
+}
 .notes { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; font-size: 14px; color: var(--fg-soft); background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
 .notes p { margin: 0; overflow-wrap: anywhere; }
 
@@ -514,7 +533,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   .btn svg { width: 16px; height: 16px; }
   .actions { flex-direction: row; flex-wrap: wrap; align-items: stretch; gap: 8px; }
   .actions .btn { width: auto; flex: 1 1 76px; }
-  .actions .btn-go { --text-x: 32px; flex: 1.6 1 112px; min-height: 46px; padding: 0 8px 0 16px; font-size: 15px; }
+  .actions .btn-go { flex: 1.6 1 112px; min-height: 46px; padding: 0 8px 0 16px; font-size: 15px; }
   .btn-go .arrow { width: 30px; height: 30px; }
   .btn-go .arrow svg { width: 15px; height: 15px; }
   .btn-clear, .btn-again, .btn-stop { font-size: 14px; }
@@ -555,7 +574,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 /* 變色效果：滑鼠移上去（只限有滑鼠的裝置，觸控裝置點一下不會留下卡住的外觀）。鍵盤對焦的版本在上面各元件的 :focus-visible */
 @media (hover: hover) and (pointer: fine) {
   .btn-secondary:hover:not(:disabled), .pill-btn:hover, .copy:hover { color: #fff; box-shadow: var(--glow-shadow); }
-  .btn-secondary:hover:not(:disabled)::before, .pill-btn:hover::before, .copy:hover::before { opacity: 1; }
+  .btn-secondary:hover:not(:disabled)::before, .pill-btn:hover::before, .copy:hover::before { opacity: 1; animation-play-state: running; }
   .btn-danger:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(180, 35, 24, .28); }
   .btn-go:hover:not(:disabled) { box-shadow: 0 14px 32px rgba(37, 99, 235, .45), inset 0 1px 0 rgba(255, 255, 255, .35); }
   .btn-go:hover:not(:disabled)::before { opacity: 1; }
@@ -566,7 +585,9 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before { transition: none; }
-  .btn-go { animation: none; } /* 停在 keyframes 0% 的畫面（background-position 已寫在 .btn-go 上） */
+  /* 流動停在 keyframes 0% 的畫面（各元素的 background-position 已寫成 0%） */
+  .tick input:checked + span, .btn-primary, .badge:not(.badge-soft), .results-head .bar,
+  .btn-secondary::before, .pill-btn::before, .copy::before { animation: none; }
 }
 </style>
 </head>
