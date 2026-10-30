@@ -393,7 +393,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   border-radius: 16px;
   box-shadow: var(--shadow-soft);
 }
-.orig { margin: 0 0 4px; min-width: 0; font-size: 18px; line-height: 1.4; font-weight: 600; overflow-wrap: anywhere; }
+.orig { margin: 0 0 10px; min-width: 0; font-size: 18px; line-height: 1.4; font-weight: 600; overflow-wrap: anywhere; }
 .orig-sm { font-size: 14px; font-weight: 700; color: var(--ctl-fg); }
 .case { display: block; min-width: 0; margin-top: 2px; }
 .out { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-width: 0; }
@@ -544,7 +544,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   .badge { margin-bottom: 6px; }
   .notes { padding: 10px 12px; font-size: 13px; }
   .card { padding: 18px; border-radius: 16px; }
-  .orig { margin-bottom: 2px; font-size: 17px; }
+  .orig { margin-bottom: 8px; font-size: 17px; }
   .orig-sm { font-size: 13px; }
   .out-text { font-size: 15px; }
   :root { --copy-hit: 32px; --copy-b: 1px; }
@@ -706,21 +706,34 @@ still-professional English.
 - The user types with Zhuyin input and sometimes picks a wrong homophone (e.g. 「為一」 meant
   「唯一」). If the headline does not form real words, work from the most likely intended
   word and say so in one line of Traditional Chinese in "notes".
-- If the user wrote 補充說明 (extra context), follow it; it overrides the defaults above.
+- If the user wrote 補充說明 (extra context), follow it; it overrides the defaults above. 補充說明 sets the
+  tone and the setting only; it never changes what the headline means.
+- Headlines may use Taiwanese slang or internet expressions. Read them by their real meaning, never by the
+  literal characters or by the checked options: 雷隊友 = a teammate who lets the team down (a liability);
+  神隊友 = a teammate who carries the team; 小確幸 = a small, certain happiness. Keep that meaning even when
+  it is negative or humorous. If you are not sure what a term means, translate your best reading and explain
+  it in one line of Traditional Chinese in "notes".
+- Meaning comes first, always. Translate exactly what the Chinese says, even when it is negative, critical
+  or unflattering. Never soften it, flip it into something positive, or reframe it as a compliment, a
+  greeting or a joke. The accents and the paragraph follow that same real meaning and mood; the checked
+  options only adjust word choice and register. Check before you answer: read back into Chinese, your
+  headline must name the same thing and say the same thing about it as the original.
 - 補充說明 may list checked options. Follow all of them together: 房地產銷售 = real estate sales post (the default); 首購小宅 = small homes for first-time buyers, warmer and plainer English; 豪宅精品 = luxury homes, premium register; 高樓商辦 = high-rise office or commercial tower, confident and professional; 活動邀請 = an event invitation, inviting and clear; 節慶祝賀 = a festival greeting, warm and refined; 交屋祝賀 = congratulations on a home handover, warm and celebratory. Text after 其他： is the user's own note; follow it too.
 - Read real estate wording correctly: 坪數 means floor area or unit size; 稀有坪數 means a rare, sought-after unit size, never small or limited space.
 
 ## What you write
 
-1. 主標 translation ("headline"): how a native English real estate copywriter would phrase this headline, not word for word. Short and rhythmic; for a compact Chinese phrase keep it under about 8 words. Keep project names, developer names, addresses and numbers exactly as given. Do not add claims, superlatives or amenities that are not in the source.
+1. 主標 translation ("headline"): first get what the Chinese actually means right, then phrase it the way a native English real estate copywriter would, not word for word. Short and rhythmic; for a compact Chinese phrase keep it under about 8 words. Keep project names, developer names, addresses and numbers exactly as given. Do not add claims, superlatives or amenities that are not in the source.
 2. 副標 translation ("subhead"): only when the user gave a 副標; same rules, may be a little longer than the headline. With no 副標, leave "subhead" out of the reply.
 3. Exactly 3 裝飾字 (decorative accents): English words or very short phrases (1-4 words)
    that are NOT a translation of the headline but match its theme and mood, for layering
    onto a design: a small line under a logo, a watermark word behind the headline, a corner
    accent. Each must connect to what this headline is actually about, not generic filler,
-   and the three must take different angles on it.
-4. Exactly 1 英文小段 (short English paragraph): 20-30 words, two or three sentences, written
-   in the spirit of the headline. It is original copy, not a translation. Short is the
+   and the three must take different angles on it. They stay on the headline's own subject and
+   mood, negative included; a checked option never turns them into generic property praise.
+4. Exactly 1 英文小段 (short English paragraph): 20-30 words in one flowing sentence, written
+   in the spirit of the headline, about its own subject and in its mood, negative included; never
+   switch to generic property praise. It is original copy, not a translation. Short is the
    point: it is layout texture. It must not invent facts (dates, venues, prices, unit
    counts, sponsors) and must not name facilities, rooms or features the headline does not
    mention (for example lobby, lounge, pool).
@@ -738,7 +751,8 @@ still-professional English.
 - Never use the word "capital" in any form; the user finds 資本／Capital distasteful. To say
   that major companies or brands are moving into an area, name the result instead (business,
   commerce, momentum, landmark, address).
-- An accent never ends with a period. The paragraph's sentences end with normal punctuation.
+- An accent never ends with a period. The paragraph never uses a period at all, not even at the end;
+  link its ideas with commas or "and" instead. It is still one complete sentence that starts with a capital letter.
 
 ## Word list for dictionary checking
 
@@ -771,7 +785,7 @@ A Return to Ease · Quiet Luxury · Home, Elevated
 
 Reply with one JSON object in this shape:
 
-{"notes":[],"headline":{"text":"Stillness at the city's heart","words":[{"w":"Stillness","lemma":"stillness","pos":"名詞","zh":"寂靜，平靜"},{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]},"subhead":{"text":"A tranquil residence at the center of a bustling city","words":[{"w":"tranquil","lemma":"tranquil","pos":"形容詞","zh":"寧靜的，平靜的"},{"w":"residence","lemma":"residence","pos":"名詞","zh":"住宅，住所"}]},"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside.","gist":"位在城市中心，把喧囂留在門外。","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
+{"notes":[],"headline":{"text":"Stillness at the city's heart","words":[{"w":"Stillness","lemma":"stillness","pos":"名詞","zh":"寂靜，平靜"},{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]},"subhead":{"text":"A tranquil residence at the center of a bustling city","words":[{"w":"tranquil","lemma":"tranquil","pos":"形容詞","zh":"寧靜的，平靜的"},{"w":"residence","lemma":"residence","pos":"名詞","zh":"住宅，住所"}]},"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside","gist":"位在城市中心，把喧囂留在門外","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
 
 The word lists in this example are shortened. In your reply, list every content word of the
 headline, the subhead, each accent and the paragraph, as described above.
@@ -782,9 +796,9 @@ headline, the subhead, each accent and the paragraph, as described above.
 - accents: exactly 3 items. text: the accent as normally written in sentence case (first
   letter capitalized, not all caps). zh: 中文意思, one line of Traditional Chinese.
   words: the word list described above.
-- paragraph: text as normally written (not all caps); gist: 中文大意, 1-2 sentences of
-  Traditional Chinese; words: the word list described above.
-- notes: only for a homophone or typo correction, one line of Traditional Chinese each.
+- paragraph: text as normally written (not all caps); gist: 中文大意, one sentence of
+  Traditional Chinese with no 。 anywhere (use ， inside); words: the word list described above.
+- notes: only for a homophone or typo correction, or a slang term you were unsure about, one line of Traditional Chinese each.
   In every other case notes is an empty array. Never explain your tone or choices.
 - All Chinese text uses full-width Chinese punctuation (，。、：), never half-width commas
   or periods.
@@ -1486,8 +1500,11 @@ function accentsBlock(r) {
   return frag;
 }
 
+// 英文小段與中文大意不放句號（模型偶爾仍會在結尾加，這裡收掉結尾那一個）
+function noEndStop(t) { return t.replace(/[.。]+\s*$/, ""); }
+
 function paragraphBlock(r) {
-  const p = r.paragraph;
+  const p = Object.assign({}, r.paragraph, { text: noEndStop(r.paragraph.text), gist: noEndStop(r.paragraph.gist) });
   return card("英文小段", true,
     h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文大意：" }), p.gist),
     caseRow("全大寫", upper(p.text), "para upper", "複製英文小段全大寫"),
