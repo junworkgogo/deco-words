@@ -3,135 +3,124 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
 <meta name="referrer" content="no-referrer">
 <title>裝飾字英譯</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=Noto+Sans+TC:wght@400;500&display=swap">
 <style>
-/* 版面：單欄 760px，上方金鑰卡＋輸入卡、下方結果；英文用 Bodoni Moda 呈現豪宅廣告的排版感，每個單字做成字典詞條小卡，連到劍橋英漢（繁體）字典。 */
+/* 版面：瑞士風極簡淺色。桌機（≥1024px）左欄 380px 放金鑰與表單（黏在上方）、右欄放結果；手機單欄。
+   區塊之間只用 1px 細線分隔，無卡片底色塊、無圓角、無陰影。英文用 Inter Tight，每個單字做成字典詞條小卡，連到劍橋英漢（繁體）字典。 */
 :root {
-  --bg: #F2F2EF;
-  --surface: #FBFBFA;
-  --sunk: #E6E7E3;
-  --fg: #1A1C1E;
-  --fg-muted: #5A5F63;
-  --line: #D2D4D0;
-  --accent: #6A4E27;
-  --accent-hover: #523C1D;
-  --accent-fg: #FBF8F2;
-  --accent-soft: #EEE7DC;
-  --accent-line: #C9B79A;
-  --err: #8B2A2A;
-  --err-bg: #F4E6E5;
-  --err-line: #D9B5B3;
-  --ui: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-  --display: "Bodoni Moda", "Bodoni 72", "Didot", Georgia, serif;
+  --bg: #E9E6DF;
+  --surface: #F3F1EC;
+  --fg: #111111;
+  --muted: #57534C;
+  --line: rgba(17, 17, 17, .16);
+  --line-strong: rgba(17, 17, 17, .5); /* 輸入框、勾選項的框線（細線 --line 太淡，看不出可點） */
+  --chip-on-bg: #111111;
+  --chip-on-fg: #E9E6DF;
+  --error: #8A2B1E;
+  --font: "Inter Tight", "Noto Sans TC", system-ui, sans-serif;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #141516;
-    --surface: #1B1D1F;
-    --sunk: #101112;
-    --fg: #E8E7E3;
-    --fg-muted: #A3A6A8;
-    --line: #2F3235;
-    --accent: #D2B488;
-    --accent-hover: #E0C79F;
-    --accent-fg: #1C150A;
-    --accent-soft: #2A241B;
-    --accent-line: #5C4B32;
-    --err: #E8A29B;
-    --err-bg: #2C1D1E;
-    --err-line: #5A3436;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #141516;
-  --surface: #1B1D1F;
-  --sunk: #101112;
-  --fg: #E8E7E3;
-  --fg-muted: #A3A6A8;
-  --line: #2F3235;
-  --accent: #D2B488;
-  --accent-hover: #E0C79F;
-  --accent-fg: #1C150A;
-  --accent-soft: #2A241B;
-  --accent-line: #5C4B32;
-  --err: #E8A29B;
-  --err-bg: #2C1D1E;
-  --err-line: #5A3436;
-  color-scheme: dark;
-}
 
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; box-shadow: none; }
 [hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 16px/1.6 var(--ui);
+  font-family: "Inter Tight", "Noto Sans TC", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 .shell {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  max-width: 760px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding-block: max(36px, env(safe-area-inset-top, 0px)) max(72px, env(safe-area-inset-bottom, 0px));
+  padding-block: max(20px, env(safe-area-inset-top, 0px)) max(72px, env(safe-area-inset-bottom, 0px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-a { color: var(--accent); }
+:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
+a { color: var(--fg); text-underline-offset: 3px; }
+button, input { font-family: inherit; }
+
+/* 小標籤：欄位名、區塊名、全大寫／一般大小寫標記 */
+.lbl, .case-name, .block-title {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 
 /* 頁首 */
-.head { display: flex; flex-direction: column; gap: 6px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
-.head h1 { margin: 0; font-size: 1.5rem; line-height: 1.3; font-weight: 600; letter-spacing: .08em; text-wrap: balance; }
-.lede { margin: 0; max-width: 40em; color: var(--fg-muted); font-size: .9375rem; }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--fg);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.head-main { display: flex; flex-direction: column; gap: 14px; padding-block: 44px 40px; border-bottom: 1px solid var(--line); }
+.head h1 { margin: 0; font-size: 44px; line-height: 1.1; font-weight: 400; letter-spacing: -.03em; }
+.lede { margin: 0; max-width: 34em; color: var(--muted); }
+
+/* 版面 */
+.layout { display: flex; flex-direction: column; gap: 40px; padding-top: 32px; }
+.side { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+.results { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+@media (min-width: 1024px) {
+  .shell { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
+  .layout { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 64px; align-items: start; }
+  .side {
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    /* 內縮 4px 再用負邊界抵銷，讓 2px 焦點框（含 offset）不被捲動容器裁掉 */
+    padding: 4px;
+    margin: -4px;
+  }
+}
 
 /* 訊息 */
 .msg {
   margin: 0;
-  padding: 10px 14px;
-  border: 1px solid var(--accent-line);
-  border-radius: 2px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: .9375rem;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
   overflow-wrap: anywhere;
 }
-.msg[data-kind="error"] { background: var(--err-bg); border-color: var(--err-line); color: var(--err); }
-.msg-detail { display: block; margin-top: 4px; font-size: .8125rem; opacity: .85; }
+.msg[data-kind="error"] { border-color: var(--error); color: var(--error); }
+.msg-detail { display: block; margin-top: 4px; font-size: 13px; }
 
-/* 卡片 */
-.panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-  padding: 20px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 2px;
-}
-.key-setup { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.panel-title { margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: .08em; }
-.steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; font-size: .9375rem; }
-.fine { margin: 0; color: var(--fg-muted); font-size: .8125rem; line-height: 1.6; }
+/* 金鑰與表單（沒有卡片底色，只用細線分隔） */
+.panel { display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 0; }
+.key-panel { padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.key-panel.is-ready { padding-bottom: 20px; }
+.key-setup { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.panel-title { margin: 0; font-size: 15px; font-weight: 500; }
+.steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
+.fine { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .key-ready { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
-.key-status { margin: 0; flex: 1 1 16rem; min-width: 0; font-size: .9375rem; overflow-wrap: anywhere; }
-.key-status .model { color: var(--fg-muted); }
-.key-panel.is-ready { padding-block: 12px; }
+.key-status { margin: 0; flex: 1 1 14rem; min-width: 0; overflow-wrap: anywhere; }
+.key-status .model { color: var(--muted); }
 
-.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.field > label { font-size: .875rem; font-weight: 600; letter-spacing: .1em; }
-.opt { margin-left: .6em; font-weight: 400; letter-spacing: 0; color: var(--fg-muted); }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.opt { font-size: 12px; letter-spacing: .06em; color: var(--muted); }
+legend.lbl { padding: 0; margin-bottom: 8px; }
 .title-row { display: flex; flex-wrap: wrap; gap: 10px; min-width: 0; }
-.title-row input { flex: 1 1 14rem; }
-#f-title { font-size: 1.125rem; }
-.title-row .btn { flex: 0 0 auto; min-width: 7rem; }
+.title-row input { flex: 1 1 12rem; }
 input[type="text"], input[type="password"] {
   display: block;
   width: 100%;
@@ -139,93 +128,124 @@ input[type="text"], input[type="password"] {
   margin: 0;
   padding: 10px 12px;
   font: inherit;
-  font-size: 1rem;
+  font-size: 15px;
   line-height: 1.5;
   color: var(--fg);
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 2px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
 }
-::placeholder { color: var(--fg-muted); opacity: 1; }
+::placeholder { color: var(--muted); opacity: 1; }
+@media (max-width: 699px) {
+  /* 手機版輸入框 16px，避免 iPhone 點進去自動放大 */
+  input[type="text"], input[type="password"] { font-size: 16px; }
+}
 
-.btn {
-  min-height: 44px;
-  padding: 10px 20px;
-  font: inherit;
-  font-size: .9375rem;
-  font-weight: 600;
-  letter-spacing: .1em;
-  border: 1px solid var(--accent);
-  border-radius: 2px;
-  cursor: pointer;
+/* 補充說明：可複選的方形標籤（真的 checkbox 藏在標籤裡，鍵盤可操作） */
+.ticks { display: flex; flex-wrap: wrap; gap: 8px; }
+.tick { position: relative; display: inline-flex; }
+.tick input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.tick input:focus-visible { outline: none; }
+.tick span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  user-select: none;
   transition: background-color .15s, color .15s, border-color .15s;
 }
-.btn-primary { background: var(--accent); color: var(--accent-fg); }
-.btn-primary:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
-.btn-ghost { background: transparent; color: var(--accent); }
-.btn-ghost:hover:not(:disabled) { background: var(--accent-soft); }
-.btn:disabled { cursor: not-allowed; background: var(--sunk); color: var(--fg-muted); border-color: var(--line); }
-.btn-small { min-height: 36px; padding: 6px 14px; font-size: .875rem; }
+.tick:hover span { border-color: var(--fg); }
+.tick input:checked + span { background: var(--chip-on-bg); color: var(--chip-on-fg); border-color: var(--chip-on-bg); }
+.tick input:focus-visible + span { outline: 2px solid #111111; outline-offset: 2px; }
+
+/* 按鈕：主要＝黑底淺字，次要＝透明底＋1px 黑框 */
+.btn {
+  min-height: 44px;
+  padding: 0 22px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  border: 1px solid #111111;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+.btn-primary { background: #111111; color: #E9E6DF; }
+.btn-primary:hover:not(:disabled) { background: #3A3835; border-color: #3A3835; }
+.btn-ghost { background: transparent; color: #111111; }
+.btn-ghost:hover:not(:disabled) { background: rgba(17, 17, 17, .08); }
+.btn:disabled { cursor: not-allowed; opacity: .4; }
+.btn-small { min-height: 36px; padding: 0 16px; font-size: 14px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.hint-err { margin: 0; color: var(--err); font-size: .875rem; overflow-wrap: anywhere; }
-.hint-ok { margin: 0; color: var(--accent); font-size: .875rem; }
-.wait { margin: 0; color: var(--fg-muted); font-size: .875rem; }
+.hint-err { margin: 0; color: var(--error); font-size: 14px; overflow-wrap: anywhere; }
+.wait { margin: 0; color: var(--muted); font-size: 14px; }
 
 /* 結果 */
-.results { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-.result-body { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
-.result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-.tag { flex: none; padding: 1px 10px; font-size: .8125rem; font-weight: 600; letter-spacing: .14em; color: var(--accent-fg); background: var(--accent); border-radius: 2px; }
-.result-title { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
-.lbl { font-size: .8125rem; font-weight: 600; letter-spacing: .14em; color: var(--accent); }
-.title-text { min-width: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: .06em; overflow-wrap: anywhere; }
-.example-note { flex: 1 1 100%; margin: 0; color: var(--fg-muted); font-size: .875rem; }
-.notes { display: flex; flex-direction: column; gap: 4px; padding: 10px 14px; border: 1px solid var(--accent-line); border-radius: 2px; background: var(--accent-soft); color: var(--accent); font-size: .9375rem; }
+.result-body { display: flex; flex-direction: column; min-width: 0; }
+.result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-bottom: 20px; }
+.tag { flex: none; padding: 2px 10px; font-size: 12px; font-weight: 500; letter-spacing: .06em; color: var(--chip-on-fg); background: var(--chip-on-bg); }
+.example-note { flex: 1 1 16rem; margin: 0; color: var(--muted); font-size: 14px; }
+.notes { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; padding: 12px 0; border-block: 1px solid var(--line); color: var(--fg); }
 .notes p { margin: 0; overflow-wrap: anywhere; }
 
-.block { display: flex; flex-direction: column; min-width: 0; }
-.block-title { display: flex; align-items: center; gap: 14px; margin: 0 0 8px; font-size: .8125rem; font-weight: 600; letter-spacing: .16em; color: var(--fg-muted); }
-.block-title::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
-.item { display: flex; flex-direction: column; min-width: 0; padding-block: 20px; border-top: 1px solid var(--line); }
-.block-title + .item { border-top: 0; padding-top: 6px; }
+.block { display: flex; flex-direction: column; min-width: 0; padding-block: 24px 28px; border-top: 1px solid var(--line); }
+.result-body > .block:first-child { border-top: 0; padding-top: 0; }
+.block-title { margin: 0 0 16px; }
+.item { display: flex; flex-direction: column; min-width: 0; padding-block: 24px; border-top: 1px solid var(--line); }
+.block-title + .item { border-top: 0; padding-top: 0; }
+.item:last-child { padding-bottom: 0; }
 
-.stack { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.stack { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .case { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.case-name { font-size: .8125rem; letter-spacing: .1em; color: var(--fg-muted); }
-.meta { margin: 0; min-width: 0; font-size: .9375rem; color: var(--fg-muted); overflow-wrap: anywhere; }
-.meta-k { color: var(--fg); font-weight: 600; letter-spacing: .04em; }
+.case-name { padding-top: 2px; }
+.meta { margin: 0; min-width: 0; color: var(--muted); overflow-wrap: anywhere; }
+.meta-k { color: var(--fg); font-weight: 500; }
+.orig { margin: 0; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
 @media (min-width: 560px) {
-  .stack { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 14px; row-gap: 10px; }
+  .stack { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 16px; row-gap: 16px; }
   .case { display: contents; }
-  .case-name { padding-top: 14px; }
+  .case-name { padding-top: 10px; }
+  .case-name.at-orig { padding-top: 2px; }
   .case-name.at-chips { padding-top: 8px; }
   .meta { grid-column: 2; }
 }
 
-.out { display: flex; align-items: flex-start; gap: 12px; min-width: 0; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 2px; }
-.out-text { flex: 1; min-width: 0; margin: 0; overflow-wrap: anywhere; font-family: var(--display); font-optical-sizing: auto; }
-.out-text.normal { font-weight: 500; font-size: 1.6rem; line-height: 1.2; }
-.out-text.upper { font-weight: 500; font-size: 1.25rem; line-height: 1.35; letter-spacing: .1em; }
-.out-text.para.normal { font-weight: 400; font-size: 1.15rem; line-height: 1.55; }
-.out-text.para.upper { font-weight: 400; font-size: .95rem; line-height: 1.7; letter-spacing: .06em; }
+.out { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-width: 0; }
+.out-text { flex: 1; min-width: 0; margin: 0; overflow-wrap: anywhere; font-weight: 400; font-size: 28px; line-height: 1.2; letter-spacing: -.01em; }
+.out-text.para { font-size: 17px; line-height: 1.6; letter-spacing: 0; }
+.out-text.para.upper { letter-spacing: .02em; }
+@media (max-width: 699px) {
+  .out-text { font-size: 22px; }
+  .out-text.para { font-size: 17px; }
+}
 .copy {
   flex: none;
-  min-height: 36px;
-  padding: 5px 12px;
+  min-width: 56px;
+  min-height: 32px;
+  padding: 4px 12px;
   font: inherit;
-  font-size: .8125rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
   letter-spacing: .06em;
+  line-height: 1.2;
   white-space: nowrap;
-  color: var(--accent);
+  color: #111111;
   background: transparent;
-  border: 1px solid var(--accent-line);
-  border-radius: 2px;
+  border: 1px solid #111111;
+  border-radius: 0;
   cursor: pointer;
-  transition: background-color .15s, color .15s, border-color .15s;
+  transition: background-color .15s, color .15s;
 }
-.copy:hover { background: var(--accent-soft); border-color: var(--accent); }
-.copy.done, .copy.done:hover { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.copy:hover { background: rgba(17, 17, 17, .08); }
+.copy.done, .copy.done:hover { background: #111111; color: #E9E6DF; }
 
 /* 字典詞條小卡 */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
@@ -233,25 +253,28 @@ input[type="text"], input[type="password"] {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 2px 7px;
+  gap: 2px 8px;
   max-width: 100%;
-  padding: 5px 10px;
-  font-size: .875rem;
+  padding: 6px 10px;
+  font-size: 13px;
   line-height: 1.4;
   color: var(--fg);
   text-decoration: none;
-  border: 1px solid var(--accent-line);
-  border-radius: 2px;
+  border: 1px solid var(--line-strong);
   transition: background-color .15s, border-color .15s;
 }
-a.word:hover { background: var(--accent-soft); border-color: var(--accent); }
-.word.nolink { border-style: dashed; border-color: var(--line); }
-.word .lemma { font-family: var(--display); font-optical-sizing: auto; font-size: 1.05rem; font-weight: 500; color: var(--accent); overflow-wrap: anywhere; }
-.word .pos { font-size: .75rem; letter-spacing: .04em; color: var(--fg-muted); }
+a.word:hover { background: rgba(17, 17, 17, .08); border-color: var(--fg); }
+.word.nolink { border-style: dashed; }
+.word .lemma { font-size: 15px; font-weight: 500; color: var(--fg); overflow-wrap: anywhere; }
+.word .pos { font-size: 12px; letter-spacing: .04em; color: var(--muted); }
 .word .zh { overflow-wrap: anywhere; }
-.word .ext { font-size: .75rem; color: var(--accent); }
+.word .ext { font-size: 12px; color: var(--muted); }
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@media (max-width: 699px) {
+  .head-main { padding-block: 32px 28px; }
+  .head h1 { font-size: 32px; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
@@ -260,64 +283,84 @@ a.word:hover { background: var(--accent-soft); border-color: var(--accent); }
 <body>
 <div class="shell">
   <header class="head">
-    <h1>裝飾字英譯</h1>
-    <p class="lede">輸入中文標題，由 Google Gemini 產出三組英文裝飾字和一段英文小段。每個英文單字都能點開劍橋英漢（繁體）字典查證意思，每一行都能一鍵複製。</p>
+    <div class="topbar"><span>DECO WORDS</span><span>GEMINI · FREE</span></div>
+    <div class="head-main">
+      <h1>裝飾字英譯</h1>
+      <p class="lede">輸入中文主標與副標，由 Google Gemini 產出英文翻譯、三組裝飾字和一段英文小段；每個英文單字都能連到劍橋字典查證，每一行都能一鍵複製。</p>
+    </div>
   </header>
 
-  <section class="panel key-panel" id="key-panel" aria-labelledby="key-title">
-    <div id="key-setup" class="key-setup">
-      <h2 class="panel-title" id="key-title">設定 Gemini 金鑰（每個瀏覽器只要設一次）</h2>
-      <ol class="steps">
-        <li>打開 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 的金鑰頁面 ↗</a>，用 Google 帳號登入</li>
-        <li>按建立金鑰的按鈕（介面可能是英文 Create API key），建立後按複製</li>
-        <li>貼到下面的欄位，按「儲存金鑰」</li>
-      </ol>
-      <div class="field">
-        <label for="f-key">Gemini 金鑰</label>
-        <div class="title-row">
-          <input type="password" id="f-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="貼上金鑰">
-          <button type="button" class="btn btn-primary" id="btn-key-save">儲存金鑰</button>
+  <div class="layout">
+    <div class="side">
+      <section class="panel key-panel" id="key-panel" aria-labelledby="key-title">
+        <div id="key-setup" class="key-setup">
+          <h2 class="panel-title" id="key-title">設定 Gemini 金鑰（每個瀏覽器只要設一次）</h2>
+          <ol class="steps">
+            <li>打開 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 的金鑰頁面 ↗</a>，用 Google 帳號登入</li>
+            <li>按建立金鑰的按鈕（介面可能是英文 Create API key），建立後按複製</li>
+            <li>貼到下面的欄位，按「儲存金鑰」</li>
+          </ol>
+          <div class="field">
+            <label class="lbl" for="f-key">Gemini 金鑰</label>
+            <div class="title-row">
+              <input type="password" id="f-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="貼上金鑰">
+              <button type="button" class="btn btn-primary" id="btn-key-save">儲存金鑰</button>
+            </div>
+          </div>
+          <div class="actions" id="key-extra" hidden>
+            <button type="button" class="btn btn-ghost btn-small" id="btn-key-cancel">取消</button>
+            <button type="button" class="btn btn-ghost btn-small" id="btn-key-delete">刪除已存的金鑰</button>
+          </div>
+          <p class="hint-err" id="key-msg" role="alert" hidden></p>
+          <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
+          <p class="fine">金鑰只存在這台電腦的瀏覽器裡，產生時只會傳給 Google。免費額度有每分鐘、每天的次數上限；免費方案送出的文字，Google 可能拿去改善產品。</p>
         </div>
-      </div>
-      <div class="actions" id="key-extra" hidden>
-        <button type="button" class="btn btn-ghost btn-small" id="btn-key-cancel">取消</button>
-        <button type="button" class="btn btn-ghost btn-small" id="btn-key-delete">刪除已存的金鑰</button>
-      </div>
-      <p class="hint-err" id="key-msg" role="alert" hidden></p>
-      <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
-      <p class="fine">金鑰只存在這台電腦的瀏覽器裡，產生時只會傳給 Google。免費額度有每分鐘、每天的次數上限；免費方案送出的標題，Google 可能拿去改善產品。</p>
-    </div>
-    <div id="key-ready" class="key-ready" hidden>
-      <p class="key-status"><span class="lbl">Gemini 金鑰</span>　已設定（結尾 <span id="key-tail" lang="en"></span>）<span class="model">・模型 <span id="model-name" lang="en">自動選擇</span></span></p>
-      <button type="button" class="btn btn-ghost btn-small" id="btn-key-change">更換金鑰</button>
-    </div>
-  </section>
+        <div id="key-ready" class="key-ready" hidden>
+          <p class="key-status"><span class="lbl">Gemini 金鑰</span>　已設定（結尾 <span id="key-tail" lang="en"></span>）<span class="model">・模型 <span id="model-name" lang="en">自動選擇</span></span></p>
+          <button type="button" class="btn btn-ghost btn-small" id="btn-key-change">更換金鑰</button>
+        </div>
+      </section>
 
-  <form id="form" class="panel" aria-label="輸入標題" novalidate>
-    <div class="field">
-      <label for="f-title">標題</label>
-      <div class="title-row">
-        <input type="text" id="f-title" autocomplete="off" placeholder="例：城心靜域">
-        <button type="submit" class="btn btn-primary" id="btn-go">產生</button>
-      </div>
+      <form id="form" class="panel" aria-label="輸入主標與副標" novalidate>
+        <div class="field">
+          <div class="label-row"><label class="lbl" for="f-title">主標</label><span class="opt">必填</span></div>
+          <input type="text" id="f-title" autocomplete="off" placeholder="例：城心靜域">
+        </div>
+        <div class="field">
+          <div class="label-row"><label class="lbl" for="f-sub">副標</label><span class="opt">選填</span></div>
+          <input type="text" id="f-sub" autocomplete="off" placeholder="例：容納商務大格局">
+        </div>
+        <fieldset class="field" id="ctx">
+          <legend class="lbl">補充說明（可複選）</legend>
+          <div class="ticks">
+            <label class="tick"><input type="checkbox" name="ctx" value="房地產銷售"><span>房地產銷售</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="首購小宅"><span>首購小宅</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="豪宅精品"><span>豪宅精品</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="商辦廠辦"><span>商辦廠辦</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="活動邀請"><span>活動邀請</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="節慶祝賀"><span>節慶祝賀</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="交屋祝賀"><span>交屋祝賀</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="冷氣廣告"><span>冷氣廣告</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="其他" id="c-other"><span>其他</span></label>
+          </div>
+          <input type="text" id="f-other" autocomplete="off" aria-label="其他補充說明" placeholder="自行填寫，例：開幕酒會、寵物友善" hidden>
+        </fieldset>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary" id="btn-go">產生</button>
+          <button type="button" class="btn btn-ghost" id="btn-again" hidden>換一組</button>
+          <button type="button" class="btn btn-ghost" id="btn-stop" hidden>停止</button>
+          <button type="button" class="btn btn-ghost" id="btn-clear">清除</button>
+        </div>
+        <p class="hint-err" id="input-msg" role="alert" hidden></p>
+        <p class="wait" id="wait" role="status" hidden></p>
+      </form>
     </div>
-    <div class="field">
-      <label for="f-note">補充說明<span class="opt">選填</span></label>
-      <input type="text" id="f-note" autocomplete="off" placeholder="例：銷售貼文、冷氣廣告、交屋祝賀">
-    </div>
-    <div class="actions">
-      <button type="button" class="btn btn-ghost" id="btn-again" hidden>換一組</button>
-      <button type="button" class="btn btn-ghost" id="btn-stop" hidden>停止</button>
-      <button type="button" class="btn btn-ghost" id="btn-clear">清除</button>
-    </div>
-    <p class="hint-err" id="input-msg" role="alert" hidden></p>
-    <p class="wait" id="wait" role="status" hidden></p>
-  </form>
 
-  <main class="results" id="results" aria-label="產生結果">
-    <p class="msg" id="msg" role="status" hidden></p>
-    <div class="result-body" id="result-body"></div>
-  </main>
+    <main class="results" id="results" aria-label="產生結果">
+      <p class="msg" id="msg" role="status" hidden></p>
+      <div class="result-body" id="result-body"></div>
+    </main>
+  </div>
   <p class="sr-only" id="sr" role="status" aria-live="polite"></p>
 </div>
 
@@ -342,15 +385,19 @@ still-professional English.
   「唯一」). If the headline does not form real words, work from the most likely intended
   word and say so in one line of Traditional Chinese in "notes".
 - If the user wrote 補充說明 (extra context), follow it; it overrides the defaults above.
+- 補充說明 may list checked options. Follow all of them together: 房地產銷售 = real estate sales post (the default); 首購小宅 = small homes for first-time buyers, warmer and plainer English; 豪宅精品 = luxury homes, premium register; 商辦廠辦 = office or industrial property, confident and professional; 活動邀請 = an event invitation, inviting and clear; 節慶祝賀 = a festival greeting, warm and refined; 交屋祝賀 = congratulations on a home handover, warm and celebratory; 冷氣廣告 = an air-conditioner ad (Daikin). Text after 其他： is the user's own note; follow it too.
+- Read real estate wording correctly: 坪數 means floor area or unit size; 稀有坪數 means a rare, sought-after unit size, never small or limited space.
 
 ## What you write
 
-1. Exactly 3 裝飾字 (decorative accents): English words or very short phrases (1-4 words)
+1. 主標 translation ("headline"): how a native English real estate copywriter would phrase this headline, not word for word. Short and rhythmic; for a compact Chinese phrase keep it under about 8 words. Keep project names, developer names, addresses and numbers exactly as given. Do not add claims, superlatives or amenities that are not in the source.
+2. 副標 translation ("subhead"): only when the user gave a 副標; same rules, may be a little longer than the headline. With no 副標, leave "subhead" out of the reply.
+3. Exactly 3 裝飾字 (decorative accents): English words or very short phrases (1-4 words)
    that are NOT a translation of the headline but match its theme and mood, for layering
    onto a design: a small line under a logo, a watermark word behind the headline, a corner
    accent. Each must connect to what this headline is actually about, not generic filler,
    and the three must take different angles on it.
-2. Exactly 1 英文小段 (short English paragraph): 20-30 words, two or three sentences, written
+4. Exactly 1 英文小段 (short English paragraph): 20-30 words, two or three sentences, written
    in the spirit of the headline. It is original copy, not a translation. Short is the
    point: it is layout texture. It must not invent facts (dates, venues, prices, unit
    counts, sponsors) and must not name facilities, rooms or features the headline does not
@@ -373,7 +420,7 @@ still-professional English.
 
 ## Word list for dictionary checking
 
-For each accent and for the paragraph, list its content words in order of appearance:
+For the headline, the subhead, each accent and the paragraph, list its content words in order of appearance:
 nouns, main verbs, adjectives and adverbs. Skip articles, pronouns, prepositions,
 conjunctions, auxiliary verbs, numbers and proper nouns. List each headword once per item.
 For each word give:
@@ -402,11 +449,14 @@ A Return to Ease · Quiet Luxury · Home, Elevated
 
 Reply with one JSON object in this shape:
 
-{"notes":[],"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside.","gist":"位在城市中心，把喧囂留在門外。","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
+{"notes":[],"headline":{"text":"Stillness at the city's heart","words":[{"w":"Stillness","lemma":"stillness","pos":"名詞","zh":"寂靜，平靜"},{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]},"subhead":{"text":"A tranquil residence at the center of a bustling city","words":[{"w":"tranquil","lemma":"tranquil","pos":"形容詞","zh":"寧靜的，平靜的"},{"w":"residence","lemma":"residence","pos":"名詞","zh":"住宅，住所"}]},"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside.","gist":"位在城市中心，把喧囂留在門外。","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
 
-The word lists in this example are shortened. In your reply, list every content word of each
-accent and of the paragraph, as described above.
+The word lists in this example are shortened. In your reply, list every content word of the
+headline, the subhead, each accent and the paragraph, as described above.
 
+- headline: text as normally written (sentence case, not all caps); words: the word list
+  described above.
+- subhead: same shape as headline; include it only when a 副標 was given.
 - accents: exactly 3 items. text: the accent as normally written in sentence case (first
   letter capitalized, not all caps). zh: 中文意思, one line of Traditional Chinese.
   words: the word list described above.
@@ -435,10 +485,18 @@ const WORD_SCHEMA = {
   properties: { w: { type: "STRING" }, lemma: { type: "STRING" }, pos: { type: "STRING" }, zh: { type: "STRING" } },
   required: ["w", "lemma", "pos", "zh"],
 };
+// 主標、副標的翻譯：一句英文＋它的實詞清單
+const TITLE_SCHEMA = {
+  type: "OBJECT",
+  properties: { text: { type: "STRING" }, words: { type: "ARRAY", items: WORD_SCHEMA } },
+  required: ["text", "words"],
+};
 const SCHEMA = {
   type: "OBJECT",
   properties: {
     notes: { type: "ARRAY", items: { type: "STRING" } },
+    headline: TITLE_SCHEMA,
+    subhead: TITLE_SCHEMA,
     accents: {
       type: "ARRAY",
       items: {
@@ -453,12 +511,31 @@ const SCHEMA = {
       required: ["text", "gist", "words"],
     },
   },
-  required: ["notes", "accents", "paragraph"],
+  required: ["notes", "headline", "accents", "paragraph"],
 };
 
 const EXAMPLE = {
   title: "城心靜域",
+  sub: "繁華中心的靜謐居所",
   notes: [],
+  headline: {
+    text: "Stillness at the city's heart",
+    words: [
+      { lemma: "stillness", pos: "名詞", zh: "寂靜，平靜" },
+      { lemma: "city", pos: "名詞", zh: "城市，都市" },
+      { lemma: "heart", pos: "名詞", zh: "中心，核心" },
+    ],
+  },
+  subhead: {
+    text: "A tranquil residence at the center of a bustling city",
+    words: [
+      { lemma: "tranquil", pos: "形容詞", zh: "寧靜的，平靜的" },
+      { lemma: "residence", pos: "名詞", zh: "住宅，住所" },
+      { lemma: "center", pos: "名詞", zh: "中心，中央" },
+      { lemma: "bustling", pos: "形容詞", zh: "熙熙攘攘的，繁忙的" },
+      { lemma: "city", pos: "名詞", zh: "城市，都市" },
+    ],
+  },
   accents: [
     {
       text: "Urban sanctuary",
@@ -477,11 +554,11 @@ const EXAMPLE = {
       ],
     },
     {
-      text: "Heart of the city",
-      zh: "城市的中心",
+      text: "Room to breathe",
+      zh: "可以從容呼吸的空間",
       words: [
-        { lemma: "heart", pos: "名詞", zh: "中心，核心" },
-        { lemma: "city", pos: "名詞", zh: "城市，都市" },
+        { lemma: "room", pos: "名詞", zh: "空間，餘地" },
+        { lemma: "breathe", pos: "動詞", zh: "呼吸" },
       ],
     },
   ],
@@ -513,7 +590,8 @@ const els = {
   btnKeySave: $("btn-key-save"), btnKeyChange: $("btn-key-change"), btnKeyCancel: $("btn-key-cancel"),
   btnKeyDelete: $("btn-key-delete"), keyExtra: $("key-extra"), keyMsg: $("key-msg"), keyWait: $("key-wait"),
   keyTail: $("key-tail"), modelName: $("model-name"),
-  form: $("form"), title: $("f-title"), note: $("f-note"),
+  form: $("form"), title: $("f-title"), sub: $("f-sub"), other: $("f-other"), otherBox: $("c-other"),
+  ticks: Array.from(document.querySelectorAll('input[name="ctx"]')),
   btnGo: $("btn-go"), btnAgain: $("btn-again"), btnStop: $("btn-stop"), btnClear: $("btn-clear"),
   inputMsg: $("input-msg"), wait: $("wait"),
   msg: $("msg"), results: $("results"), body: $("result-body"), sr: $("sr"),
@@ -547,7 +625,7 @@ function isObj(v) { return v !== null && typeof v === "object" && !Array.isArray
 function nonEmpty(v) { return typeof v === "string" && v.trim() !== ""; }
 function upper(s) { return s.toLocaleUpperCase("en-US"); }
 function oneLine(v) { return String(v).replace(/\s+/g, " ").trim(); }
-function isNarrow() { return window.matchMedia("(max-width: 699px)").matches; }
+function isNarrow() { return window.matchMedia("(max-width: 1023px)").matches; } // 單欄（結果在表單下方）時，產生後要捲到結果
 function reduceMotion() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
 
 function loadLS(k) { try { return localStorage.getItem(k) || ""; } catch (_) { return ""; } }
@@ -580,10 +658,18 @@ function validWords(arr) {
   return Array.isArray(arr) && arr.every((x) => isObj(x) && (nonEmpty(x.lemma) || nonEmpty(x.w)) && nonEmpty(x.zh));
 }
 
-function validateResult(obj) {
+// 主標、副標的翻譯：要有非空的 text 和 words 陣列
+function validTitleItem(x) {
+  return isObj(x) && nonEmpty(x.text) && validWords(x.words);
+}
+
+// hasSub：這次使用者有沒有填副標；沒填時結果裡就算有 subhead 也忽略
+function validateResult(obj, hasSub) {
   const fail = (why) => { validateResult.lastReason = why; return false; };
   validateResult.lastReason = "";
   if (!isObj(obj)) return fail("結果不是物件");
+  if (!validTitleItem(obj.headline)) return fail("headline 缺 text 或 words 格式不對");
+  if (hasSub && !validTitleItem(obj.subhead)) return fail("有填副標，但 subhead 缺 text 或 words 格式不對");
   if (!Array.isArray(obj.accents) || obj.accents.length < 3) return fail("accents 少於 3 組");
   for (const a of obj.accents.slice(0, 3)) {
     if (!isObj(a) || !nonEmpty(a.text) || !nonEmpty(a.zh)) return fail("accents 有項目缺 text/zh");
@@ -610,10 +696,17 @@ function cleanWords(arr) {
   return out;
 }
 
-function normalizeResult(obj, title) {
-  return {
+function normalizeTitleItem(x) {
+  return { text: oneLine(x.text), words: cleanWords(x.words) };
+}
+
+// title、sub：使用者輸入的中文主標、副標（畫面上要顯示原文）；sub 是空字串就不輸出 subhead
+function normalizeResult(obj, title, sub) {
+  const r = {
     title,
+    sub: sub || "",
     notes: (obj.notes || []).filter(nonEmpty).map(oneLine),
+    headline: normalizeTitleItem(obj.headline),
     accents: obj.accents.slice(0, 3).map((a) => ({
       text: oneLine(a.text).replace(/[.。]+$/, ""),
       zh: oneLine(a.zh),
@@ -625,6 +718,8 @@ function normalizeResult(obj, title) {
       words: cleanWords(obj.paragraph.words),
     },
   };
+  if (sub) r.subhead = normalizeTitleItem(obj.subhead);
+  return r;
 }
 
 /* ---------- Gemini ---------- */
@@ -812,15 +907,16 @@ async function withTimeLimit(outer, sec, run) {
   }
 }
 
-async function askGemini(title, note, fresh, signal) {
+async function askGemini(title, sub, extra, fresh, signal) {
   if (!model) {
     model = await findModel(apiKey, signal);
     saveLS(LS_MODEL, model);
     showKeyState();
   }
-  let input = "標題：" + title;
-  if (note) input += "\n補充說明：" + note;
-  if (fresh) input += "\n\nThis is a request for another set: choose three different accents and write a differently worded paragraph.";
+  let input = "主標：" + title;
+  if (sub) input += "\n副標：" + sub;
+  if (extra) input += "\n補充說明：" + extra;
+  if (fresh) input += "\n\nThis is a request for another set: choose three different accents and write a differently worded paragraph. Keep the headline and subhead translations accurate; they may stay the same.";
   let data;
   try {
     data = await withTimeLimit(signal, FIRST_TRY, (s) => callModel(model, input, s));
@@ -1016,6 +1112,20 @@ function dictRow(words) {
     h("div", { class: "chips" }, words.map(wordChip)));
 }
 
+// 主標／副標：中文原文一行、全大寫、一般大小寫（各有複製鈕）、字典查證
+function titleBlock(label, zh, item) {
+  const sec = h("section", { class: "block" }, h("h2", { class: "block-title", text: label }));
+  sec.append(h("article", { class: "item" },
+    h("div", { class: "stack" },
+      h("div", { class: "case" },
+        h("span", { class: "case-name at-orig", text: "中文原文" }),
+        h("p", { class: "orig", text: zh })),
+      caseRow("全大寫", upper(item.text), "upper", "複製" + label + "的全大寫"),
+      caseRow("一般大小寫", item.text, "normal", "複製" + label + "的一般大小寫"),
+      dictRow(item.words))));
+  return sec;
+}
+
 function accentsBlock(r) {
   const sec = h("section", { class: "block" }, h("h2", { class: "block-title", text: "裝飾字" }));
   r.accents.forEach((a, i) => {
@@ -1045,15 +1155,16 @@ function paragraphBlock(r) {
 function render(r, opts) {
   const o = opts || {};
   els.body.replaceChildren();
-  els.body.append(h("div", { class: "result-head" },
-    o.example ? h("span", { class: "tag", text: "範例" }) : null,
-    h("p", { class: "result-title" },
-      h("span", { class: "lbl", text: "標題" }),
-      h("span", { class: "title-text", text: r.title })),
-    o.example ? h("p", { class: "example-note", text: "這是示範結果。輸入你的標題後按「產生」，這裡會換成你的結果。" }) : null));
+  if (o.example) {
+    els.body.append(h("div", { class: "result-head" },
+      h("span", { class: "tag", text: "範例" }),
+      h("p", { class: "example-note", text: "這是示範結果。輸入你的主標（和副標）後按「產生」，這裡會換成你的結果。" })));
+  }
   if (r.notes && r.notes.length) {
     els.body.append(h("aside", { class: "notes", "aria-label": "提示" }, r.notes.map((n) => h("p", { text: n }))));
   }
+  els.body.append(titleBlock("主標", r.title, r.headline));
+  if (r.sub && r.subhead) els.body.append(titleBlock("副標", r.sub, r.subhead));
   els.body.append(accentsBlock(r), paragraphBlock(r));
 }
 
@@ -1069,6 +1180,28 @@ function showMsg(text, kind, detail, prefix) {
 function hideMsg() { els.msg.hidden = true; els.msg.replaceChildren(); }
 function showInputMsg(text) { els.inputMsg.textContent = text; els.inputMsg.hidden = false; }
 function hideInputMsg() { els.inputMsg.hidden = true; els.inputMsg.textContent = ""; }
+
+/* ---------- 補充說明（勾選項） ---------- */
+
+// 勾「其他」才顯示自填欄；取消勾選就隱藏（隱藏時 extraText 也不會送出它的內容）
+function syncOther() { els.other.hidden = !els.otherBox.checked; }
+
+// 組出「補充說明：」後面的字：勾選項依畫面上固定的順序用頓號串起來（「其他」本身不列出），
+// 有填自填欄就接「；其他：內容」。什麼都沒勾、也沒填就回傳空字串（呼叫端不加這一行）
+function extraText() {
+  const picks = [];
+  let other = false;
+  for (const c of els.ticks) {
+    if (!c.checked) continue;
+    if (c === els.otherBox) other = true;
+    else picks.push(c.value);
+  }
+  const parts = [];
+  if (picks.length) parts.push(picks.join("、"));
+  const o = other ? oneLine(els.other.value) : "";
+  if (o) parts.push("其他：" + o);
+  return parts.join("；");
+}
 
 /* ---------- 產生 ---------- */
 
@@ -1101,7 +1234,8 @@ function endWait() {
 async function runGenerate(fresh) {
   if (busy) return;
   const title = oneLine(els.title.value);
-  const note = oneLine(els.note.value);
+  const sub = oneLine(els.sub.value);
+  const extra = extraText();
   if (!apiKey) {
     showInputMsg("請先在上方設定 Gemini 金鑰。");
     showKeyState(true);
@@ -1109,7 +1243,7 @@ async function runGenerate(fresh) {
     return;
   }
   if (!title) {
-    showInputMsg("請先輸入標題。");
+    showInputMsg("請先輸入主標。");
     els.title.focus();
     return;
   }
@@ -1123,14 +1257,14 @@ async function runGenerate(fresh) {
   setBusy(true);
   startWait();
   try {
-    const obj = await askGemini(title, note, fresh, controller.signal);
-    if (!validateResult(obj)) {
+    const obj = await askGemini(title, sub, extra, fresh, controller.signal);
+    if (!validateResult(obj, !!sub)) {
       console.warn("結果驗證失敗：", validateResult.lastReason);
       const m = MESSAGES.incomplete;
       showMsg(m.text, m.kind);
       return;
     }
-    render(normalizeResult(obj, title), { example: false });
+    render(normalizeResult(obj, title, sub), { example: false });
     els.btnAgain.hidden = false;
     els.sr.textContent = "已產生結果";
     if (isNarrow()) els.results.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" });
@@ -1155,9 +1289,16 @@ els.btnAgain.addEventListener("click", () => { runGenerate(true); });
 els.btnStop.addEventListener("click", () => { if (ctl) ctl.abort(); });
 els.btnClear.addEventListener("click", () => {
   els.title.value = "";
-  els.note.value = "";
+  els.sub.value = "";
+  els.other.value = "";
+  for (const c of els.ticks) c.checked = false;
+  syncOther();
   hideInputMsg();
   els.title.focus();
+});
+els.otherBox.addEventListener("change", () => {
+  syncOther();
+  if (els.otherBox.checked) els.other.focus();
 });
 
 /* ---------- 啟動 ---------- */
@@ -1165,7 +1306,8 @@ els.btnClear.addEventListener("click", () => {
 apiKey = loadLS(LS_KEY);
 model = loadLS(LS_MODEL);
 showKeyState(false);
-render(normalizeResult(EXAMPLE, EXAMPLE.title), { example: true });
+syncOther();
+render(normalizeResult(EXAMPLE, EXAMPLE.title, EXAMPLE.sub), { example: true });
 </script>
 </body>
 </html>
