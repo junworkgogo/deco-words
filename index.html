@@ -6,293 +6,579 @@
 <meta name="color-scheme" content="light">
 <meta name="referrer" content="no-referrer">
 <title>裝飾字英譯</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=Noto+Sans+TC:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* 版面：瑞士風極簡淺色。桌機（≥1024px）左欄 380px 放金鑰與表單（黏在上方）、右欄放結果；手機單欄。
-   區塊之間只用 1px 細線分隔，無卡片底色塊、無圓角、無陰影。英文用 Inter Tight，每個單字做成字典詞條小卡，連到劍橋英漢（繁體）字典。 */
+/* 版面：柔和淺色、小而輕的卡片風。
+   桌機（≥1024px）整頁固定一個螢幕高：頁首＋左右兩個面板，頁面本身不捲；左面板放金鑰與表單，
+   右面板標頭固定、下面的卡片清單在面板內捲動。手機／平板（<1024px）單欄，整頁正常捲動。
+   結果每一段是一張靜態卡片：標籤膠囊、中文、全大寫與一般大小寫（各有圓形複製鈕）。
+   按鈕只有一種互動：滑鼠移上去（只限有滑鼠的裝置）或鍵盤對焦時，底色漸變成藍色漸層＋細顆粒，字與圖示轉白。 */
 :root {
-  --bg: #E9E6DF;
-  --surface: #F3F1EC;
-  --fg: #111111;
-  --muted: #57534C;
-  --line: rgba(17, 17, 17, .16);
-  --line-strong: rgba(17, 17, 17, .5); /* 輸入框、勾選項的框線（細線 --line 太淡，看不出可點） */
-  --chip-on-bg: #111111;
-  --chip-on-fg: #E9E6DF;
-  --error: #8A2B1E;
-  --font: "Inter Tight", "Noto Sans TC", system-ui, sans-serif;
+  --bg-top: #EEF1F5;
+  --bg-bottom: #F6F7F9;
+  --panel: #F5F6F9;
+  --card: #FAFBFC;
+  --line: #E3E6EB;
+  --fg: #111827;
+  --fg-soft: #1F2937;
+  --muted: #646B78; /* 設計稿給 #6B7280，實讀在 #EEF1F5 上只有 4.27:1，略加深到 4.5:1 以上 */
+  --accent: #2563EB;
+  --badge-bg: #E8F0FE;
+  --badge-soft-bg: #EEF0F3;
+  --badge-soft-fg: #4B5563;
+  --ok: #22C55E;
+  --error: #B42318;
+  --error-bg: #FEF3F2;
+  --error-line: #F3C4BF;
+  --ctl-bg: #EEF0F4;
+  --ctl-fg: #374151;
+  --silver-1: #C9D0DA;
+  --silver-2: #E6EAF0;
+  --shadow-soft: 0 4px 14px rgba(15, 23, 42, .045);
+  --shadow-btn: 0 3px 10px rgba(15, 23, 42, .07);
+  --glow-shadow: 0 6px 16px rgba(37, 99, 235, .28); /* 按鈕 hover 的淡藍光暈 */
+  --ring: rgba(37, 99, 235, .45);
+  --copy-hit: 40px; /* 複製鈕可點擊區；視覺圓圈 = 可點擊區 − 2×--copy-b */
+  --copy-b: 3px;
+  /* 細顆粒：內嵌 SVG（feTurbulence 雜訊轉灰階），不載入任何外部圖檔。--grain-s 是同一張圖、自帶較低強度，給 hover 底色用 */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-s: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+  /* 按鈕 hover 底色：#1D4ED8 為中心的深藍漸層（文字區），銀色光澤只放在右上角邊緣（離文字遠），上面再蓋一層細顆粒；
+     顆粒會讓個別像素變亮約 27 階，所以底色取偏深，逐像素最差值也要 ≥4.5:1 */
+  --hover-fill:
+    var(--grain-s),
+    radial-gradient(ellipse 26% 60% at 100% 0%, rgba(230, 234, 240, .38) 0%, rgba(230, 234, 240, 0) 100%),
+    linear-gradient(135deg, #1B49CC 0%, #1D4ED8 50%, #2358E0 100%);
+  --hover-fill-danger:
+    var(--grain-s),
+    radial-gradient(ellipse 26% 60% at 100% 0%, rgba(240, 220, 218, .3) 0%, rgba(240, 220, 218, 0) 100%),
+    linear-gradient(135deg, #8F1F15 0%, #B42318 100%);
+  --font: "Inter", "Noto Sans TC", system-ui, sans-serif;
   color-scheme: light;
 }
 
-*, *::before, *::after { box-sizing: border-box; border-radius: 0; box-shadow: none; }
+*, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; min-height: 100%; }
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100vh;
+  background: var(--bg-bottom) linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%) no-repeat;
   color: var(--fg);
-  font-family: "Inter Tight", "Noto Sans TC", system-ui, sans-serif;
+  font-family: "Inter", "Noto Sans TC", system-ui, sans-serif;
   font-size: 15px;
   font-weight: 400;
   line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
 }
 .shell {
-  max-width: 1200px;
+  position: relative;
+  max-width: 1600px;
   margin: 0 auto;
-  padding-block: max(20px, env(safe-area-inset-top, 0px)) max(72px, env(safe-area-inset-bottom, 0px));
+  padding-top: max(16px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
-a { color: var(--fg); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+a { color: var(--accent); text-underline-offset: 3px; }
 button, input { font-family: inherit; }
-
-/* 小標籤：欄位名、區塊名、全大寫／一般大小寫標記 */
-.lbl, .case-name, .block-title {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
+svg { display: block; flex: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* 頁首 */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--fg);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.head-main { display: flex; flex-direction: column; gap: 14px; padding-block: 44px 40px; border-bottom: 1px solid var(--line); }
-.head h1 { margin: 0; font-size: 44px; line-height: 1.1; font-weight: 400; letter-spacing: -.03em; }
-.lede { margin: 0; max-width: 34em; color: var(--muted); }
+.topbar { padding-block: 4px 14px; }
+.topbar h1 { margin: 0; font-size: 24px; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
 
 /* 版面 */
-.layout { display: flex; flex-direction: column; gap: 40px; padding-top: 32px; }
-.side { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
-.results { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-@media (min-width: 1024px) {
-  .shell { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
-  .layout { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 64px; align-items: start; }
-  .side {
-    position: sticky;
-    top: 24px;
-    max-height: calc(100vh - 48px);
-    overflow-y: auto;
-    scrollbar-width: thin;
-    /* 內縮 4px 再用負邊界抵銷，讓 2px 焦點框（含 offset）不被捲動容器裁掉 */
-    padding: 4px;
-    margin: -4px;
-  }
+.layout { display: flex; flex-direction: column; gap: 16px; }
+.panel {
+  min-width: 0;
+  padding: 16px;
+  background: var(--panel);
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .8), 0 14px 36px rgba(15, 23, 42, .05);
 }
+.side { display: flex; flex-direction: column; gap: 16px; }
 
 /* 訊息 */
 .msg {
-  margin: 0;
+  margin: 0 0 12px;
   padding: 12px 14px;
-  border: 1px solid var(--line-strong);
-  color: var(--fg);
+  font-size: 14px;
+  color: var(--fg-soft);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
   overflow-wrap: anywhere;
 }
-.msg[data-kind="error"] { border-color: var(--error); color: var(--error); }
+.msg[data-kind="error"] { color: var(--error); background: var(--error-bg); border-color: var(--error-line); }
 .msg-detail { display: block; margin-top: 4px; font-size: 13px; }
 
-/* 金鑰與表單（沒有卡片底色，只用細線分隔） */
-.panel { display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 0; }
-.key-panel { padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-.key-panel.is-ready { padding-bottom: 20px; }
-.key-setup { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.panel-title { margin: 0; font-size: 15px; font-weight: 500; }
-.steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
-.fine { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
-.key-ready { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
-.key-status { margin: 0; flex: 1 1 14rem; min-width: 0; overflow-wrap: anywhere; }
-.key-status .model { color: var(--muted); }
+/* 金鑰小卡 */
+.key-card { padding: 14px; background: var(--card); border: 1px solid rgba(227, 230, 235, .55); border-radius: 16px; box-shadow: var(--shadow-soft); }
+.key-setup { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.panel-title { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.5; }
+.steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.fine { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.key-row { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.key-row input { flex: 1 1 10rem; }
+.key-small { display: flex; flex-wrap: wrap; gap: 8px; }
+.key-ready { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 12px; }
+.key-info { flex: 1 1 12rem; min-width: 0; }
+.key-line { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font-size: 14px; line-height: 1.45; }
+.key-name { font-weight: 600; letter-spacing: .02em; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(34, 197, 94, .2); }
+.key-state { font-weight: 500; overflow-wrap: anywhere; }
+.key-model, .key-usage { margin: 2px 0 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.key-usage.is-near { color: var(--error); font-weight: 600; } /* 今日用量接近 500 次 */
+.limit-dlg { width: min(400px, calc(100vw - 32px)); padding: 22px; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 24px 60px rgba(15, 23, 42, .18); }
+.limit-dlg::backdrop { background: rgba(15, 23, 42, .28); }
+.limit-dlg h2 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+.limit-dlg p { margin: 0; font-size: 13px; line-height: 1.7; color: var(--fg-soft); }
+.limit-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
 
-.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
+/* 欄位 */
+.form { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin: 0; padding: 0; border: 0; }
 .label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.opt { font-size: 12px; letter-spacing: .06em; color: var(--muted); }
-legend.lbl { padding: 0; margin-bottom: 8px; }
-.title-row { display: flex; flex-wrap: wrap; gap: 10px; min-width: 0; }
-.title-row input { flex: 1 1 12rem; }
+.lbl { font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--fg); }
+legend.lbl { padding: 0; margin-bottom: 6px; }
+.opt { font-size: 13px; color: var(--muted); }
+.input-wrap { position: relative; min-width: 0; }
 input[type="text"], input[type="password"] {
   display: block;
   width: 100%;
   min-width: 0;
+  height: 48px;
   margin: 0;
-  padding: 10px 12px;
+  padding: 0 16px;
   font: inherit;
-  font-size: 15px;
+  font-size: 16px; /* 手機輸入框 16px，避免 iPhone 點進去自動放大 */
   line-height: 1.5;
   color: var(--fg);
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-radius: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, .04);
   -webkit-appearance: none;
   appearance: none;
 }
+.input-wrap input { padding-right: 48px; }
+input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 ::placeholder { color: var(--muted); opacity: 1; }
-@media (max-width: 699px) {
-  /* 手機版輸入框 16px，避免 iPhone 點進去自動放大 */
-  input[type="text"], input[type="password"] { font-size: 16px; }
+#f-other { height: 44px; margin-top: 2px; }
+.clear-x {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background-color .3s ease, color .3s ease;
 }
+.clear-x svg { width: 16px; height: 16px; }
 
-/* 補充說明：可複選的方形標籤（真的 checkbox 藏在標籤裡，鍵盤可操作） */
-.ticks { display: flex; flex-wrap: wrap; gap: 8px; }
-.tick { position: relative; display: inline-flex; }
+/* 補充說明：可複選的膠囊（真的 checkbox 藏在標籤裡，鍵盤可操作） */
+.ticks { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.tick { position: relative; display: block; min-width: 0; }
 .tick input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
 .tick input:focus-visible { outline: none; }
 .tick span {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
   min-height: 40px;
-  padding: 0 14px;
+  padding: 0 6px;
   font-size: 14px;
   line-height: 1.2;
-  color: var(--fg);
-  background: transparent;
-  border: 1px solid var(--line-strong);
+  color: #374151;
+  text-align: center;
+  background: #F1F3F6;
+  border: 1px solid var(--line);
+  border-radius: 12px;
   user-select: none;
-  transition: background-color .15s, color .15s, border-color .15s;
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
-.tick:hover span { border-color: var(--fg); }
-.tick input:checked + span { background: var(--chip-on-bg); color: var(--chip-on-fg); border-color: var(--chip-on-bg); }
-.tick input:focus-visible + span { outline: 2px solid #111111; outline-offset: 2px; }
+/* 已選的漸層末端用 #2E6BE8（設計稿 #3B7BF0）：白字要 ≥4.5:1，#3B7BF0 只有 3.98:1，再疊顆粒要留餘裕 */
+.tick input:checked + span {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  background: linear-gradient(90deg, #2563EB 0%, #2E6BE8 100%);
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, .3);
+}
+/* 已選勾選項與「產生」鈕的常駐細顆粒：放在文字下面（z-index:-1，自己是獨立堆疊層） */
+.tick input:checked + span::after,
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
+  opacity: .1;
+}
+/* 未選的勾選膠囊：移上去／鍵盤對焦時變淡藍底、藍框、藍字 */
+.tick input:focus-visible + span { outline: 3px solid var(--ring); outline-offset: 2px; }
+.tick input:not(:checked):focus-visible + span { color: var(--accent); background: var(--badge-bg); border-color: var(--accent); }
 
-/* 按鈕：主要＝黑底淺字，次要＝透明底＋1px 黑框 */
+/* 按鈕 */
 .btn {
-  min-height: 44px;
-  padding: 0 22px;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
   font: inherit;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
-  border: 1px solid #111111;
-  border-radius: 0;
+  border: 0;
+  border-radius: 26px;
   cursor: pointer;
-  transition: background-color .15s, border-color .15s;
+  transition: color .3s ease, box-shadow .3s ease, background-color .3s ease;
 }
-.btn-primary { background: #111111; color: #E9E6DF; }
-.btn-primary:hover:not(:disabled) { background: #3A3835; border-color: #3A3835; }
-.btn-ghost { background: transparent; color: #111111; }
-.btn-ghost:hover:not(:disabled) { background: rgba(17, 17, 17, .08); }
-.btn:disabled { cursor: not-allowed; opacity: .4; }
-.btn-small { min-height: 36px; padding: 0 16px; font-size: 14px; }
-.actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.hint-err { margin: 0; color: var(--error); font-size: 14px; overflow-wrap: anywhere; }
-.wait { margin: 0; color: var(--muted); font-size: 14px; }
+.btn:disabled { cursor: not-allowed; opacity: .55; }
+.btn svg { width: 18px; height: 18px; }
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(90deg, #2563EB 0%, #2E6BE8 100%);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, .26);
+}
+.btn-secondary { color: var(--ctl-fg); background: var(--ctl-bg); box-shadow: var(--shadow-btn); }
+.btn-small { min-height: 40px; padding: 0 16px; font-size: 14px; }
+.btn-danger { color: var(--error); }
 
-/* 結果 */
-.result-body { display: flex; flex-direction: column; min-width: 0; }
-.result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-bottom: 20px; }
-.tag { flex: none; padding: 2px 10px; font-size: 12px; font-weight: 500; letter-spacing: .06em; color: var(--chip-on-fg); background: var(--chip-on-bg); }
-.example-note { flex: 1 1 16rem; margin: 0; color: var(--muted); font-size: 14px; }
-.notes { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; padding: 12px 0; border-block: 1px solid var(--line); color: var(--fg); }
+/* 會變色的按鈕（清除、換一組、停止、取消、刪除、更換金鑰、複製）：
+   底下有一層 ::before 放 hover 底色，平常透明，hover／對焦時淡入；字與圖示同步轉白、陰影變淡藍光暈 */
+.btn-secondary::before,
+.pill-btn::before,
+.copy::before,
+.btn-go::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.btn-secondary::before, .pill-btn::before, .copy::before { background-image: var(--hover-fill); background-blend-mode: soft-light, normal, normal; }
+.btn-danger::before { background-image: var(--hover-fill-danger); }
+.btn-secondary:focus-visible, .pill-btn:focus-visible, .copy:focus-visible { color: #fff; box-shadow: var(--glow-shadow); }
+.btn-secondary:focus-visible::before, .pill-btn:focus-visible::before, .copy:focus-visible::before { opacity: 1; }
+.btn-danger:focus-visible { box-shadow: 0 6px 16px rgba(180, 35, 24, .28); }
+
+.actions { display: flex; flex-direction: column; gap: 10px; }
+.actions .btn { width: 100%; }
+.hint-err { margin: 0; color: var(--error); font-size: 13px; overflow-wrap: anywhere; }
+.wait { margin: 0; color: var(--muted); font-size: 13px; }
+
+.pill-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .04);
+  border-radius: 24px;
+  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .3s ease, box-shadow .3s ease;
+}
+.pill-btn svg { width: 14px; height: 14px; }
+
+/* 「產生」鈕：像水一樣緩緩流動。底色是飽和藍，上面疊亮藍與半透明銀光（radial-gradient），各層大小不同，
+   用同一個 keyframes 移動 background-position，各層就會用不同速度流過去。
+   最上層是固定不動的深藍「墊底光」（圓心在「產生」兩字正後方，用 px 定位，--text-x 隨字級調整），
+   銀光與亮藍流過字的時候被它壓住，白字在任何時刻都 ≥4.5:1。銀光與亮藍的不透明度是用取樣量出來的，不要隨手調高 */
+.btn-go {
+  --text-x: 40px;
+  gap: 10px;
+  justify-content: flex-start;
+  min-height: 52px;
+  padding: 0 8px 0 22px;
+  font-size: 16px;
+  letter-spacing: .04em;
+  background-color: #2563EB;
+  background-image:
+    radial-gradient(ellipse 110px 90% at var(--text-x) 50%, rgba(29, 78, 216, .96) 0%, rgba(29, 78, 216, .85) 50%, rgba(29, 78, 216, 0) 100%),
+    radial-gradient(ellipse 30% 55% at 50% 50%, rgba(230, 234, 240, .42) 0%, rgba(230, 234, 240, 0) 100%),
+    radial-gradient(ellipse 34% 60% at 50% 50%, rgba(127, 178, 255, .65) 0%, rgba(127, 178, 255, 0) 100%),
+    radial-gradient(ellipse 38% 70% at 50% 50%, rgba(91, 155, 248, .65) 0%, rgba(91, 155, 248, 0) 100%),
+    linear-gradient(100deg, #2563EB 0%, #3B7BF0 50%, #2563EB 100%);
+  background-size: 100% 100%, 200% 210%, 230% 240%, 210% 260%, 220% 100%;
+  background-position: 0% 0%, 0% 30%, 100% 70%, 0% 100%, 0% 50%;
+  animation: btn-flow 10s ease-in-out infinite alternate;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, .3), inset 0 1px 0 rgba(255, 255, 255, .3);
+  text-shadow: 0 1px 2px rgba(15, 23, 42, .2);
+}
+@keyframes btn-flow {
+  0%   { background-position: 0% 0%, 0% 30%, 100% 70%, 0% 100%, 0% 50%; }
+  100% { background-position: 0% 0%, 100% 70%, 0% 30%, 100% 0%, 100% 50%; }
+}
+.btn-go::after { opacity: .12; }
+/* hover／對焦再亮一階：右側邊緣多一層亮藍與銀光（刻意離開文字），光暈加大 */
+.btn-go::before {
+  background:
+    radial-gradient(ellipse 36% 130% at 100% 15%, rgba(127, 178, 255, .5) 0%, rgba(127, 178, 255, 0) 100%),
+    radial-gradient(ellipse 30% 70% at 88% 100%, rgba(230, 234, 240, .3) 0%, rgba(230, 234, 240, 0) 100%);
+}
+.btn-go:focus-visible { box-shadow: 0 14px 32px rgba(37, 99, 235, .45), inset 0 1px 0 rgba(255, 255, 255, .35); }
+.btn-go:focus-visible::before { opacity: 1; }
+.btn-go .label { flex: 1; text-align: left; }
+.btn-go .arrow { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, .3); }
+.btn-go .arrow svg { width: 18px; height: 18px; }
+.btn-clear, .btn-again, .btn-stop { font-size: 15px; }
+
+/* 結果面板 */
+.results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-bottom: 14px; padding-inline: 2px; }
+.results-head .bar { flex: none; width: 3px; height: 20px; border-radius: 2px; background: var(--accent); }
+.results-head h2 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.result-body { position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0; } /* position:relative：卡片裡 sr-only 的絕對定位文字才會被捲動容器裁掉，不撐高整頁 */
+.result-body:focus-visible { outline-offset: 0; border-radius: 12px; }
+.result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-inline: 2px; }
+.tag, .badge {
+  flex: none;
+  align-self: flex-start;
+  margin: 0;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .02em;
+  color: var(--accent);
+  background: var(--badge-bg);
+  border-radius: 6px;
+}
+.badge { margin-bottom: 8px; }
+.badge-soft { color: var(--badge-soft-fg); background: var(--badge-soft-bg); }
+.notes { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; font-size: 14px; color: var(--fg-soft); background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
 .notes p { margin: 0; overflow-wrap: anywhere; }
 
-.block { display: flex; flex-direction: column; min-width: 0; padding-block: 24px 28px; border-top: 1px solid var(--line); }
-.result-body > .block:first-child { border-top: 0; padding-top: 0; }
-.block-title { margin: 0 0 16px; }
-.item { display: flex; flex-direction: column; min-width: 0; padding-block: 24px; border-top: 1px solid var(--line); }
-.block-title + .item { border-top: 0; padding-top: 0; }
-.item:last-child { padding-bottom: 0; }
-
-.stack { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.case { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.case-name { padding-top: 2px; }
-.meta { margin: 0; min-width: 0; color: var(--muted); overflow-wrap: anywhere; }
-.meta-k { color: var(--fg); font-weight: 500; }
-.orig { margin: 0; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
-@media (min-width: 560px) {
-  .stack { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 16px; row-gap: 16px; }
-  .case { display: contents; }
-  .case-name { padding-top: 10px; }
-  .case-name.at-orig { padding-top: 2px; }
-  .case-name.at-chips { padding-top: 8px; }
-  .meta { grid-column: 2; }
+/* 結果卡片（靜態，沒有任何滑鼠特效） */
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid rgba(227, 230, 235, .6);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
 }
-
-.out { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-width: 0; }
-.out-text { flex: 1; min-width: 0; margin: 0; overflow-wrap: anywhere; font-weight: 400; font-size: 28px; line-height: 1.2; letter-spacing: -.01em; }
-.out-text.para { font-size: 17px; line-height: 1.6; letter-spacing: 0; }
-.out-text.para.upper { letter-spacing: .02em; }
-@media (max-width: 699px) {
-  .out-text { font-size: 22px; }
-  .out-text.para { font-size: 17px; }
+.orig { margin: 0 0 4px; min-width: 0; font-size: 18px; line-height: 1.4; font-weight: 600; overflow-wrap: anywhere; }
+.orig-sm { font-size: 14px; font-weight: 700; color: var(--ctl-fg); }
+.case { display: block; min-width: 0; margin-top: 2px; }
+.out { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-width: 0; }
+.out-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding-block: calc((var(--copy-hit) - 1.5em) / 2);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--fg-soft);
+  overflow-wrap: anywhere;
 }
+.out-text.upper { letter-spacing: .06em; }
+.case-ico { flex: none; display: inline-flex; margin-top: calc((var(--copy-hit) - 18px) / 2); color: var(--muted); }
+.case-ico svg { width: 18px; height: 18px; }
+
+/* 圓形複製鈕：可點擊區 --copy-hit，視覺圓圈小一圈（透明邊框＋ background-clip）；成功時圖示換成打勾 */
 .copy {
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  place-items: center;
   flex: none;
-  min-width: 56px;
-  min-height: 32px;
-  padding: 4px 12px;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  line-height: 1.2;
-  white-space: nowrap;
-  color: #111111;
-  background: transparent;
-  border: 1px solid #111111;
-  border-radius: 0;
+  width: var(--copy-hit);
+  height: var(--copy-hit);
+  padding: 0;
+  color: var(--ctl-fg);
+  background: #fff;
+  background-clip: padding-box;
+  border: var(--copy-b) solid transparent;
+  border-radius: 50%;
+  box-shadow: var(--shadow-btn);
   cursor: pointer;
-  transition: background-color .15s, color .15s;
+  transition: color .3s ease, box-shadow .3s ease;
 }
-.copy:hover { background: rgba(17, 17, 17, .08); }
-.copy.done, .copy.done:hover { background: #111111; color: #E9E6DF; }
-
-/* 字典詞條小卡 */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
-.word {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 2px 8px;
-  max-width: 100%;
-  padding: 6px 10px;
+.copy svg { width: 17px; height: 17px; }
+.copy.done { color: var(--accent); }
+/* 剪貼簿不可用時，文字會被選取；用這個小提示告訴使用者按 ⌘C（原本是按鈕上的字） */
+.copy[data-hint]::after {
+  content: attr(data-hint);
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  z-index: 3;
+  padding: 5px 10px;
   font-size: 13px;
-  line-height: 1.4;
-  color: var(--fg);
-  text-decoration: none;
-  border: 1px solid var(--line-strong);
-  transition: background-color .15s, border-color .15s;
+  line-height: 1.3;
+  color: #fff;
+  background: var(--fg);
+  border-radius: 8px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
-a.word:hover { background: rgba(17, 17, 17, .08); border-color: var(--fg); }
-.word.nolink { border-style: dashed; }
-.word .lemma { font-size: 15px; font-weight: 500; color: var(--fg); overflow-wrap: anywhere; }
-.word .pos { font-size: 12px; letter-spacing: .04em; color: var(--muted); }
-.word .zh { overflow-wrap: anywhere; }
-.word .ext { font-size: 12px; color: var(--muted); }
 
-.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-@media (max-width: 699px) {
-  .head-main { padding-block: 32px 28px; }
-  .head h1 { font-size: 32px; }
+@media (min-width: 700px) {
+  .orig { font-size: 20px; }
+  .orig-sm { font-size: 15px; }
+  .out-text { font-size: 17px; }
+  .card { padding: 20px; }
+}
+
+/* 桌機：整頁固定一個螢幕高、頁面不捲；只有右面板的卡片清單（和放不下時的左面板）在面板內捲動。
+   全部元素縮小一級：小、字重輕、留白相對多 */
+@media (min-width: 1024px) {
+  html, body { height: 100%; overflow: hidden; }
+  body { height: 100vh; height: 100dvh; min-height: 0; }
+  .shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    padding-top: max(16px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(18px, env(safe-area-inset-bottom, 0px));
+    padding-left: max(32px, env(safe-area-inset-left, 0px));
+    padding-right: max(32px, env(safe-area-inset-right, 0px));
+  }
+  .topbar { flex: none; padding-block: 0 12px; }
+  .topbar h1 { font-size: 21px; line-height: 1.3; }
+  .layout {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: 18px;
+  }
+  .panel { min-height: 0; padding: 22px; border-radius: 20px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .8), 0 10px 28px rgba(15, 23, 42, .045); }
+
+  /* 左面板：放不下（更矮的螢幕）時只有它自己捲動 */
+  .side { gap: 12px; overflow-y: auto; scrollbar-width: thin; }
+  .side > * { flex: none; }
+  .key-card { padding: 12px 14px; border-radius: 14px; }
+  .key-setup { gap: 10px; }
+  .panel-title { font-size: 13px; }
+  .steps { font-size: 12px; gap: 3px; }
+  .fine { font-size: 11px; }
+  .key-line { font-size: 13px; }
+  .key-model, .key-usage { font-size: 12px; }
+  .pill-btn { min-height: 30px; padding: 0 12px; font-size: 12px; }
+  .pill-btn svg { width: 12px; height: 12px; }
+  .form { gap: 12px; }
+  .field { gap: 6px; }
+  .lbl { font-size: 13px; }
+  legend.lbl { margin-bottom: 6px; }
+  .opt { font-size: 12px; }
+  input[type="text"], input[type="password"] { height: 40px; padding: 0 14px; font-size: 14px; border-radius: 10px; }
+  .input-wrap input { padding-right: 40px; }
+  #f-other { height: 36px; }
+  .clear-x { width: 32px; height: 32px; right: 4px; }
+  .clear-x svg { width: 14px; height: 14px; }
+  .ticks { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .tick span { min-height: 32px; padding: 0 4px; font-size: 13px; border-radius: 10px; }
+  .btn { min-height: 46px; padding: 0 12px; font-size: 14px; border-radius: 23px; gap: 6px; }
+  .btn-small { min-height: 32px; padding: 0 14px; font-size: 12px; }
+  .btn svg { width: 16px; height: 16px; }
+  .actions { flex-direction: row; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+  .actions .btn { width: auto; flex: 1 1 76px; }
+  .actions .btn-go { --text-x: 32px; flex: 1.6 1 112px; min-height: 46px; padding: 0 8px 0 16px; font-size: 15px; }
+  .btn-go .arrow { width: 30px; height: 30px; }
+  .btn-go .arrow svg { width: 15px; height: 15px; }
+  .btn-clear, .btn-again, .btn-stop { font-size: 14px; }
+  .hint-err, .wait { font-size: 12px; }
+
+  /* 右面板：標頭固定，卡片清單自己捲動（上方留 10px，才不會被切掉） */
+  .results { display: flex; flex-direction: column; }
+  .results-head { flex: none; flex-wrap: nowrap; margin-bottom: 10px; }
+  .results-head .bar { height: 16px; }
+  .results-head h2 { font-size: 17px; }
+  .msg { flex: none; margin-bottom: 10px; padding: 10px 12px; font-size: 13px; }
+  .msg-detail { font-size: 12px; }
+  .result-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 12px;
+    margin-inline: -18px;
+    padding: 10px 18px 14px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(15, 23, 42, .22) transparent;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 16px), transparent 100%); /* 清單底緣淡出，捲動時卡片不會被硬生生切斷 */
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 16px), transparent 100%);
+  }
+  .result-head { flex: none; }
+  .tag, .badge { padding: 2px 8px; font-size: 11px; }
+  .badge { margin-bottom: 6px; }
+  .notes { padding: 10px 12px; font-size: 13px; }
+  .card { padding: 18px; border-radius: 16px; }
+  .orig { margin-bottom: 2px; font-size: 17px; }
+  .orig-sm { font-size: 13px; }
+  .out-text { font-size: 15px; }
+  :root { --copy-hit: 32px; --copy-b: 1px; }
+  .copy svg { width: 15px; height: 15px; }
+  .copy[data-hint]::after { font-size: 12px; }
+}
+
+/* 變色效果：滑鼠移上去（只限有滑鼠的裝置，觸控裝置點一下不會留下卡住的外觀）。鍵盤對焦的版本在上面各元件的 :focus-visible */
+@media (hover: hover) and (pointer: fine) {
+  .btn-secondary:hover:not(:disabled), .pill-btn:hover, .copy:hover { color: #fff; box-shadow: var(--glow-shadow); }
+  .btn-secondary:hover:not(:disabled)::before, .pill-btn:hover::before, .copy:hover::before { opacity: 1; }
+  .btn-danger:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(180, 35, 24, .28); }
+  .btn-go:hover:not(:disabled) { box-shadow: 0 14px 32px rgba(37, 99, 235, .45), inset 0 1px 0 rgba(255, 255, 255, .35); }
+  .btn-go:hover:not(:disabled)::before { opacity: 1; }
+  .btn-primary:hover:not(:disabled):not(.btn-go) { box-shadow: 0 12px 26px rgba(37, 99, 235, .4); }
+  .tick:hover input:not(:checked) + span { color: var(--accent); background: var(--badge-bg); border-color: var(--accent); }
+  .clear-x:hover { color: var(--fg); background: rgba(15, 23, 42, .06); }
 }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  html { scroll-behavior: auto; }
+  .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before { transition: none; }
+  .btn-go { animation: none; } /* 停在 keyframes 0% 的畫面（background-position 已寫在 .btn-go 上） */
 }
 </style>
 </head>
 <body>
 <div class="shell">
-  <header class="head">
-    <div class="topbar"><span>DECO WORDS</span><span>GEMINI · FREE</span></div>
-    <div class="head-main">
-      <h1>裝飾字英譯</h1>
-      <p class="lede">輸入中文主標與副標，由 Google Gemini 產出英文翻譯、三組裝飾字和一段英文小段；每個英文單字都能連到劍橋字典查證，每一行都能一鍵複製。</p>
-    </div>
+  <header class="topbar">
+    <h1>裝飾字英譯</h1>
   </header>
 
   <div class="layout">
-    <div class="side">
-      <section class="panel key-panel" id="key-panel" aria-labelledby="key-title">
+    <div class="panel side">
+      <section class="key-card" id="key-panel" aria-labelledby="key-title">
         <div id="key-setup" class="key-setup">
           <h2 class="panel-title" id="key-title">設定 Gemini 金鑰（每個瀏覽器只要設一次）</h2>
           <ol class="steps">
@@ -302,33 +588,54 @@ a.word:hover { background: rgba(17, 17, 17, .08); border-color: var(--fg); }
           </ol>
           <div class="field">
             <label class="lbl" for="f-key">Gemini 金鑰</label>
-            <div class="title-row">
+            <div class="key-row">
               <input type="password" id="f-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="貼上金鑰">
               <button type="button" class="btn btn-primary" id="btn-key-save">儲存金鑰</button>
             </div>
           </div>
-          <div class="actions" id="key-extra" hidden>
-            <button type="button" class="btn btn-ghost btn-small" id="btn-key-cancel">取消</button>
-            <button type="button" class="btn btn-ghost btn-small" id="btn-key-delete">刪除已存的金鑰</button>
+          <div class="key-small" id="key-extra" hidden>
+            <button type="button" class="btn btn-secondary btn-small" id="btn-key-cancel">取消</button>
+            <button type="button" class="btn btn-secondary btn-small btn-danger" id="btn-key-delete">刪除已存的金鑰</button>
           </div>
           <p class="hint-err" id="key-msg" role="alert" hidden></p>
           <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
-          <p class="fine">金鑰只存在這台電腦的瀏覽器裡，產生時只會傳給 Google。免費額度有每分鐘、每天的次數上限；免費方案送出的文字，Google 可能拿去改善產品。</p>
+          <p class="fine">金鑰只存在這台電腦，只會傳給 Google。<br>免費版每天約 500 次、每分鐘 15 次。<br>沒綁付款：額度用完就停止，不會花錢；有綁付款：可能從第一次就收費。<br>送出的文字 Google 可能用來改善服務，機密內容請勿輸入。</p>
         </div>
         <div id="key-ready" class="key-ready" hidden>
-          <p class="key-status"><span class="lbl">Gemini 金鑰</span>　已設定（結尾 <span id="key-tail" lang="en"></span>）<span class="model">・模型 <span id="model-name" lang="en">自動選擇</span></span></p>
-          <button type="button" class="btn btn-ghost btn-small" id="btn-key-change">更換金鑰</button>
+          <div class="key-info">
+            <p class="key-line"><span class="key-name">GEMINI 金鑰</span><span class="dot" aria-hidden="true"></span><span class="key-state">已設定（結尾 <span id="key-tail" lang="en"></span>）</span></p>
+            <p class="key-model">模型 <span id="model-name" lang="en">自動選擇</span></p>
+            <p class="key-usage" id="usage-line">今日用量 <span id="usage-n" lang="en">0/500</span></p>
+          </div>
+          <button type="button" class="pill-btn" id="btn-key-change">更換金鑰<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg></button>
         </div>
       </section>
 
-      <form id="form" class="panel" aria-label="輸入主標與副標" novalidate>
+      <dialog class="limit-dlg" id="limit-dlg" aria-labelledby="limit-title">
+        <form method="dialog">
+          <h2 id="limit-title">今天已用 <span id="limit-count" lang="en">500/500</span></h2>
+          <p>免費額度一天約 500 次。沒綁付款的金鑰會被 Google 擋下，不會收費；有綁付款的金鑰繼續使用會開始收費。</p>
+          <div class="limit-actions">
+            <button type="submit" value="cancel" class="btn btn-secondary">先不要</button>
+            <button type="submit" value="go" class="btn btn-secondary">繼續產生</button>
+          </div>
+        </form>
+      </dialog>
+
+      <form id="form" class="form" aria-label="輸入主標與副標" novalidate>
         <div class="field">
           <div class="label-row"><label class="lbl" for="f-title">主標</label><span class="opt">必填</span></div>
-          <input type="text" id="f-title" autocomplete="off" placeholder="例：城心靜域">
+          <div class="input-wrap">
+            <input type="text" id="f-title" autocomplete="off" placeholder="例：城心靜域">
+            <button type="button" class="clear-x" id="x-title" aria-label="清除主標" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>
+          </div>
         </div>
         <div class="field">
           <div class="label-row"><label class="lbl" for="f-sub">副標</label><span class="opt">選填</span></div>
-          <input type="text" id="f-sub" autocomplete="off" placeholder="例：容納商務大格局">
+          <div class="input-wrap">
+            <input type="text" id="f-sub" autocomplete="off" placeholder="例：容納商務大格局">
+            <button type="button" class="clear-x" id="x-sub" aria-label="清除副標" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>
+          </div>
         </div>
         <fieldset class="field" id="ctx">
           <legend class="lbl">補充說明（可複選）</legend>
@@ -336,29 +643,44 @@ a.word:hover { background: rgba(17, 17, 17, .08); border-color: var(--fg); }
             <label class="tick"><input type="checkbox" name="ctx" value="房地產銷售"><span>房地產銷售</span></label>
             <label class="tick"><input type="checkbox" name="ctx" value="首購小宅"><span>首購小宅</span></label>
             <label class="tick"><input type="checkbox" name="ctx" value="豪宅精品"><span>豪宅精品</span></label>
-            <label class="tick"><input type="checkbox" name="ctx" value="商辦廠辦"><span>商辦廠辦</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="高樓商辦"><span>高樓商辦</span></label>
             <label class="tick"><input type="checkbox" name="ctx" value="活動邀請"><span>活動邀請</span></label>
             <label class="tick"><input type="checkbox" name="ctx" value="節慶祝賀"><span>節慶祝賀</span></label>
             <label class="tick"><input type="checkbox" name="ctx" value="交屋祝賀"><span>交屋祝賀</span></label>
-            <label class="tick"><input type="checkbox" name="ctx" value="冷氣廣告"><span>冷氣廣告</span></label>
             <label class="tick"><input type="checkbox" name="ctx" value="其他" id="c-other"><span>其他</span></label>
           </div>
           <input type="text" id="f-other" autocomplete="off" aria-label="其他補充說明" placeholder="自行填寫，例：開幕酒會、寵物友善" hidden>
         </fieldset>
         <div class="actions">
-          <button type="submit" class="btn btn-primary" id="btn-go">產生</button>
-          <button type="button" class="btn btn-ghost" id="btn-again" hidden>換一組</button>
-          <button type="button" class="btn btn-ghost" id="btn-stop" hidden>停止</button>
-          <button type="button" class="btn btn-ghost" id="btn-clear">清除</button>
+          <button type="submit" class="btn btn-primary btn-go" id="btn-go">
+            <span class="label">產生</span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M9 6l6 6-6 6"/></svg></span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-clear" id="btn-clear">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16"/><path d="M10 3.5h4"/><path d="M6 7l1 12.5h10L18 7"/><path d="M10 11v5"/><path d="M14 11v5"/></svg>
+            <span>清除</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-again" id="btn-again" hidden>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.5 4.5L20 16"/><path d="M20 20v-4h-4"/></svg>
+            <span>換一組</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-stop" id="btn-stop" hidden>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>
+            <span>停止</span>
+          </button>
         </div>
         <p class="hint-err" id="input-msg" role="alert" hidden></p>
         <p class="wait" id="wait" role="status" hidden></p>
       </form>
     </div>
 
-    <main class="results" id="results" aria-label="產生結果">
+    <main class="panel results" id="results" aria-label="產生結果">
+      <div class="results-head">
+        <span class="bar" aria-hidden="true"></span>
+        <h2>生成結果</h2>
+      </div>
       <p class="msg" id="msg" role="status" hidden></p>
-      <div class="result-body" id="result-body"></div>
+      <div class="result-body" id="result-body" tabindex="0" role="region" aria-label="生成結果"></div>
     </main>
   </div>
   <p class="sr-only" id="sr" role="status" aria-live="polite"></p>
@@ -385,7 +707,7 @@ still-professional English.
   「唯一」). If the headline does not form real words, work from the most likely intended
   word and say so in one line of Traditional Chinese in "notes".
 - If the user wrote 補充說明 (extra context), follow it; it overrides the defaults above.
-- 補充說明 may list checked options. Follow all of them together: 房地產銷售 = real estate sales post (the default); 首購小宅 = small homes for first-time buyers, warmer and plainer English; 豪宅精品 = luxury homes, premium register; 商辦廠辦 = office or industrial property, confident and professional; 活動邀請 = an event invitation, inviting and clear; 節慶祝賀 = a festival greeting, warm and refined; 交屋祝賀 = congratulations on a home handover, warm and celebratory; 冷氣廣告 = an air-conditioner ad (Daikin). Text after 其他： is the user's own note; follow it too.
+- 補充說明 may list checked options. Follow all of them together: 房地產銷售 = real estate sales post (the default); 首購小宅 = small homes for first-time buyers, warmer and plainer English; 豪宅精品 = luxury homes, premium register; 高樓商辦 = high-rise office or commercial tower, confident and professional; 活動邀請 = an event invitation, inviting and clear; 節慶祝賀 = a festival greeting, warm and refined; 交屋祝賀 = congratulations on a home handover, warm and celebratory. Text after 其他： is the user's own note; follow it too.
 - Read real estate wording correctly: 坪數 means floor area or unit size; 稀有坪數 means a rare, sought-after unit size, never small or limited space.
 
 ## What you write
@@ -590,6 +912,7 @@ const els = {
   btnKeySave: $("btn-key-save"), btnKeyChange: $("btn-key-change"), btnKeyCancel: $("btn-key-cancel"),
   btnKeyDelete: $("btn-key-delete"), keyExtra: $("key-extra"), keyMsg: $("key-msg"), keyWait: $("key-wait"),
   keyTail: $("key-tail"), modelName: $("model-name"),
+  usage: $("usage-n"), usageLine: $("usage-line"), limitDlg: $("limit-dlg"), limitCount: $("limit-count"),
   form: $("form"), title: $("f-title"), sub: $("f-sub"), other: $("f-other"), otherBox: $("c-other"),
   ticks: Array.from(document.querySelectorAll('input[name="ctx"]')),
   btnGo: $("btn-go"), btnAgain: $("btn-again"), btnStop: $("btn-stop"), btnClear: $("btn-clear"),
@@ -634,6 +957,45 @@ function saveLS(k, v) {
     if (v) localStorage.setItem(k, v);
     else localStorage.removeItem(k);
   } catch (_) { /* 無痕視窗等情況存不了，這次開著的頁面仍可用 */ }
+}
+
+/* ---------- 今日用量：這個瀏覽器自己算，跟 Google 一樣在美國太平洋時間半夜換日 ---------- */
+const LS_DAILY = "decoWords.daily.v1";
+const DAILY_LIMIT = 500;
+function pacificDay() {
+  try { return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles" }).format(new Date()); }
+  catch (_) { return new Date().toISOString().slice(0, 10); }
+}
+function readDaily() {
+  const d = pacificDay();
+  try {
+    const o = JSON.parse(loadLS(LS_DAILY) || "null");
+    if (o && o.d === d && Number.isFinite(o.n)) return { d, n: o.n, ok: !!o.ok };
+  } catch (_) { /* 記錄壞掉就從 0 算 */ }
+  return { d, n: 0, ok: false };
+}
+function writeDaily(o) { saveLS(LS_DAILY, JSON.stringify(o)); showUsage(); }
+function countUse() { const o = readDaily(); o.n += 1; writeDaily(o); }
+function showUsage() {
+  const n = readDaily().n;
+  els.usage.textContent = n + "/" + DAILY_LIMIT;
+  els.usageLine.classList.toggle("is-near", n >= DAILY_LIMIT - 50);
+}
+// 今天已送出 500 次：先跳視窗確認（有綁付款的金鑰繼續用會收費）；同一天按過「繼續產生」就不再問
+function allowOverLimit() {
+  const o = readDaily();
+  if (o.n < DAILY_LIMIT || o.ok) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const dlg = els.limitDlg;
+    els.limitCount.textContent = o.n + "/" + DAILY_LIMIT;
+    dlg.addEventListener("close", () => {
+      const yes = dlg.returnValue === "go";
+      if (yes) { const p = readDaily(); p.ok = true; writeDaily(p); }
+      resolve(yes);
+    }, { once: true });
+    dlg.returnValue = "";
+    dlg.showModal();
+  });
 }
 
 // 把單字轉成劍橋字典網址最後一段：小寫、去重音、空格換連字號
@@ -760,6 +1122,7 @@ async function gfetch(path, key, init) {
     if (e && e.name === "AbortError") throw new ApiError("cancelled");
     throw new ApiError("network", String(e && e.message ? e.message : e));
   }
+  if (path.includes(":generateContent") && res.status !== 429) countUse();
   let body = null;
   try { body = await res.json(); } catch (_) { body = null; }
   if (!res.ok) {
@@ -1037,6 +1400,14 @@ els.btnKeyDelete.addEventListener("click", () => {
 
 const copyTimers = new WeakMap();
 
+// 圓形複製鈕上的圖示（純外觀；內嵌 SVG，沒有外部檔案）
+const SVG_ATTR = 'viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"';
+const ICON_COPY = "<svg " + SVG_ATTR + '><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>';
+// 大小寫小圖示：圓角方框＋字母，放在每行英文前面（大寫 A／小寫 a）
+const ICON_UPPER = "<svg " + SVG_ATTR + '><rect x="3" y="3" width="18" height="18" rx="5"/><text x="12" y="16.4" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor" stroke="none">A</text></svg>';
+const ICON_LOWER = "<svg " + SVG_ATTR + '><rect x="3" y="3" width="18" height="18" rx="5"/><text x="12" y="15.8" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor" stroke="none">a</text></svg>';
+const ICON_CHECK = "<svg " + SVG_ATTR + '><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
 function selectNode(node) {
   try {
     const sel = window.getSelection();
@@ -1059,15 +1430,16 @@ async function copyLine(btn, node) {
   clearTimeout(copyTimers.get(btn));
   btn.classList.add("done");
   if (ok) {
-    btn.textContent = "已複製";
+    btn.innerHTML = ICON_CHECK;
     els.sr.textContent = "已複製";
   } else {
     selectNode(node);
-    btn.textContent = "已選取，請按 ⌘C";
+    btn.dataset.hint = "已選取，請按 ⌘C";
     els.sr.textContent = "已選取，請按 ⌘C";
   }
   copyTimers.set(btn, setTimeout(() => {
-    btn.textContent = "複製";
+    btn.innerHTML = ICON_COPY;
+    delete btn.dataset.hint;
     btn.classList.remove("done");
   }, ok ? 1500 : 3000));
 }
@@ -1075,97 +1447,62 @@ async function copyLine(btn, node) {
 /* ---------- 渲染 ---------- */
 
 function outRow(text, kind, aria) {
+  const ico = h("span", { class: "case-ico", "aria-hidden": "true" });
+  ico.innerHTML = kind.includes("upper") ? ICON_UPPER : ICON_LOWER;
   const t = h("p", { class: "out-text " + kind, lang: "en", text });
-  const b = h("button", { class: "copy", type: "button", "aria-label": aria, text: "複製" });
+  const b = h("button", { class: "copy", type: "button", "aria-label": aria });
+  b.innerHTML = ICON_COPY;
   b.addEventListener("click", () => { copyLine(b, t); });
-  return h("div", { class: "out" }, t, b);
+  return h("div", { class: "out" }, ico, t, b);
 }
 
 function caseRow(name, text, kind, aria) {
-  return h("div", { class: "case" }, h("span", { class: "case-name", text: name }), outRow(text, kind, aria));
+  return h("div", { class: "case" }, h("span", { class: "case-name sr-only", text: name }), outRow(text, kind, aria));
 }
 
-function metaLine(key, value) {
-  return h("p", { class: "meta" }, h("span", { class: "meta-k", text: key }), value);
-}
-
-function wordChip(wd) {
-  const kids = [
-    h("span", { class: "lemma", lang: "en", text: wd.lemma }),
-    wd.pos ? h("span", { class: "pos", text: wd.pos }) : null,
-    h("span", { class: "zh", text: wd.zh }),
-  ];
-  if (!wd.slug) return h("span", { class: "word nolink" }, kids);
-  return h("a", {
-    class: "word",
-    href: dictURL(wd.slug),
-    target: "_blank",
-    rel: "noopener noreferrer",
-    "aria-label": "在劍橋字典查 " + wd.lemma + "（" + wd.zh + "），另開新分頁",
-  }, kids, h("span", { class: "ext", "aria-hidden": "true", text: "↗" }));
-}
-
-function dictRow(words) {
-  if (!words.length) return null;
-  return h("div", { class: "case" },
-    h("span", { class: "case-name at-chips", text: "字典查證" }),
-    h("div", { class: "chips" }, words.map(wordChip)));
+// 一張結果卡片：標籤膠囊（h3）＋內容；soft＝灰底標籤（裝飾字、英文小段）
+function card(label, soft, ...kids) {
+  return h("article", { class: "card" }, h("h3", { class: soft ? "badge badge-soft" : "badge", text: label }), kids);
 }
 
 // 主標／副標：中文原文一行、全大寫、一般大小寫（各有複製鈕）、字典查證
 function titleBlock(label, zh, item) {
-  const sec = h("section", { class: "block" }, h("h2", { class: "block-title", text: label }));
-  sec.append(h("article", { class: "item" },
-    h("div", { class: "stack" },
-      h("div", { class: "case" },
-        h("span", { class: "case-name at-orig", text: "中文原文" }),
-        h("p", { class: "orig", text: zh })),
-      caseRow("全大寫", upper(item.text), "upper", "複製" + label + "的全大寫"),
-      caseRow("一般大小寫", item.text, "normal", "複製" + label + "的一般大小寫"),
-      dictRow(item.words))));
-  return sec;
+  return card(label, false,
+    h("p", { class: "orig" }, h("span", { class: "sr-only", text: "中文原文：" }), zh),
+    caseRow("全大寫", upper(item.text), "upper", "複製" + label + "全大寫"),
+    caseRow("一般大小寫", item.text, "normal", "複製" + label + "一般大小寫"));
 }
 
+// 3 組裝飾字：每組一張卡片，中文意思放在最上面一行
 function accentsBlock(r) {
-  const sec = h("section", { class: "block" }, h("h2", { class: "block-title", text: "裝飾字" }));
+  const frag = document.createDocumentFragment();
   r.accents.forEach((a, i) => {
     const who = "第 " + (i + 1) + " 組裝飾字";
-    sec.append(h("article", { class: "item" },
-      h("div", { class: "stack" },
-        caseRow("全大寫", upper(a.text), "upper", "複製" + who + "的全大寫"),
-        caseRow("一般大小寫", a.text, "normal", "複製" + who + "的一般大小寫"),
-        metaLine("中文意思：", a.zh),
-        dictRow(a.words))));
+    frag.append(card("裝飾字", true,
+      h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文意思：" }), a.zh),
+      caseRow("全大寫", upper(a.text), "upper", "複製" + who + "全大寫"),
+      caseRow("一般大小寫", a.text, "normal", "複製" + who + "一般大小寫")));
   });
-  return sec;
+  return frag;
 }
 
 function paragraphBlock(r) {
   const p = r.paragraph;
-  const sec = h("section", { class: "block" }, h("h2", { class: "block-title", text: "英文小段" }));
-  sec.append(h("article", { class: "item" },
-    h("div", { class: "stack" },
-      caseRow("全大寫", upper(p.text), "para upper", "複製英文小段的全大寫"),
-      caseRow("一般大小寫", p.text, "para normal", "複製英文小段的一般大小寫"),
-      metaLine("中文大意：", p.gist),
-      dictRow(p.words))));
-  return sec;
+  return card("英文小段", true,
+    h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文大意：" }), p.gist),
+    caseRow("全大寫", upper(p.text), "para upper", "複製英文小段全大寫"),
+    caseRow("一般大小寫", p.text, "para normal", "複製英文小段一般大小寫"));
 }
 
-function render(r, opts) {
-  const o = opts || {};
+function render(r) {
   els.body.replaceChildren();
-  if (o.example) {
-    els.body.append(h("div", { class: "result-head" },
-      h("span", { class: "tag", text: "範例" }),
-      h("p", { class: "example-note", text: "這是示範結果。輸入你的主標（和副標）後按「產生」，這裡會換成你的結果。" })));
-  }
   if (r.notes && r.notes.length) {
     els.body.append(h("aside", { class: "notes", "aria-label": "提示" }, r.notes.map((n) => h("p", { text: n }))));
   }
   els.body.append(titleBlock("主標", r.title, r.headline));
   if (r.sub && r.subhead) els.body.append(titleBlock("副標", r.sub, r.subhead));
   els.body.append(accentsBlock(r), paragraphBlock(r));
+  els.body.scrollTop = 0; // 桌機的卡片清單在面板內捲動；重新產生後回到最上面
 }
 
 /* ---------- 訊息 ---------- */
@@ -1247,6 +1584,7 @@ async function runGenerate(fresh) {
     els.title.focus();
     return;
   }
+  if (!(await allowOverLimit())) return;
   hideInputMsg();
   hideMsg();
 
@@ -1301,13 +1639,26 @@ els.otherBox.addEventListener("change", () => {
   if (els.otherBox.checked) els.other.focus();
 });
 
+/* ---------- 新增的純外觀小功能（不碰上面任何邏輯）：輸入框 × ---------- */
+
+// 1) 主標、副標輸入框右側的 ×：有內容才顯示；按下清空該欄並把焦點放回去
+function bindClearX(input, btn) {
+  const sync = () => { btn.hidden = input.value === ""; };
+  input.addEventListener("input", sync);
+  btn.addEventListener("click", () => { input.value = ""; sync(); input.focus(); });
+  els.btnClear.addEventListener("click", sync); // 「清除」鈕（上面的程式）清空欄位後也要同步
+  sync();
+}
+bindClearX(els.title, $("x-title"));
+bindClearX(els.sub, $("x-sub"));
+
 /* ---------- 啟動 ---------- */
 
 apiKey = loadLS(LS_KEY);
 model = loadLS(LS_MODEL);
 showKeyState(false);
+showUsage();
 syncOther();
-render(normalizeResult(EXAMPLE, EXAMPLE.title, EXAMPLE.sub), { example: true });
 </script>
 </body>
 </html>
