@@ -427,7 +427,7 @@ const RULES = $("rules").textContent;
 const CAMBRIDGE = "https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/";
 const API = "https://generativelanguage.googleapis.com/v1beta/";
 const LS_KEY = "decoWords.geminiKey";
-const LS_MODEL = "decoWords.geminiModel";
+const LS_MODEL = "decoWords.model.v2"; // 換了選模型的規則，舊的記錄（decoWords.geminiModel）不再沿用
 
 // Gemini 回傳 JSON 的格式（只用最基本的欄位，避免 API 不認得）
 const WORD_SCHEMA = {
@@ -684,11 +684,15 @@ function newestFirst(a, b) {
   return b1 - a1 || b2 - a2;
 }
 
-// 免費方案用 Flash：優先選版本最新的正式版，其次用 Google 的「最新 Flash」別名
+// 2026-10-30 用真金鑰實測：3.8-flash 26 秒～超過 60 秒；3.6-flash（幾乎不思考）4–6 秒 → 有 3.6-flash 就用它
+const PREFERRED_MODEL = "gemini-3.6-flash";
+
+// 免費方案用 Flash：優先用實測最快的那個，其次選版本最新的正式版，再其次用 Google 的「最新 Flash」別名
 function pickModel(models) {
   const names = (Array.isArray(models) ? models : [])
     .filter((m) => m && Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes("generateContent"))
     .map((m) => String(m.name || "").replace(/^models\//, ""));
+  if (names.includes(PREFERRED_MODEL)) return PREFERRED_MODEL;
   const stable = names.filter((n) => /^gemini-\d+(?:\.\d+)?-flash$/.test(n)).sort(newestFirst);
   if (stable.length) return stable[0];
   if (names.includes("gemini-flash-latest")) return "gemini-flash-latest";
@@ -728,44 +732,50 @@ function genConfig(level) {
   return null;
 }
 
-// Flash 模型預設會先「思考」一陣子才回答，很慢；請它少想一點（Gemini 3 以後才吃這個設定，不吃就拿掉）
-const LS_THINK = "decoWords.think";
-let thinkOff = loadLS(LS_THINK) === "off";
+// Flash 模型預設會先「思考」一陣子才回答，很慢；請它幾乎不想（Gemini 3 以後才吃這個設定）。
+// 模型不接受就退一級，最後乾脆不送；每個模型各記各的
+const LS_THINK = "decoWords.think.v2";
+const THINK_STEPS = ["MINIMAL", "LOW", ""];
+let thinkStep = readThink();
+
+function readThink() {
+  try {
+    const o = JSON.parse(loadLS(LS_THINK) || "{}");
+    return o && typeof o === "object" ? o : {};
+  } catch (_) { return {}; }
+}
+function thinkIndex(m) { return Math.min(THINK_STEPS.length - 1, Math.max(0, Math.floor(Number(thinkStep[m])) || 0)); }
+function thinkBackoff(m) {
+  thinkStep[m] = thinkIndex(m) + 1;
+  saveLS(LS_THINK, JSON.stringify(thinkStep));
+}
+
+// 主要模型忙線或超過 FIRST_TRY 秒還沒好，就改用 Google 的「最新輕量版」再試一次（實測約 4 秒）
+const BACKUP_MODEL = "gemini-flash-lite-latest";
+const FIRST_TRY = 20;
 
 const BLOCKED = ["SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT", "SPII", "LANGUAGE", "IMAGE_SAFETY"];
 
-async function askGemini(title, note, fresh, signal) {
-  if (!model) {
-    model = await findModel(apiKey, signal);
-    saveLS(LS_MODEL, model);
-    thinkOff = false;
-    saveLS(LS_THINK, "");
-    showKeyState();
-  }
-  let input = "標題：" + title;
-  if (note) input += "\n補充說明：" + note;
-  if (fresh) input += "\n\nThis is a request for another set: choose three different accents and write a differently worded paragraph.";
-  let data;
+async function callModel(m, input, signal) {
   for (;;) {
     const payload = {
       systemInstruction: { parts: [{ text: RULES }] },
       contents: [{ role: "user", parts: [{ text: input }] }],
     };
     const gc = genConfig(formatLevel) || {};
-    if (!thinkOff) gc.thinkingConfig = { thinkingLevel: "LOW" };
+    const level = THINK_STEPS[thinkIndex(m)];
+    if (level) gc.thinkingConfig = { thinkingLevel: level };
     if (Object.keys(gc).length) payload.generationConfig = gc;
     try {
-      data = await gfetch("models/" + encodeURIComponent(model) + ":generateContent", apiKey, {
+      return await gfetch("models/" + encodeURIComponent(m) + ":generateContent", apiKey, {
         method: "POST",
         signal,
         body: JSON.stringify(payload),
       });
-      break;
     } catch (e) {
-      // 模型不接受「少想一點」的設定時，拿掉再送一次
-      if (e instanceof ApiError && e.status === 400 && e.kind === "unknown" && !thinkOff && /thinking/i.test(e.detail)) {
-        thinkOff = true;
-        saveLS(LS_THINK, "off");
+      // 模型不接受這個思考程度時，退一級再送一次
+      if (e instanceof ApiError && e.status === 400 && e.kind === "unknown" && level && /thinking/i.test(e.detail)) {
+        thinkBackoff(m);
         continue;
       }
       // Google 不接受輸出格式設定時，改用較簡單的設定再送一次（最多退兩級；規則文字本身已寫明 JSON 格式）
@@ -775,6 +785,50 @@ async function askGemini(title, note, fresh, signal) {
         continue;
       }
       throw e;
+    }
+  }
+}
+
+// 跟外層的停止鈕連動，另外加一個較短的時限；時限到了丟出 "slow"
+async function withTimeLimit(outer, sec, run) {
+  const c = new AbortController();
+  let slow = false;
+  const stop = () => c.abort();
+  if (outer.aborted) c.abort();
+  else outer.addEventListener("abort", stop);
+  const t = setTimeout(() => { slow = true; c.abort(); }, sec * 1000);
+  try {
+    return await run(c.signal);
+  } catch (e) {
+    if (slow && !outer.aborted && e instanceof ApiError && e.kind === "cancelled") throw new ApiError("slow");
+    throw e;
+  } finally {
+    clearTimeout(t);
+    outer.removeEventListener("abort", stop);
+  }
+}
+
+async function askGemini(title, note, fresh, signal) {
+  if (!model) {
+    model = await findModel(apiKey, signal);
+    saveLS(LS_MODEL, model);
+    showKeyState();
+  }
+  let input = "標題：" + title;
+  if (note) input += "\n補充說明：" + note;
+  if (fresh) input += "\n\nThis is a request for another set: choose three different accents and write a differently worded paragraph.";
+  let data;
+  try {
+    data = await withTimeLimit(signal, FIRST_TRY, (s) => callModel(model, input, s));
+  } catch (e) {
+    const retry = e instanceof ApiError && (e.kind === "slow" || e.kind === "busy") && model !== BACKUP_MODEL;
+    if (!retry) throw e instanceof ApiError && e.kind === "slow" ? new ApiError("busy") : e;
+    try {
+      data = await callModel(BACKUP_MODEL, input, signal);
+    } catch (e2) {
+      // 備用模型不存在時，照實說主要模型忙線
+      if (e2 instanceof ApiError && e2.kind === "no_model") throw new ApiError("busy", e.detail);
+      throw e2;
     }
   }
   const block = data && data.promptFeedback ? data.promptFeedback.blockReason : "";
@@ -833,7 +887,7 @@ async function saveKey() {
     const picked = await findModel(key);
     apiKey = key;
     model = picked;
-    thinkOff = false;
+    thinkStep = {};
     saveLS(LS_KEY, apiKey);
     saveLS(LS_MODEL, model);
     saveLS(LS_THINK, "");
