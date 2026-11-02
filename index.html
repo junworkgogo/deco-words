@@ -172,7 +172,9 @@ input[type="text"], input[type="password"] {
 .input-wrap input { padding-right: 48px; }
 input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 ::placeholder { color: var(--muted); opacity: 1; }
-#f-other { height: 44px; margin-top: 2px; }
+#f-other, #f-avoid-other { height: 44px; margin-top: 2px; }
+legend.legend-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; }
+.legend-row .opt { font-weight: 400; }
 .clear-x {
   position: absolute;
   top: 50%;
@@ -523,7 +525,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   .opt { font-size: 12px; }
   input[type="text"], input[type="password"] { height: 40px; padding: 0 14px; font-size: 14px; border-radius: 10px; }
   .input-wrap input { padding-right: 40px; }
-  #f-other { height: 36px; }
+  #f-other, #f-avoid-other { height: 36px; }
   .clear-x { width: 32px; height: 32px; right: 4px; }
   .clear-x svg { width: 14px; height: 14px; }
   .ticks { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
@@ -582,6 +584,15 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   .tick:hover input:not(:checked) + span { color: var(--accent); background: var(--badge-bg); border-color: var(--accent); }
   .clear-x:hover { color: var(--fg); background: rgba(15, 23, 42, .06); }
 }
+/* 矮視窗：多了「避免」一組後左面板收緊一點，沒開自填欄時不用捲就看得到產生鈕 */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .panel.side { padding-block: 16px; gap: 10px; }
+  .form { gap: 10px; }
+  input[type="text"], input[type="password"] { height: 38px; }
+  .ticks { gap: 6px; }
+  .tick span { min-height: 30px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before { transition: none; }
@@ -672,6 +683,20 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
           </div>
           <input type="text" id="f-other" autocomplete="off" aria-label="其他補充說明" placeholder="自行填寫，例：開幕酒會、寵物友善" hidden>
         </fieldset>
+        <fieldset class="field" id="avoid">
+          <legend class="lbl legend-row"><span>避免（可複選）</span><span class="opt">選填</span></legend>
+          <div class="ticks">
+            <label class="tick"><input type="checkbox" name="avoid" value="首購族"><span>首購族</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="小宅感"><span>小宅感</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="豪宅感"><span>豪宅感</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="家庭親子"><span>家庭親子</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="年輕族群"><span>年輕族群</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="投資置產"><span>投資置產</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="太推銷"><span>太推銷</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="其他" id="c-avoid-other"><span>其他</span></label>
+          </div>
+          <input type="text" id="f-avoid-other" autocomplete="off" aria-label="其他要避免的內容" placeholder="自行填寫，例：交通、學區" hidden>
+        </fieldset>
         <div class="actions">
           <button type="submit" class="btn btn-primary btn-go" id="btn-go">
             <span class="label">產生</span>
@@ -740,6 +765,7 @@ still-professional English. When the headline is negative, critical, humorous, o
   options only adjust word choice and register. Check before you answer: read back into Chinese, your
   headline must name the same thing and say the same thing about it as the original.
 - 補充說明 may list checked options. Follow all of them together: 房地產銷售 = real estate sales post (the default); 首購小宅 = small homes for first-time buyers, warmer and plainer English; 豪宅精品 = luxury homes, premium register; 高樓商辦 = high-rise office or commercial tower, confident and professional; 活動邀請 = an event invitation, inviting and clear; 節慶祝賀 = a festival greeting, warm and refined; 交屋祝賀 = congratulations on a home handover, warm and celebratory. Text after 其他： is the user's own note; follow it too.
+- 避免 may list things the user does not want in the copy. Each item is a hard limit on the accents and the paragraph, and it wins over 補充說明 and the default positioning when they conflict. 首購族 = nothing aimed at first-time buyers (no first home, starter, first step, affordable); 小宅感 = nothing that points to small homes (no compact, cozy, small, efficient); 豪宅感 = plain, down-to-earth English with no luxury praise (no luxury, exclusive, prestige, premium, elite) and no vocabulary bank; 家庭親子 = no family or children imagery (no family, children, kids, parents, generations); 年輕族群 = nothing aimed at young people (no young, youthful, trendy, new generation); 投資置產 = no investment talk (no investment, return, appreciation, yield, asset, growth, value); 太推銷 = no hard sell and no scarcity pitch (no limited, scarce, hard to find, great value, act now, don't miss, rare chance, hurry). Any other item on the list is the user's own wording; keep it out as well, including its close synonyms. 避免 never changes what the headline or the subhead means: when they say an avoided thing themselves, still translate them accurately, and keep that thing out of the accents and the paragraph. Before you answer, read every accent and the paragraph once more against the 避免 list and rewrite anything that breaks it.
 - Read real estate wording correctly: 坪數 means floor area or unit size; 稀有坪數 means a rare, sought-after unit size, never small or limited space.
 
 ## What you write
@@ -952,6 +978,8 @@ const els = {
   usage: $("usage-n"), usageLine: $("usage-line"), limitDlg: $("limit-dlg"), limitCount: $("limit-count"),
   form: $("form"), title: $("f-title"), sub: $("f-sub"), other: $("f-other"), otherBox: $("c-other"),
   ticks: Array.from(document.querySelectorAll('input[name="ctx"]')),
+  avoidTicks: Array.from(document.querySelectorAll('input[name="avoid"]')),
+  avoidOther: $("f-avoid-other"), avoidOtherBox: $("c-avoid-other"),
   btnGo: $("btn-go"), btnAgain: $("btn-again"), btnStop: $("btn-stop"), btnClear: $("btn-clear"),
   inputMsg: $("input-msg"), wait: $("wait"),
   msg: $("msg"), results: $("results"), body: $("result-body"), sr: $("sr"),
@@ -1307,7 +1335,7 @@ async function withTimeLimit(outer, sec, run) {
   }
 }
 
-async function askGemini(title, sub, extra, fresh, signal) {
+async function askGemini(title, sub, extra, avoid, fresh, signal) {
   if (!model) {
     model = await findModel(apiKey, signal);
     saveLS(LS_MODEL, model);
@@ -1316,6 +1344,7 @@ async function askGemini(title, sub, extra, fresh, signal) {
   let input = "主標：" + title;
   if (sub) input += "\n副標：" + sub;
   if (extra) input += "\n補充說明：" + extra;
+  if (avoid) input += "\n避免：" + avoid + "\n(Do not write about any of these in the accents or the paragraph.)";
   if (fresh) input += "\n\nThis is a request for another set: choose three different accents and write a differently worded paragraph. Keep the headline and subhead translations accurate; they may stay the same.";
   let data;
   try {
@@ -1558,26 +1587,30 @@ function hideMsg() { els.msg.hidden = true; els.msg.replaceChildren(); }
 function showInputMsg(text) { els.inputMsg.textContent = text; els.inputMsg.hidden = false; }
 function hideInputMsg() { els.inputMsg.hidden = true; els.inputMsg.textContent = ""; }
 
-/* ---------- 補充說明（勾選項） ---------- */
+/* ---------- 補充說明、避免（勾選項） ---------- */
 
-// 勾「其他」才顯示自填欄；取消勾選就隱藏（隱藏時 extraText 也不會送出它的內容）
-function syncOther() { els.other.hidden = !els.otherBox.checked; }
+// 勾「其他」才顯示自填欄；取消勾選就隱藏（隱藏時 pickedText 也不會送出它的內容）
+function syncOther() {
+  els.other.hidden = !els.otherBox.checked;
+  els.avoidOther.hidden = !els.avoidOtherBox.checked;
+}
 
-// 組出「補充說明：」後面的字：勾選項依畫面上固定的順序用頓號串起來（「其他」本身不列出），
+// 組出「補充說明：」「避免：」後面的字：勾選項依畫面上固定的順序用頓號串起來（「其他」本身不列出），
 // 有填自填欄就接「；其他：內容」。什麼都沒勾、也沒填就回傳空字串（呼叫端不加這一行）
-function extraText() {
+// plain：自填內容直接當清單的一項，不加「其他：」。避免要用這個——寫成「其他：交通」模型會當成要寫交通
+function pickedText(ticks, otherBox, otherInput, plain) {
   const picks = [];
   let other = false;
-  for (const c of els.ticks) {
+  for (const c of ticks) {
     if (!c.checked) continue;
-    if (c === els.otherBox) other = true;
+    if (c === otherBox) other = true;
     else picks.push(c.value);
   }
   const parts = [];
   if (picks.length) parts.push(picks.join("、"));
-  const o = other ? oneLine(els.other.value) : "";
-  if (o) parts.push("其他：" + o);
-  return parts.join("；");
+  const o = other ? oneLine(otherInput.value) : "";
+  if (o) parts.push(plain ? o : "其他：" + o);
+  return parts.join(plain ? "、" : "；");
 }
 
 /* ---------- 產生 ---------- */
@@ -1612,7 +1645,8 @@ async function runGenerate(fresh) {
   if (busy) return;
   const title = oneLine(els.title.value);
   const sub = oneLine(els.sub.value);
-  const extra = extraText();
+  const extra = pickedText(els.ticks, els.otherBox, els.other);
+  const avoid = pickedText(els.avoidTicks, els.avoidOtherBox, els.avoidOther, true);
   if (!apiKey) {
     showInputMsg("請先在上方設定 Gemini 金鑰。");
     showKeyState(true);
@@ -1635,7 +1669,7 @@ async function runGenerate(fresh) {
   setBusy(true);
   startWait();
   try {
-    const obj = await askGemini(title, sub, extra, fresh, controller.signal);
+    const obj = await askGemini(title, sub, extra, avoid, fresh, controller.signal);
     if (!validateResult(obj, !!sub)) {
       console.warn("結果驗證失敗：", validateResult.lastReason);
       const m = MESSAGES.incomplete;
@@ -1669,7 +1703,9 @@ els.btnClear.addEventListener("click", () => {
   els.title.value = "";
   els.sub.value = "";
   els.other.value = "";
+  els.avoidOther.value = "";
   for (const c of els.ticks) c.checked = false;
+  for (const c of els.avoidTicks) c.checked = false;
   syncOther();
   hideInputMsg();
   els.title.focus();
@@ -1677,6 +1713,10 @@ els.btnClear.addEventListener("click", () => {
 els.otherBox.addEventListener("change", () => {
   syncOther();
   if (els.otherBox.checked) els.other.focus();
+});
+els.avoidOtherBox.addEventListener("change", () => {
+  syncOther();
+  if (els.avoidOtherBox.checked) els.avoidOther.focus();
 });
 
 /* ---------- 新增的純外觀小功能（不碰上面任何邏輯）：輸入框 × ---------- */
