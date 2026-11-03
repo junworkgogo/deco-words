@@ -8,20 +8,18 @@
 <title>裝飾字英譯</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* 版面：柔和淺色、小而輕的卡片風。
-   桌機（≥1024px）整頁固定一個螢幕高：頁首＋左右兩個面板，頁面本身不捲；左面板放金鑰與表單，
-   右面板標頭固定、下面的卡片清單在面板內捲動。手機／平板（<1024px）單欄，整頁正常捲動。
-   結果每一段是一張靜態卡片：標籤膠囊、中文、全大寫與一般大小寫（各有圓形複製鈕）。
+/* 版面：乾淨簡約（2026-11-02 使用者要的）。同一個底色、不用陰影和卡片分層，只靠留白和細線；顏色只留給「產生」鈕。
+   桌機（≥1024px）整頁固定一個螢幕高：頁首＋左右兩欄，頁面本身不捲；左欄放表單與今日用量，
+   右欄標頭固定、下面的結果在欄內捲動。手機／平板（<1024px）單欄，整頁正常捲動。
+   結果每一段之間用細線分開：標籤、中文、全大寫與一般大小寫（各有圓形複製鈕）。
    按鈕只有一種互動：滑鼠移上去（只限有滑鼠的裝置）或鍵盤對焦時，底色漸變成藍色漸層＋細顆粒，字與圖示轉白。 */
 :root {
-  --bg-top: #EEF1F5;
-  --bg-bottom: #F6F7F9;
-  --panel: #F5F6F9;
-  --card: #FAFBFC;
-  --line: #E3E6EB;
+  --bg: #FBFBFC;
+  --card: #FFFFFF;
+  --line: #E6E7EA;
   --fg: #111827;
   --fg-soft: #1F2937;
-  --muted: #646B78; /* 設計稿給 #6B7280，實讀在 #EEF1F5 上只有 4.27:1，略加深到 4.5:1 以上 */
+  --muted: #646B78;
   --accent: #2563EB;
   --badge-bg: #E8F0FE;
   --badge-soft-bg: #EEF0F3;
@@ -30,13 +28,7 @@
   --error: #B42318;
   --error-bg: #FEF3F2;
   --error-line: #F3C4BF;
-  --ctl-bg: #EEF0F4;
   --ctl-fg: #374151;
-  --silver-1: #C9D0DA;
-  --silver-2: #E6EAF0;
-  --shadow-soft: 0 4px 14px rgba(15, 23, 42, .045);
-  --shadow-btn: 0 3px 10px rgba(15, 23, 42, .07);
-  --glow-shadow: 0 6px 16px rgba(37, 99, 235, .28); /* 按鈕 hover 的淡藍光暈 */
   --ring: rgba(37, 99, 235, .45);
   --copy-hit: 40px; /* 複製鈕可點擊區；視覺圓圈 = 可點擊區 − 2×--copy-b */
   --copy-b: 3px;
@@ -68,7 +60,7 @@ html { -webkit-text-size-adjust: 100%; min-height: 100%; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg-bottom) linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%) no-repeat;
+  background: var(--bg);
   color: var(--fg);
   font-family: "Inter", "Noto Sans TC", system-ui, sans-serif;
   font-size: 15px;
@@ -96,15 +88,10 @@ svg { display: block; flex: none; }
 .topbar h1 { margin: 0; font-size: 24px; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
 
 /* 版面 */
-.layout { display: flex; flex-direction: column; gap: 16px; }
-.panel {
-  min-width: 0;
-  padding: 16px;
-  background: var(--panel);
-  border-radius: 20px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .8), 0 14px 36px rgba(15, 23, 42, .05);
-}
+.layout { display: flex; flex-direction: column; gap: 24px; }
+.panel { min-width: 0; }
 .side { display: flex; flex-direction: column; gap: 16px; }
+.results { padding-top: 20px; border-top: 1px solid var(--line); }
 
 /* 訊息 */
 .msg {
@@ -120,8 +107,10 @@ svg { display: block; flex: none; }
 .msg[data-kind="error"] { color: var(--error); background: var(--error-bg); border-color: var(--error-line); }
 .msg-detail { display: block; margin-top: 4px; font-size: 13px; }
 
-/* 金鑰小卡 */
-.key-card { padding: 14px; background: var(--card); border: 1px solid rgba(227, 230, 235, .55); border-radius: 16px; box-shadow: var(--shadow-soft); }
+/* 金鑰：第一次設定時是一塊有框的區域、排在最上面；設定好之後縮成表單下方一行小字 */
+.key-card { order: -1; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.key-card.is-ready { order: 0; padding: 0; background: none; border: 0; }
+.key-card.is-ready .pill-btn { margin-right: -10px; } /* 字對齊右邊界，留著的邊距只給 hover 底色用 */
 .key-setup { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .panel-title { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.5; }
 .steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
@@ -135,7 +124,7 @@ svg { display: block; flex: none; }
 .key-name { font-weight: 600; letter-spacing: .02em; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(34, 197, 94, .2); }
 .key-state { font-weight: 500; overflow-wrap: anywhere; }
-.key-model, .key-usage { margin: 2px 0 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.key-model, .key-usage { margin: 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 .key-usage.is-near { color: var(--error); font-weight: 600; } /* 今日用量接近 500 次 */
 .limit-dlg { width: min(400px, calc(100vw - 32px)); padding: 22px; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 24px 60px rgba(15, 23, 42, .18); }
 .limit-dlg::backdrop { background: rgba(15, 23, 42, .28); }
@@ -147,7 +136,7 @@ svg { display: block; flex: none; }
 .form { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin: 0; padding: 0; border: 0; }
 .label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.lbl { font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--fg); }
+.lbl { font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--muted); }
 legend.lbl { padding: 0; margin-bottom: 6px; }
 .opt { font-size: 13px; color: var(--muted); }
 .input-wrap { position: relative; min-width: 0; }
@@ -165,7 +154,6 @@ input[type="text"], input[type="password"] {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 12px;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, .04);
   -webkit-appearance: none;
   appearance: none;
 }
@@ -173,8 +161,16 @@ input[type="text"], input[type="password"] {
 input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 ::placeholder { color: var(--muted); opacity: 1; }
 #f-other, #f-avoid-other { height: 44px; margin-top: 2px; }
-legend.legend-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; }
-.legend-row .opt { font-weight: 400; }
+/* 可收合的一組（避免）：收起來只剩一行，右邊顯示勾了什麼 */
+.fold > summary { display: block; padding-block: 4px; cursor: pointer; list-style: none; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold .label-row { align-items: center; }
+.fold .lbl { flex: none; white-space: nowrap; } /* 勾很多項時只有右邊的字收成省略號，左邊標籤不換行 */
+.fold-end { display: inline-flex; align-items: center; gap: 6px; min-width: 0; color: var(--muted); }
+.fold-end .opt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fold-end svg { width: 14px; height: 14px; transition: transform .2s ease; }
+.fold[open] .fold-end svg { transform: rotate(180deg); }
+.fold[open] > .field { margin-top: 6px; }
 .clear-x {
   position: absolute;
   top: 50%;
@@ -210,22 +206,15 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   line-height: 1.2;
   color: #374151;
   text-align: center;
-  background: #F1F3F6;
+  background: var(--card);
   border: 1px solid var(--line);
   border-radius: 12px;
   user-select: none;
   transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
-/* 已選：底色是共用的流動漸層（見「有顏色的地方共用的流動底」） */
-.tick input:checked + span {
-  position: relative;
-  isolation: isolate;
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, .3);
-}
-/* 已選勾選項與「產生」鈕的常駐細顆粒：放在文字下面（z-index:-1，自己是獨立堆疊層） */
-.tick input:checked + span::after,
+/* 已選：淺灰底、深色字、深一點的細框 */
+.tick input:checked + span { color: var(--fg); font-weight: 500; background: #E9EBEF; border-color: #8A909B; }
+/* 主要按鈕的常駐細顆粒：放在文字下面（z-index:-1，自己是獨立堆疊層） */
 .btn-primary::after {
   content: "";
   position: absolute;
@@ -254,7 +243,7 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   padding: 0 18px;
   font: inherit;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.2;
   border: 0;
   border-radius: 26px;
@@ -263,16 +252,13 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
 }
 .btn:disabled { cursor: not-allowed; opacity: .55; }
 .btn svg { width: 18px; height: 18px; }
-.btn-primary {
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(37, 99, 235, .26);
-}
-.btn-secondary { color: var(--ctl-fg); background: var(--ctl-bg); box-shadow: var(--shadow-btn); }
+.btn-primary { color: #fff; }
+.btn-secondary { color: var(--ctl-fg); background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
 .btn-small { min-height: 40px; padding: 0 16px; font-size: 14px; }
 .btn-danger { color: var(--error); }
 
 /* 會變色的按鈕（清除、換一組、停止、取消、刪除、更換金鑰、複製）：
-   底下有一層 ::before 放 hover 底色，平常透明，hover／對焦時淡入；字與圖示同步轉白、陰影變淡藍光暈 */
+   底下有一層 ::before 放 hover 底色，平常透明，hover／對焦時淡入；字與圖示同步轉白 */
 .btn-secondary::before,
 .pill-btn::before,
 .copy::before,
@@ -294,9 +280,8 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   animation: flow-g 12s ease-in-out infinite alternate paused; /* 平常看不見就不動，省得每顆複製鈕都在背後重畫 */
 }
 .btn-danger::before { background-image: var(--hover-fill-danger); background-size: auto; background-position: 0 0; animation: none; }
-.btn-secondary:focus-visible, .pill-btn:focus-visible, .copy:focus-visible { color: #fff; box-shadow: var(--glow-shadow); }
+.btn-secondary:focus-visible, .pill-btn:focus-visible, .copy:focus-visible { color: #fff; box-shadow: none; }
 .btn-secondary:focus-visible::before, .pill-btn:focus-visible::before, .copy:focus-visible::before { opacity: 1; animation-play-state: running; }
-.btn-danger:focus-visible { box-shadow: 0 6px 16px rgba(180, 35, 24, .28); }
 
 .actions { display: flex; flex-direction: column; gap: 10px; }
 .actions .btn { width: 100%; }
@@ -310,25 +295,23 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   align-items: center;
   gap: 6px;
   min-height: 40px;
-  padding: 0 16px;
+  padding: 0 12px;
   font: inherit;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--fg);
-  background: #fff;
-  border: 1px solid rgba(15, 23, 42, .04);
+  font-weight: 400;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
   border-radius: 24px;
-  box-shadow: var(--shadow-btn);
   cursor: pointer;
   white-space: nowrap;
   transition: color .3s ease, box-shadow .3s ease;
 }
-.pill-btn svg { width: 14px; height: 14px; }
 
-/* 有顏色的地方共用的流動底：已選勾選項、主要按鈕（產生、儲存金鑰）。三團色光大小不同、
+/* 流動底只留給主要按鈕（產生、儲存金鑰）。三團色光大小不同、
    用同一個 keyframes 移動 background-position，就會用不同速度流過去。background-position 寫成 keyframes 0%，
    減少動態設定時就停在這一格 */
-.tick input:checked + span, .btn-primary {
+.btn-primary {
   background-color: #2563EB;
   background-image: var(--flow);
   background-size: var(--flow-size);
@@ -340,7 +323,7 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   50%  { background-position: 100% 50%, 0% 50%, 0% 100%, 100% 50%; }
   100% { background-position: 50% 100%, 50% 0%, 100% 50%, 50% 0%; }
 }
-/* 最上面多一層顆粒的版本（hover 底層、主標／副標標籤、結果標題前的小直線）：第一層是顆粒，位置固定 */
+/* 最上面多一層顆粒的版本（hover 底層）：第一層是顆粒，位置固定 */
 @keyframes flow-g {
   0%   { background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%; }
   50%  { background-position: 0 0, 100% 50%, 0% 50%, 0% 100%, 100% 50%; }
@@ -353,16 +336,13 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   padding: 0 8px 0 22px;
   font-size: 16px;
   letter-spacing: .04em;
-  box-shadow: 0 10px 24px rgba(37, 99, 235, .3), inset 0 1px 0 rgba(255, 255, 255, .3);
-  text-shadow: 0 1px 2px rgba(15, 23, 42, .25);
 }
-/* hover／對焦再亮一階：右側邊緣多一層亮藍與銀光（刻意離開文字），光暈加大 */
+/* hover／對焦再亮一階：右側邊緣多一層亮藍與銀光（刻意離開文字） */
 .btn-go::before {
   background:
     radial-gradient(ellipse 36% 130% at 100% 15%, rgba(127, 178, 255, .5) 0%, rgba(127, 178, 255, 0) 100%),
     radial-gradient(ellipse 30% 70% at 88% 100%, rgba(230, 234, 240, .3) 0%, rgba(230, 234, 240, 0) 100%);
 }
-.btn-go:focus-visible { box-shadow: 0 14px 32px rgba(37, 99, 235, .45), inset 0 1px 0 rgba(255, 255, 255, .35); }
 .btn-go:focus-visible::before { opacity: 1; }
 .btn-go .label { flex: 1; text-align: left; }
 .btn-go .arrow { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, .3); }
@@ -370,10 +350,9 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
 .btn-clear, .btn-again, .btn-stop { font-size: 15px; }
 
 /* 結果面板 */
-.results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-bottom: 14px; padding-inline: 2px; }
-.results-head .bar { flex: none; width: 3px; height: 20px; border-radius: 2px; }
-.results-head h2 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
-.result-body { position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0; } /* position:relative：卡片裡 sr-only 的絕對定位文字才會被捲動容器裁掉，不撐高整頁 */
+.results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-bottom: 2px; }
+.results-head h2 { margin: 0; font-size: 14px; line-height: 1.3; font-weight: 400; color: var(--muted); }
+.result-body { position: relative; display: flex; flex-direction: column; min-width: 0; } /* position:relative：卡片裡 sr-only 的絕對定位文字才會被捲動容器裁掉，不撐高整頁 */
 .result-body:focus-visible { outline-offset: 0; border-radius: 12px; }
 .result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-inline: 2px; }
 .tag, .badge {
@@ -385,35 +364,23 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: .02em;
-  color: var(--accent);
-  background: var(--badge-bg);
+  color: var(--badge-soft-fg);
+  background: var(--badge-soft-bg);
   border-radius: 6px;
 }
 .badge { margin-bottom: 8px; }
-.badge-soft { color: var(--badge-soft-fg); background: var(--badge-soft-bg); }
-.badge:not(.badge-soft), .results-head .bar {
-  color: #fff;
-  background-color: #2563EB;
-  background-image: var(--grain-s), var(--flow);
-  background-blend-mode: soft-light, normal, normal, normal, normal;
-  background-size: 180px 180px, var(--flow-size);
-  background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%;
-  animation: flow-g 12s ease-in-out infinite alternate;
-}
 .notes { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; font-size: 14px; color: var(--fg-soft); background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
 .notes p { margin: 0; overflow-wrap: anywhere; }
 
-/* 結果卡片（靜態，沒有任何滑鼠特效） */
+/* 結果每一段（靜態，沒有任何滑鼠特效）：不用卡片，段與段之間一條細線 */
 .card {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 16px;
-  background: var(--card);
-  border: 1px solid rgba(227, 230, 235, .6);
-  border-radius: 16px;
-  box-shadow: var(--shadow-soft);
+  padding-block: 18px;
+  border-bottom: 1px solid var(--line);
 }
+.card:last-child { border-bottom: 0; }
 .orig { margin: 0 0 10px; min-width: 0; font-size: 18px; line-height: 1.4; font-weight: 600; overflow-wrap: anywhere; }
 .orig-sm { font-size: 14px; font-weight: 700; color: var(--ctl-fg); }
 .case { display: block; min-width: 0; margin-top: 2px; }
@@ -443,12 +410,11 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   width: var(--copy-hit);
   height: var(--copy-hit);
   padding: 0;
-  color: var(--ctl-fg);
-  background: #fff;
+  color: var(--muted);
+  background: transparent;
   background-clip: padding-box;
   border: var(--copy-b) solid transparent;
   border-radius: 50%;
-  box-shadow: var(--shadow-btn);
   cursor: pointer;
   transition: color .3s ease, box-shadow .3s ease;
 }
@@ -476,7 +442,7 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   .orig { font-size: 20px; }
   .orig-sm { font-size: 15px; }
   .out-text { font-size: 17px; }
-  .card { padding: 20px; }
+  .card { padding-block: 20px; }
 }
 
 /* 桌機：整頁固定一個螢幕高、頁面不捲；只有右面板的卡片清單（和放不下時的左面板）在面板內捲動。
@@ -494,21 +460,21 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
     padding-left: max(32px, env(safe-area-inset-left, 0px));
     padding-right: max(32px, env(safe-area-inset-right, 0px));
   }
-  .topbar { flex: none; padding-block: 0 12px; }
-  .topbar h1 { font-size: 21px; line-height: 1.3; }
+  .topbar { flex: none; padding-block: 0 14px; }
+  .topbar h1 { font-size: 18px; line-height: 1.3; }
   .layout {
     flex: 1;
     min-height: 0;
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-rows: minmax(0, 1fr);
-    column-gap: 18px;
   }
-  .panel { min-height: 0; padding: 22px; border-radius: 20px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .8), 0 10px 28px rgba(15, 23, 42, .045); }
+  .panel { min-height: 0; padding: 6px; } /* 6px 留給對焦外框，不然會被欄內捲動切掉 */
 
-  /* 左面板：放不下（更矮的螢幕）時只有它自己捲動 */
-  .side { gap: 12px; overflow-y: auto; scrollbar-width: thin; }
+  /* 左欄：放不下（更矮的螢幕）時只有它自己捲動；今日用量貼在欄底 */
+  .panel.side { margin-left: -6px; padding-right: 32px; gap: 16px; overflow-y: auto; scrollbar-width: thin; }
   .side > * { flex: none; }
+  .key-card.is-ready { margin-top: auto; }
   .key-card { padding: 12px 14px; border-radius: 14px; }
   .key-setup { gap: 10px; }
   .panel-title { font-size: 13px; }
@@ -516,9 +482,8 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   .fine { font-size: 11px; }
   .key-line { font-size: 13px; }
   .key-model, .key-usage { font-size: 12px; }
-  .pill-btn { min-height: 30px; padding: 0 12px; font-size: 12px; }
-  .pill-btn svg { width: 12px; height: 12px; }
-  .form { gap: 12px; }
+  .pill-btn { min-height: 28px; padding: 0 10px; font-size: 12px; }
+  .form { gap: 18px; }
   .field { gap: 6px; }
   .lbl { font-size: 13px; }
   legend.lbl { margin-bottom: 6px; }
@@ -541,19 +506,17 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   .btn-clear, .btn-again, .btn-stop { font-size: 14px; }
   .hint-err, .wait { font-size: 12px; }
 
-  /* 右面板：標頭固定，卡片清單自己捲動（上方留 10px，才不會被切掉） */
-  .results { display: flex; flex-direction: column; }
-  .results-head { flex: none; flex-wrap: nowrap; margin-bottom: 10px; }
-  .results-head .bar { height: 16px; }
-  .results-head h2 { font-size: 17px; }
+  /* 右欄：標頭固定，結果自己捲動；左右欄之間一條細線 */
+  .results { display: flex; flex-direction: column; padding-top: 6px; padding-left: 32px; border-top: 0; border-left: 1px solid var(--line); }
+  .results-head { flex: none; flex-wrap: nowrap; margin-bottom: 2px; }
+  .results-head h2 { font-size: 13px; }
   .msg { flex: none; margin-bottom: 10px; padding: 10px 12px; font-size: 13px; }
   .msg-detail { font-size: 12px; }
   .result-body {
     flex: 1 1 auto;
     min-height: 0;
-    gap: 12px;
-    margin-inline: -18px;
-    padding: 10px 18px 14px;
+    margin-inline: -6px;
+    padding: 0 6px 14px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(15, 23, 42, .22) transparent;
@@ -564,10 +527,10 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
   .tag, .badge { padding: 2px 8px; font-size: 11px; }
   .badge { margin-bottom: 6px; }
   .notes { padding: 10px 12px; font-size: 13px; }
-  .card { padding: 18px; border-radius: 16px; }
+  .card { padding-block: 18px; }
   .orig { margin-bottom: 8px; font-size: 17px; }
   .orig-sm { font-size: 13px; }
-  .out-text { font-size: 15px; }
+  .out-text { font-size: 16px; }
   :root { --copy-hit: 32px; --copy-b: 1px; }
   .copy svg { width: 15px; height: 15px; }
   .copy[data-hint]::after { font-size: 12px; }
@@ -575,30 +538,17 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
 
 /* 變色效果：滑鼠移上去（只限有滑鼠的裝置，觸控裝置點一下不會留下卡住的外觀）。鍵盤對焦的版本在上面各元件的 :focus-visible */
 @media (hover: hover) and (pointer: fine) {
-  .btn-secondary:hover:not(:disabled), .pill-btn:hover, .copy:hover { color: #fff; box-shadow: var(--glow-shadow); }
+  .btn-secondary:hover:not(:disabled), .pill-btn:hover, .copy:hover { color: #fff; box-shadow: none; }
   .btn-secondary:hover:not(:disabled)::before, .pill-btn:hover::before, .copy:hover::before { opacity: 1; animation-play-state: running; }
-  .btn-danger:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(180, 35, 24, .28); }
-  .btn-go:hover:not(:disabled) { box-shadow: 0 14px 32px rgba(37, 99, 235, .45), inset 0 1px 0 rgba(255, 255, 255, .35); }
   .btn-go:hover:not(:disabled)::before { opacity: 1; }
-  .btn-primary:hover:not(:disabled):not(.btn-go) { box-shadow: 0 12px 26px rgba(37, 99, 235, .4); }
   .tick:hover input:not(:checked) + span { color: var(--accent); background: var(--badge-bg); border-color: var(--accent); }
   .clear-x:hover { color: var(--fg); background: rgba(15, 23, 42, .06); }
 }
-/* 矮視窗：多了「避免」一組後左面板收緊一點，沒開自填欄時不用捲就看得到產生鈕 */
-@media (min-width: 1024px) and (max-height: 700px) {
-  .panel.side { padding-block: 16px; gap: 10px; }
-  .form { gap: 10px; }
-  input[type="text"], input[type="password"] { height: 38px; }
-  .ticks { gap: 6px; }
-  .tick span { min-height: 30px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before { transition: none; }
+  .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before, .fold-end svg { transition: none; }
   /* 流動停在 keyframes 0% 的畫面（各元素的 background-position 已寫成 0%） */
-  .tick input:checked + span, .btn-primary, .badge:not(.badge-soft), .results-head .bar,
-  .btn-secondary::before, .pill-btn::before, .copy::before { animation: none; }
+  .btn-primary, .btn-secondary::before, .pill-btn::before, .copy::before { animation: none; }
 }
 </style>
 </head>
@@ -610,39 +560,6 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
 
   <div class="layout">
     <div class="panel side">
-      <section class="key-card" id="key-panel" aria-labelledby="key-title">
-        <div id="key-setup" class="key-setup">
-          <h2 class="panel-title" id="key-title">設定 Gemini 金鑰（每個瀏覽器只要設一次）</h2>
-          <ol class="steps">
-            <li>打開 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 的金鑰頁面 ↗</a>，用 Google 帳號登入</li>
-            <li>按建立金鑰的按鈕（介面可能是英文 Create API key），建立後按複製</li>
-            <li>貼到下面的欄位，按「儲存金鑰」</li>
-          </ol>
-          <div class="field">
-            <label class="lbl" for="f-key">Gemini 金鑰</label>
-            <div class="key-row">
-              <input type="password" id="f-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="貼上金鑰">
-              <button type="button" class="btn btn-primary" id="btn-key-save">儲存金鑰</button>
-            </div>
-          </div>
-          <div class="key-small" id="key-extra" hidden>
-            <button type="button" class="btn btn-secondary btn-small" id="btn-key-cancel">取消</button>
-            <button type="button" class="btn btn-secondary btn-small btn-danger" id="btn-key-delete">刪除已存的金鑰</button>
-          </div>
-          <p class="hint-err" id="key-msg" role="alert" hidden></p>
-          <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
-          <p class="fine">金鑰只存在這台電腦，只會傳給 Google。<br>免費版每天約 500 次、每分鐘 15 次。<br>沒綁付款：額度用完就停止，不會花錢；有綁付款：可能從第一次就收費。<br>送出的文字 Google 可能用來改善服務，機密內容請勿輸入。</p>
-        </div>
-        <div id="key-ready" class="key-ready" hidden>
-          <div class="key-info">
-            <p class="key-line"><span class="key-name">GEMINI 金鑰</span><span class="dot" aria-hidden="true"></span><span class="key-state">已設定（結尾 <span id="key-tail" lang="en"></span>）</span></p>
-            <p class="key-model">模型 <span id="model-name" lang="en">自動選擇</span></p>
-            <p class="key-usage" id="usage-line">今日用量 <span id="usage-n" lang="en">0/500</span></p>
-          </div>
-          <button type="button" class="pill-btn" id="btn-key-change">更換金鑰<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
-      </section>
-
       <dialog class="limit-dlg" id="limit-dlg" aria-labelledby="limit-title">
         <form method="dialog">
           <h2 id="limit-title">今天已用 <span id="limit-count" lang="en">500/500</span></h2>
@@ -683,8 +600,9 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
           </div>
           <input type="text" id="f-other" autocomplete="off" aria-label="其他補充說明" placeholder="自行填寫，例：開幕酒會、寵物友善" hidden>
         </fieldset>
-        <fieldset class="field" id="avoid">
-          <legend class="lbl legend-row"><span>避免（可複選）</span><span class="opt">選填</span></legend>
+        <details class="fold" id="avoid-fold">
+          <summary><span class="label-row"><span class="lbl">避免（可複選）</span><span class="fold-end"><span class="opt" id="avoid-picked">選填</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></span></span></summary>
+          <fieldset class="field" id="avoid" aria-label="避免（可複選）">
           <div class="ticks">
             <label class="tick"><input type="checkbox" name="avoid" value="首購族"><span>首購族</span></label>
             <label class="tick"><input type="checkbox" name="avoid" value="小宅感"><span>小宅感</span></label>
@@ -696,7 +614,8 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
             <label class="tick"><input type="checkbox" name="avoid" value="其他" id="c-avoid-other"><span>其他</span></label>
           </div>
           <input type="text" id="f-avoid-other" autocomplete="off" aria-label="其他要避免的內容" placeholder="自行填寫，例：交通、學區" hidden>
-        </fieldset>
+          </fieldset>
+        </details>
         <div class="actions">
           <button type="submit" class="btn btn-primary btn-go" id="btn-go">
             <span class="label">產生</span>
@@ -718,11 +637,43 @@ legend.legend-row { display: flex; align-items: baseline; justify-content: space
         <p class="hint-err" id="input-msg" role="alert" hidden></p>
         <p class="wait" id="wait" role="status" hidden></p>
       </form>
+
+      <section class="key-card" id="key-panel" aria-labelledby="key-title">
+        <div id="key-setup" class="key-setup">
+          <h2 class="panel-title" id="key-title">設定 Gemini 金鑰（每個瀏覽器只要設一次）</h2>
+          <ol class="steps">
+            <li>打開 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 的金鑰頁面 ↗</a>，用 Google 帳號登入</li>
+            <li>按建立金鑰的按鈕（介面可能是英文 Create API key），建立後按複製</li>
+            <li>貼到下面的欄位，按「儲存金鑰」</li>
+          </ol>
+          <div class="field">
+            <label class="lbl" for="f-key">Gemini 金鑰</label>
+            <div class="key-row">
+              <input type="password" id="f-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="貼上金鑰">
+              <button type="button" class="btn btn-primary" id="btn-key-save">儲存金鑰</button>
+            </div>
+          </div>
+          <div class="key-small" id="key-extra" hidden>
+            <button type="button" class="btn btn-secondary btn-small" id="btn-key-cancel">取消</button>
+            <button type="button" class="btn btn-secondary btn-small btn-danger" id="btn-key-delete">刪除已存的金鑰</button>
+          </div>
+          <p class="hint-err" id="key-msg" role="alert" hidden></p>
+          <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
+          <p class="fine">金鑰只存在這台電腦，只會傳給 Google。<br>免費版每天約 500 次、每分鐘 15 次。<br>沒綁付款：額度用完就停止，不會花錢；有綁付款：可能從第一次就收費。<br>送出的文字 Google 可能用來改善服務，機密內容請勿輸入。</p>
+        </div>
+        <div id="key-ready" class="key-ready" hidden>
+          <div class="key-info">
+            <p class="key-line" hidden><span class="key-name">GEMINI 金鑰</span><span class="dot" aria-hidden="true"></span><span class="key-state">已設定（結尾 <span id="key-tail" lang="en"></span>）</span></p>
+            <p class="key-model" hidden>模型 <span id="model-name" lang="en">自動選擇</span></p>
+            <p class="key-usage" id="usage-line">今日用量 <span id="usage-n" lang="en">0/500</span></p>
+          </div>
+          <button type="button" class="pill-btn" id="btn-key-change">更換金鑰</button>
+        </div>
+      </section>
     </div>
 
     <main class="panel results" id="results" aria-label="產生結果">
       <div class="results-head">
-        <span class="bar" aria-hidden="true"></span>
         <h2>生成結果</h2>
       </div>
       <p class="msg" id="msg" role="status" hidden></p>
@@ -980,6 +931,7 @@ const els = {
   ticks: Array.from(document.querySelectorAll('input[name="ctx"]')),
   avoidTicks: Array.from(document.querySelectorAll('input[name="avoid"]')),
   avoidOther: $("f-avoid-other"), avoidOtherBox: $("c-avoid-other"),
+  avoidFold: $("avoid-fold"), avoidPicked: $("avoid-picked"), avoidGroup: $("avoid"),
   btnGo: $("btn-go"), btnAgain: $("btn-again"), btnStop: $("btn-stop"), btnClear: $("btn-clear"),
   inputMsg: $("input-msg"), wait: $("wait"),
   msg: $("msg"), results: $("results"), body: $("result-body"), sr: $("sr"),
@@ -1595,6 +1547,11 @@ function syncOther() {
   els.avoidOther.hidden = !els.avoidOtherBox.checked;
 }
 
+// 避免收起來時也要看得到勾了什麼，不然會忘記它還在作用
+function syncAvoidPicked() {
+  els.avoidPicked.textContent = pickedText(els.avoidTicks, els.avoidOtherBox, els.avoidOther, true) || "選填";
+}
+
 // 組出「補充說明：」「避免：」後面的字：勾選項依畫面上固定的順序用頓號串起來（「其他」本身不列出），
 // 有填自填欄就接「；其他：內容」。什麼都沒勾、也沒填就回傳空字串（呼叫端不加這一行）
 // plain：自填內容直接當清單的一項，不加「其他：」。避免要用這個——寫成「其他：交通」模型會當成要寫交通
@@ -1707,6 +1664,8 @@ els.btnClear.addEventListener("click", () => {
   for (const c of els.ticks) c.checked = false;
   for (const c of els.avoidTicks) c.checked = false;
   syncOther();
+  syncAvoidPicked();
+  els.avoidFold.open = false;
   hideInputMsg();
   els.title.focus();
 });
@@ -1716,8 +1675,10 @@ els.otherBox.addEventListener("change", () => {
 });
 els.avoidOtherBox.addEventListener("change", () => {
   syncOther();
+  syncAvoidPicked();
   if (els.avoidOtherBox.checked) els.avoidOther.focus();
 });
+els.avoidGroup.addEventListener("input", syncAvoidPicked);
 
 /* ---------- 新增的純外觀小功能（不碰上面任何邏輯）：輸入框 × ---------- */
 
@@ -1739,6 +1700,7 @@ model = loadLS(LS_MODEL);
 showKeyState(false);
 showUsage();
 syncOther();
+syncAvoidPicked();
 </script>
 </body>
 </html>
