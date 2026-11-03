@@ -12,7 +12,7 @@
    桌機（≥1024px）整頁固定一個螢幕高：頁首＋左右兩欄，頁面本身不捲；左欄放表單與今日用量，
    右欄標頭固定、下面的結果在欄內捲動。手機／平板（<1024px）單欄，整頁正常捲動。
    結果每一段之間用細線分開：標籤、中文、全大寫與一般大小寫（各有圓形複製鈕）。
-   按鈕只有一種互動：滑鼠移上去（只限有滑鼠的裝置）或鍵盤對焦時，底色漸變成藍色漸層＋細顆粒，字與圖示轉白。 */
+   按鈕只有一種互動：滑鼠移上去（只限有滑鼠的裝置）或鍵盤對焦時，底色漸變成跟已選小標籤一樣的淺灰底＋細框，字與圖示轉深色。 */
 :root {
   --bg: #FBFBFC;
   --card: #FFFFFF;
@@ -32,20 +32,8 @@
   --ring: rgba(37, 99, 235, .45);
   --copy-hit: 40px; /* 複製鈕可點擊區；視覺圓圈 = 可點擊區 − 2×--copy-b */
   --copy-b: 3px;
-  /* 細顆粒：內嵌 SVG（feTurbulence 雜訊轉灰階），不載入任何外部圖檔。--grain-s 是同一張圖、自帶較低強度，給 hover 底色用 */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* 細顆粒：內嵌 SVG（feTurbulence 雜訊轉灰階），不載入任何外部圖檔。--grain-s 自帶較低強度，只剩刪除鈕 hover 在用 */
   --grain-s: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
-  /* 流動漸層（2026-10-30 使用者看 ShaderGradient 後選「A 藍色流動」）：靛紫、深青藍、品牌藍三團色光在藍底上慢慢漂。
-     只換色相、不變亮。每個顏色對白字都 ≥6:1，是因為顆粒會讓個別像素變亮約兩成；樣本版用 5.6:1 的顏色，
-     實測逐像素最差只剩 4.53:1，所以壓深到現在的值，不要隨手調亮。--flow-size 讓色光比元素大，移動 background-position 才看得到流動 */
-  --flow:
-    radial-gradient(ellipse 38% 60% at 25% 35%, rgba(93, 71, 222, .95) 0%, rgba(93, 71, 222, 0) 70%),
-    radial-gradient(ellipse 34% 60% at 75% 65%, rgba(10, 98, 188, .95) 0%, rgba(10, 98, 188, 0) 70%),
-    radial-gradient(ellipse 40% 60% at 55% 20%, rgba(54, 84, 217, .8) 0%, rgba(54, 84, 217, 0) 70%),
-    linear-gradient(125deg, #1E40AF 0%, #2B55D8 30%, #3B4FD8 50%, #0A60B9 70%, #1D4ED8 100%);
-  --flow-size: 170% 200%, 180% 210%, 160% 190%, 220% 220%;
-  /* 按鈕 hover 底色：同一個流動漸層，上面蓋一層較淡的顆粒（--grain-s）。用全強度 --grain 實測白字最差 2.7:1 */
-  --hover-fill: var(--grain-s), var(--flow);
   --hover-fill-danger:
     var(--grain-s),
     radial-gradient(ellipse 26% 60% at 100% 0%, rgba(240, 220, 218, .3) 0%, rgba(240, 220, 218, 0) 100%),
@@ -246,7 +234,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 .btn-danger { color: var(--error); }
 
 /* 會變色的按鈕（清除、換一組、停止、取消、刪除、更換金鑰、複製）：
-   底下有一層 ::before 放 hover 底色，平常透明，hover／對焦時淡入；字與圖示同步轉白 */
+   底下有一層 ::before 放 hover 底色，平常透明，hover／對焦時淡入；字與圖示同步轉深色（刪除鈕轉白） */
 .btn-secondary::before,
 .pill-btn::before,
 .copy::before,
@@ -260,16 +248,12 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   opacity: 0;
   transition: opacity .3s ease;
 }
-.btn-secondary::before, .pill-btn::before, .copy::before {
-  background-image: var(--hover-fill);
-  background-blend-mode: soft-light, normal, normal, normal, normal;
-  background-size: 180px 180px, var(--flow-size);
-  background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%;
-  animation: flow-g 12s ease-in-out infinite alternate paused; /* 平常看不見就不動，省得每顆複製鈕都在背後重畫 */
-}
-.btn-danger::before { background-image: var(--hover-fill-danger); background-size: auto; background-position: 0 0; animation: none; }
-.btn-secondary:focus-visible, .pill-btn:focus-visible, .copy:focus-visible { color: #fff; box-shadow: none; }
-.btn-secondary:focus-visible::before, .pill-btn:focus-visible::before, .copy:focus-visible::before { opacity: 1; animation-play-state: running; }
+/* hover 底色：2026-11-03 使用者不要藍色流動，改成跟「已選的小標籤」同色（淺灰底、細框、深色字） */
+.btn-secondary::before, .pill-btn::before, .copy::before { background: #E9EBEF; box-shadow: inset 0 0 0 1px #8A909B; }
+.btn-danger::before { background-image: var(--hover-fill-danger); box-shadow: none; }
+.btn-secondary:focus-visible, .pill-btn:focus-visible, .copy:focus-visible { color: var(--fg); box-shadow: none; }
+.btn-danger:focus-visible { color: #fff; }
+.btn-secondary:focus-visible::before, .pill-btn:focus-visible::before, .copy:focus-visible::before { opacity: 1; }
 
 .actions { display: flex; flex-direction: column; gap: 10px; }
 .actions .btn { width: 100%; }
@@ -296,12 +280,6 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   transition: color .3s ease, box-shadow .3s ease;
 }
 
-/* 最上面多一層顆粒的版本（hover 底層）：第一層是顆粒，位置固定 */
-@keyframes flow-g {
-  0%   { background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%; }
-  50%  { background-position: 0 0, 100% 50%, 0% 50%, 0% 100%, 100% 50%; }
-  100% { background-position: 0 0, 50% 100%, 50% 0%, 100% 50%, 50% 0%; }
-}
 .btn-go {
   gap: 9px;
   min-height: 52px;
@@ -506,8 +484,9 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 
 /* 變色效果：滑鼠移上去（只限有滑鼠的裝置，觸控裝置點一下不會留下卡住的外觀）。鍵盤對焦的版本在上面各元件的 :focus-visible */
 @media (hover: hover) and (pointer: fine) {
-  .btn-secondary:hover:not(:disabled), .pill-btn:hover, .copy:hover { color: #fff; box-shadow: none; }
-  .btn-secondary:hover:not(:disabled)::before, .pill-btn:hover::before, .copy:hover::before { opacity: 1; animation-play-state: running; }
+  .btn-secondary:hover:not(:disabled), .pill-btn:hover, .copy:hover { color: var(--fg); box-shadow: none; }
+  .btn-danger:hover:not(:disabled) { color: #fff; }
+  .btn-secondary:hover:not(:disabled)::before, .pill-btn:hover::before, .copy:hover::before { opacity: 1; }
   .btn-go:hover:not(:disabled)::before { opacity: 1; }
   .tick:hover input:not(:checked) + span { color: var(--accent); background: var(--badge-bg); border-color: var(--accent); }
   .clear-x:hover { color: var(--fg); background: rgba(15, 23, 42, .06); }
@@ -515,8 +494,6 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before, .fold-end svg { transition: none; }
-  /* 流動停在 keyframes 0% 的畫面（各元素的 background-position 已寫成 0%） */
-  .btn-secondary::before, .pill-btn::before, .copy::before { animation: none; }
 }
 </style>
 </head>
