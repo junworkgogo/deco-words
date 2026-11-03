@@ -214,19 +214,6 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 }
 /* 已選：淺灰底、深色字、深一點的細框 */
 .tick input:checked + span { color: var(--fg); font-weight: 500; background: #E9EBEF; border-color: #8A909B; }
-/* 主要按鈕的常駐細顆粒：放在文字下面（z-index:-1，自己是獨立堆疊層） */
-.btn-primary::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  background-image: var(--grain);
-  background-size: 180px 180px;
-  mix-blend-mode: soft-light;
-  opacity: .3; /* 2026-10-30 使用者要「有點躁點感」，從 .1 加重 */
-}
 /* 未選的勾選膠囊：移上去／鍵盤對焦時變淡藍底、藍框、藍字 */
 .tick input:focus-visible + span { outline: 3px solid var(--ring); outline-offset: 2px; }
 .tick input:not(:checked):focus-visible + span { color: var(--accent); background: var(--badge-bg); border-color: var(--accent); }
@@ -252,7 +239,8 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 }
 .btn:disabled { cursor: not-allowed; opacity: .55; }
 .btn svg { width: 18px; height: 18px; }
-.btn-primary { color: #fff; }
+/* 主要按鈕（產生、儲存金鑰）：2026-11-03 使用者給圖，純色亮螢光（色碼從他的圖取）＋深灰字，沒有流動和顆粒 */
+.btn-primary { color: var(--ctl-fg); background-color: #C7F856; }
 .btn-secondary { color: var(--ctl-fg); background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
 .btn-small { min-height: 40px; padding: 0 16px; font-size: 14px; }
 .btn-danger { color: var(--error); }
@@ -308,21 +296,6 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   transition: color .3s ease, box-shadow .3s ease;
 }
 
-/* 流動底只留給主要按鈕（產生、儲存金鑰）。三團色光大小不同、
-   用同一個 keyframes 移動 background-position，就會用不同速度流過去。background-position 寫成 keyframes 0%，
-   減少動態設定時就停在這一格 */
-.btn-primary {
-  background-color: #2563EB;
-  background-image: var(--flow);
-  background-size: var(--flow-size);
-  background-position: 0% 0%, 100% 100%, 50% 0%, 0% 50%;
-  animation: flow 12s ease-in-out infinite alternate;
-}
-@keyframes flow {
-  0%   { background-position: 0% 0%, 100% 100%, 50% 0%, 0% 50%; }
-  50%  { background-position: 100% 50%, 0% 50%, 0% 100%, 100% 50%; }
-  100% { background-position: 50% 100%, 50% 0%, 100% 50%, 50% 0%; }
-}
 /* 最上面多一層顆粒的版本（hover 底層）：第一層是顆粒，位置固定 */
 @keyframes flow-g {
   0%   { background-position: 0 0, 0% 0%, 100% 100%, 50% 0%, 0% 50%; }
@@ -330,23 +303,18 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   100% { background-position: 0 0, 50% 100%, 50% 0%, 100% 50%, 50% 0%; }
 }
 .btn-go {
-  gap: 10px;
-  justify-content: flex-start;
+  gap: 9px;
   min-height: 52px;
-  padding: 0 8px 0 22px;
+  padding: 0 16px;
   font-size: 16px;
+  font-weight: 400;
   letter-spacing: .04em;
 }
-/* hover／對焦再亮一階：右側邊緣多一層亮藍與銀光（刻意離開文字） */
-.btn-go::before {
-  background:
-    radial-gradient(ellipse 36% 130% at 100% 15%, rgba(127, 178, 255, .5) 0%, rgba(127, 178, 255, 0) 100%),
-    radial-gradient(ellipse 30% 70% at 88% 100%, rgba(230, 234, 240, .3) 0%, rgba(230, 234, 240, 0) 100%);
-}
+/* hover／對焦：底色深一階 */
+.btn-go::before { background: #B8EC3E; }
 .btn-go:focus-visible::before { opacity: 1; }
-.btn-go .label { flex: 1; text-align: left; }
-.btn-go .arrow { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, .3); }
-.btn-go .arrow svg { width: 18px; height: 18px; }
+.btn-go .arrow { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #fff; }
+.btn-go .arrow svg { width: 12px; height: 12px; }
 .btn-clear, .btn-again, .btn-stop { font-size: 15px; }
 
 /* 結果面板 */
@@ -498,11 +466,11 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   .btn { min-height: 46px; padding: 0 12px; font-size: 14px; border-radius: 23px; gap: 6px; }
   .btn-small { min-height: 32px; padding: 0 14px; font-size: 12px; }
   .btn svg { width: 16px; height: 16px; }
-  .actions { flex-direction: row; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+  .actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; }
   .actions .btn { width: auto; flex: 1 1 76px; }
-  .actions .btn-go { flex: 1.6 1 112px; min-height: 46px; padding: 0 8px 0 16px; font-size: 15px; }
-  .btn-go .arrow { width: 30px; height: 30px; }
-  .btn-go .arrow svg { width: 15px; height: 15px; }
+  .actions .btn-go { flex: 1.6 1 112px; min-height: 51px; padding: 0 16px; font-size: 15px; }
+  .btn-go .arrow { width: 19px; height: 19px; }
+  .btn-go .arrow svg { width: 11px; height: 11px; }
   .btn-clear, .btn-again, .btn-stop { font-size: 14px; }
   .hint-err, .wait { font-size: 12px; }
 
@@ -548,7 +516,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   html { scroll-behavior: auto; }
   .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before, .fold-end svg { transition: none; }
   /* 流動停在 keyframes 0% 的畫面（各元素的 background-position 已寫成 0%） */
-  .btn-primary, .btn-secondary::before, .pill-btn::before, .copy::before { animation: none; }
+  .btn-secondary::before, .pill-btn::before, .copy::before { animation: none; }
 }
 </style>
 </head>
