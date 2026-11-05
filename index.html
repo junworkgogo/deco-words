@@ -532,7 +532,7 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
 <div class="shell">
   <header class="topbar">
     <h1>英🦠幫幫我</h1>
-    <a class="tool-link" href="https://claude.ai/artifact/VUynSJ3y1RkM5doYMnieAA" target="_blank" rel="noopener noreferrer" title="前往家配咒語（需登入 Claude）">家配咒語 <span aria-hidden="true">↗</span></a>
+    <a class="tool-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer" title="前往家配咒語">家配咒語 <span aria-hidden="true">↗</span></a>
   </header>
 
   <div class="layout">
@@ -703,7 +703,8 @@ still-professional English. When the headline is negative, critical, humorous, o
 ## What you write
 
 1. 主標 translation ("headline"): first get what the Chinese actually means right, then phrase it the way a native English real estate copywriter would, not word for word. Short and rhythmic; for a compact Chinese phrase keep it under about 8 words. Keep project names, developer names, addresses and numbers exactly as given. Do not add claims, superlatives or amenities that are not in the source.
-2. 副標 translation ("subhead"): only when the user gave a 副標; same rules, may be a little longer than the headline. With no 副標, leave "subhead" out of the reply.
+   Also give "oneWords": exactly 2 one-word translations of the 主標. Each is one single English word (letters only, no spaces, no hyphens, no article) that could stand alone in place of the whole headline because it covers what the headline means as a whole, not just its first or most striking word. The two must be different words, must take different angles, and must not repeat any accent. They are translations, so they keep the same subject and mood, negative included, and never add anything the source does not say; an avoided thing can only appear when the source itself says it.
+2. 副標 translation ("subhead"): only when the user gave a 副標; same rules, may be a little longer than the headline. Its "oneWords" are 2 one-word translations of the 副標, chosen the same way and different from the words given for the 主標. With no 副標, leave "subhead" out of the reply.
 3. Exactly 3 裝飾字 (decorative accents): English words or very short phrases (1-4 words)
    that are NOT a translation of the headline but match its theme and mood, for layering
    onto a design: a small line under a logo, a watermark word behind the headline, a corner
@@ -766,13 +767,15 @@ A Return to Ease · Quiet Luxury · Home, Elevated
 
 Reply with one JSON object in this shape:
 
-{"notes":[],"headline":{"text":"Stillness at the city's heart","words":[{"w":"Stillness","lemma":"stillness","pos":"名詞","zh":"寂靜，平靜"},{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]},"subhead":{"text":"A tranquil residence at the center of a bustling city","words":[{"w":"tranquil","lemma":"tranquil","pos":"形容詞","zh":"寧靜的，平靜的"},{"w":"residence","lemma":"residence","pos":"名詞","zh":"住宅，住所"}]},"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside","gist":"位在城市中心，把喧囂留在門外","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
+{"notes":[],"headline":{"text":"Stillness at the city's heart","oneWords":[{"text":"Serenity","zh":"寧靜，安詳"},{"text":"Sanctuary","zh":"靜謐的棲身之所"}],"words":[{"w":"Stillness","lemma":"stillness","pos":"名詞","zh":"寂靜，平靜"},{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]},"subhead":{"text":"A tranquil residence at the center of a bustling city","oneWords":[{"text":"Haven","zh":"避風港，安居之處"},{"text":"Retreat","zh":"遠離喧囂的居所"}],"words":[{"w":"tranquil","lemma":"tranquil","pos":"形容詞","zh":"寧靜的，平靜的"},{"w":"residence","lemma":"residence","pos":"名詞","zh":"住宅，住所"}]},"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside","gist":"位在城市中心，把喧囂留在門外","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
 
 The word lists in this example are shortened. In your reply, list every content word of the
 headline, the subhead, each accent and the paragraph, as described above.
 
 - headline: text as normally written (sentence case, not all caps); words: the word list
-  described above.
+  described above. oneWords: exactly 2 items. text: the single word with its first letter
+  capitalized. zh: 中文意思 of that word as used here, one short line of Traditional Chinese.
+  oneWords do not go into the word list.
 - subhead: same shape as headline; include it only when a 副標 was given.
 - accents: exactly 3 items. text: the accent as normally written in sentence case (first
   letter capitalized, not all caps). zh: 中文意思, one line of Traditional Chinese.
@@ -805,8 +808,20 @@ const WORD_SCHEMA = {
 // 主標、副標的翻譯：一句英文＋它的實詞清單
 const TITLE_SCHEMA = {
   type: "OBJECT",
-  properties: { text: { type: "STRING" }, words: { type: "ARRAY", items: WORD_SCHEMA } },
-  required: ["text", "words"],
+  properties: {
+    text: { type: "STRING" },
+    // 2 個純單字的翻譯（2026-11-05 加）；字典小卡不用，所以沒有 words
+    oneWords: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: { text: { type: "STRING" }, zh: { type: "STRING" } },
+        required: ["text", "zh"],
+      },
+    },
+    words: { type: "ARRAY", items: WORD_SCHEMA },
+  },
+  required: ["text", "oneWords", "words"],
 };
 const SCHEMA = {
   type: "OBJECT",
@@ -1057,8 +1072,27 @@ function cleanWords(arr) {
   return out;
 }
 
+// 純單字翻譯：只留真的一個字（模型偶爾會回片語或連字號），去掉結尾句點和重複，最多 2 個。
+// 不合格的直接不顯示，不讓整次產生失敗；舊的歷史紀錄沒有這個欄位，回傳空陣列
+function cleanOneWords(arr) {
+  if (!Array.isArray(arr)) return [];
+  const seen = new Set();
+  const out = [];
+  for (const x of arr) {
+    if (!isObj(x) || !nonEmpty(x.text) || !nonEmpty(x.zh)) continue;
+    const t = oneLine(x.text).replace(/[.。]+$/, "");
+    if (!/^\p{L}+$/u.test(t)) continue;
+    const key = t.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ text: t.charAt(0).toUpperCase() + t.slice(1), zh: oneLine(x.zh) });
+    if (out.length === 2) break;
+  }
+  return out;
+}
+
 function normalizeTitleItem(x) {
-  return { text: oneLine(x.text), words: cleanWords(x.words) };
+  return { text: oneLine(x.text), oneWords: cleanOneWords(x.oneWords), words: cleanWords(x.words) };
 }
 
 // title、sub：使用者輸入的中文主標、副標（畫面上要顯示原文）；sub 是空字串就不輸出 subhead
@@ -1474,6 +1508,19 @@ function titleBlock(label, zh, item) {
     caseRow("一般大小寫", item.text, "normal", "複製" + label + "一般大小寫"));
 }
 
+// 主標／副標的 2 個純單字翻譯：每個一段，排法跟裝飾字相同，放在該則翻譯正下方（舊歷史紀錄沒有就不顯示）
+function oneWordsBlock(label, item) {
+  const frag = document.createDocumentFragment();
+  (item.oneWords || []).forEach((w, i) => {
+    const who = label + "第 " + (i + 1) + " 個單字";
+    frag.append(card(label + "單字", true,
+      h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文意思：" }), w.zh),
+      caseRow("全大寫", upper(w.text), "upper", "複製" + who + "全大寫"),
+      caseRow("一般大小寫", w.text, "normal", "複製" + who + "一般大小寫")));
+  });
+  return frag;
+}
+
 // 3 組裝飾字：每組一張卡片，中文意思放在最上面一行
 function accentsBlock(r) {
   const frag = document.createDocumentFragment();
@@ -1503,8 +1550,8 @@ function render(r) {
   if (r.notes && r.notes.length) {
     els.body.append(h("aside", { class: "notes", "aria-label": "提示" }, r.notes.map((n) => h("p", { text: n }))));
   }
-  els.body.append(titleBlock("主標", r.title, r.headline));
-  if (r.sub && r.subhead) els.body.append(titleBlock("副標", r.sub, r.subhead));
+  els.body.append(titleBlock("主標", r.title, r.headline), oneWordsBlock("主標", r.headline));
+  if (r.sub && r.subhead) els.body.append(titleBlock("副標", r.sub, r.subhead), oneWordsBlock("副標", r.subhead));
   els.body.append(accentsBlock(r), paragraphBlock(r));
   els.body.scrollTop = 0; // 桌機的卡片清單在面板內捲動；重新產生後回到最上面
 }
