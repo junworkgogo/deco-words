@@ -1303,6 +1303,23 @@ async function withTimeLimit(outer, sec, run) {
   }
 }
 
+// 換一組要避開的單字：同一組主副標已經出現過的（右邊正在顯示的，加上歷史紀錄裡的）
+function usedOneWords(title, sub) {
+  const seen = new Map();
+  for (const r of [shownResult].concat(readHistory().map((x) => x.r))) {
+    if (!r || r.title !== title || (r.sub || "") !== sub) continue;
+    const list = (r.headline.oneWords || []).concat((r.subhead && r.subhead.oneWords) || []);
+    for (const w of list) seen.set(w.text.toLowerCase(), w.text);
+  }
+  return [...seen.values()];
+}
+function anotherSetHint(title, sub) {
+  const base = "This is a request for another set: choose three different accents and write a differently worded paragraph. Keep the headline and subhead translations accurate; they may stay the same.";
+  const used = usedOneWords(title, sub);
+  if (!used.length) return base;
+  return base + " Give new oneWords too. These words were already shown, so do not use any of them again, for the headline or the subhead: " + used.join(", ") + ". The new words must still cover what the source means.";
+}
+
 async function askGemini(title, sub, extra, avoid, fresh, signal) {
   if (!model) {
     model = await findModel(apiKey, signal);
@@ -1313,7 +1330,7 @@ async function askGemini(title, sub, extra, avoid, fresh, signal) {
   if (sub) input += "\n副標：" + sub;
   if (extra) input += "\n補充說明：" + extra;
   if (avoid) input += "\n避免：" + avoid + "\n(Do not write about any of these in the accents or the paragraph.)";
-  if (fresh) input += "\n\nThis is a request for another set: choose three different accents and write a differently worded paragraph. Keep the headline and subhead translations accurate; they may stay the same.";
+  if (fresh) input += "\n\n" + anotherSetHint(title, sub);
   let data;
   try {
     data = await withTimeLimit(signal, FIRST_TRY, (s) => callModel(model, input, s));
@@ -1546,6 +1563,7 @@ function paragraphBlock(r) {
 }
 
 function render(r) {
+  shownResult = r;
   els.body.replaceChildren();
   if (r.notes && r.notes.length) {
     els.body.append(h("aside", { class: "notes", "aria-label": "提示" }, r.notes.map((n) => h("p", { text: n }))));
@@ -1605,6 +1623,7 @@ function pickedText(ticks, otherBox, otherInput, plain) {
 const LS_HISTORY = "decoWords.history.v1";
 const HISTORY_MAX = 5;
 let shownId = ""; // 右邊現在顯示的是哪一筆
+let shownResult = null; // 右邊現在顯示的結果；無痕視窗存不了歷史紀錄時，換一組也知道要避開哪些單字
 
 function validRecord(x) {
   if (!isObj(x) || !nonEmpty(x.id) || !isObj(x.input) || !isObj(x.r)) return false;
