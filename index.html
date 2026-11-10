@@ -345,6 +345,22 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   border-bottom: 1px solid var(--line);
 }
 .card:last-child { border-bottom: 0; }
+/* 2026-11-10 結果分四格（他說太亂）：主標＋副標／單字／裝飾字／英文小段。每格白底細框，格內每筆之間一條細線 */
+.group { display: flex; flex-direction: column; min-width: 0; margin-top: 12px; padding: 14px 14px 2px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.group > .badge { margin-bottom: 0; }
+.group .card { padding-block: 12px; }
+.orig-tag { margin-right: 8px; font-size: 12px; font-weight: 400; color: var(--muted); vertical-align: 2px; }
+.word-row { padding-top: 12px; }
+.word-row + .word-row { margin-top: 2px; border-top: 1px solid var(--line); }
+.word-sub { margin: 0; font-size: 12px; line-height: 1.4; color: var(--muted); }
+.word-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.group .word-grid > .card { padding-block: 6px 10px; border-bottom: 0; }
+.word-grid > .card + .card { padding-top: 10px; border-top: 1px dashed var(--line); }
+@media (min-width: 700px) {
+  .group { padding-inline: 18px; }
+  .word-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
+  .word-grid > .card + .card { padding-top: 6px; border-top: 0; }
+}
 .orig { margin: 0 0 10px; min-width: 0; font-size: 18px; line-height: 1.4; font-weight: 600; overflow-wrap: anywhere; }
 .orig-sm { font-size: 14px; font-weight: 700; color: var(--ctl-fg); }
 .case { display: block; min-width: 0; margin-top: 2px; }
@@ -1512,54 +1528,57 @@ function caseRow(name, text, kind, aria) {
   return h("div", { class: "case" }, h("span", { class: "case-name sr-only", text: name }), outRow(text, kind, aria));
 }
 
-// 一張結果卡片：標籤膠囊（h3）＋內容；soft＝灰底標籤（裝飾字、英文小段）
-function card(label, soft, ...kids) {
-  return h("article", { class: "card" }, h("h3", { class: soft ? "badge badge-soft" : "badge", text: label }), kids);
+// 2026-11-10 起結果分四格（他說太亂）：主標＋副標／單字／裝飾字／英文小段。
+// 一格＝白底細框，最上面是這格的名稱（h3 灰底標籤），格內每筆之間一條細線
+function group(title, ...kids) {
+  return h("section", { class: "group", "aria-label": title }, h("h3", { class: "badge badge-soft", text: title }), ...kids.flat()); // h() 只攤平一層，傳進來的陣列要先攤開
 }
 
-// 主標／副標：中文原文一行、全大寫、一般大小寫（各有複製鈕）、字典查證
-function titleBlock(label, zh, item) {
-  return card(label, false,
-    h("p", { class: "orig" }, h("span", { class: "sr-only", text: "中文原文：" }), zh),
+// 主標／副標一筆：小字「主標」＋中文原文一行、全大寫、一般大小寫（各有複製鈕）
+function titleItem(label, zh, item) {
+  return h("article", { class: "card" },
+    h("p", { class: "orig" }, h("span", { class: "orig-tag", text: label }), h("span", { class: "sr-only", text: "中文原文：" }), zh),
     caseRow("全大寫", upper(item.text), "upper", "複製" + label + "全大寫"),
     caseRow("一般大小寫", item.text, "normal", "複製" + label + "一般大小寫"));
 }
 
-// 主標／副標的 2 個純單字翻譯：每個一段，排法跟裝飾字相同，放在該則翻譯正下方（舊歷史紀錄沒有就不顯示）
-function oneWordsBlock(label, item) {
-  const frag = document.createDocumentFragment();
-  (item.oneWords || []).forEach((w, i) => {
-    const who = label + "第 " + (i + 1) + " 個單字";
-    frag.append(card(label + "單字", true,
-      h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文意思：" }), w.zh),
-      caseRow("全大寫", upper(w.text), "upper", "複製" + who + "全大寫"),
-      caseRow("一般大小寫", w.text, "normal", "複製" + who + "一般大小寫")));
-  });
-  return frag;
+// 單字、裝飾字、英文小段一筆：中文意思一行在上，下面全大寫、一般大小寫；who 用在複製鈕的語音說明
+function smallItem(zhName, zh, text, who, kind) {
+  const k = kind ? kind + " " : "";
+  return h("article", { class: "card" },
+    h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: zhName }), zh),
+    caseRow("全大寫", upper(text), k + "upper", "複製" + who + "全大寫"),
+    caseRow("一般大小寫", text, k + "normal", "複製" + who + "一般大小寫"));
 }
 
-// 3 組裝飾字：每組一張卡片，中文意思放在最上面一行
-function accentsBlock(r) {
-  const frag = document.createDocumentFragment();
-  r.accents.forEach((a, i) => {
-    const who = "第 " + (i + 1) + " 組裝飾字";
-    frag.append(card("裝飾字", true,
-      h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文意思：" }), a.zh),
-      caseRow("全大寫", upper(a.text), "upper", "複製" + who + "全大寫"),
-      caseRow("一般大小寫", a.text, "normal", "複製" + who + "一般大小寫")));
-  });
-  return frag;
+function titlesGroup(r) {
+  const hasSub = !!(r.sub && r.subhead);
+  return group(hasSub ? "主標・副標" : "主標",
+    titleItem("主標", r.title, r.headline),
+    hasSub ? titleItem("副標", r.sub, r.subhead) : null);
+}
+
+// 主標、副標的純單字翻譯放同一格：每則一列（桌機兩個並排），舊歷史紀錄沒有單字就整格不顯示
+function wordsGroup(r) {
+  const rows = [["主標", r.headline]];
+  if (r.sub && r.subhead) rows.push(["副標", r.subhead]);
+  const kept = rows.filter(([, it]) => it && it.oneWords && it.oneWords.length);
+  if (!kept.length) return null;
+  return group("單字", kept.map(([label, it]) => h("div", { class: "word-row" },
+    h("p", { class: "word-sub", text: label }),
+    h("div", { class: "word-grid" }, it.oneWords.map((w, i) =>
+      smallItem("中文意思：", w.zh, w.text, label + "第 " + (i + 1) + " 個單字"))))));
+}
+
+function accentsGroup(r) {
+  return group("裝飾字", r.accents.map((a, i) => smallItem("中文意思：", a.zh, a.text, "第 " + (i + 1) + " 組裝飾字")));
 }
 
 // 英文小段與中文大意不放句號（模型偶爾仍會在結尾加，這裡收掉結尾那一個）
 function noEndStop(t) { return t.replace(/[.。]+\s*$/, ""); }
 
-function paragraphBlock(r) {
-  const p = Object.assign({}, r.paragraph, { text: noEndStop(r.paragraph.text), gist: noEndStop(r.paragraph.gist) });
-  return card("英文小段", true,
-    h("p", { class: "orig orig-sm" }, h("span", { class: "sr-only", text: "中文大意：" }), p.gist),
-    caseRow("全大寫", upper(p.text), "para upper", "複製英文小段全大寫"),
-    caseRow("一般大小寫", p.text, "para normal", "複製英文小段一般大小寫"));
+function paragraphGroup(r) {
+  return group("英文小段", smallItem("中文大意：", noEndStop(r.paragraph.gist), noEndStop(r.paragraph.text), "英文小段", "para"));
 }
 
 function render(r) {
@@ -1568,9 +1587,10 @@ function render(r) {
   if (r.notes && r.notes.length) {
     els.body.append(h("aside", { class: "notes", "aria-label": "提示" }, r.notes.map((n) => h("p", { text: n }))));
   }
-  els.body.append(titleBlock("主標", r.title, r.headline), oneWordsBlock("主標", r.headline));
-  if (r.sub && r.subhead) els.body.append(titleBlock("副標", r.sub, r.subhead), oneWordsBlock("副標", r.subhead));
-  els.body.append(accentsBlock(r), paragraphBlock(r));
+  els.body.append(titlesGroup(r));
+  const words = wordsGroup(r);
+  if (words) els.body.append(words);
+  els.body.append(accentsGroup(r), paragraphGroup(r));
   els.body.scrollTop = 0; // 桌機的卡片清單在面板內捲動；重新產生後回到最上面
 }
 
