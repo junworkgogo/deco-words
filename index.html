@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="deco-build" content="20261112-premium4">
 <meta name="referrer" content="no-referrer">
-<title>英🦠</title>
+<title>DECO WORDS 2.0｜英文文案工作台</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%20fill%3D%22%23fff%22%20stroke%3D%22%230000FF%22%20stroke-width%3D%222.5%22%2F%3E%3Cg%20fill%3D%22%230000FF%22%3E%3Ccircle%20cx%3D%2211.5%22%20cy%3D%2212.5%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2220.5%22%20cy%3D%2212.5%22%20r%3D%221.5%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M10%2019q6%208%2012%200%22%20fill%3D%22none%22%20stroke%3D%22%230000FF%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
@@ -544,12 +544,262 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before, .fold-end svg, .hist, .hist-x, .tool-link { transition: none; }
 }
 </style>
-<link rel="stylesheet" href="deco-v2.css?v=interaction5">
+<style id="dw-v2-inline">
+
+/* DECO WORDS 2.0 — the approved light, minimal glass studio */
+:root{
+  --bg:#F3F4F6;--card:#FFFFFF;--line:#E8EAF0;--fg:#222632;
+  --fg-soft:#323844;--muted:#858B98;--ctl-fg:#414755;
+  --accent:#0000FF;--badge-bg:#EEEEFF;--ring:rgba(0,0,255,.22);
+}
+body.dw-studio-active{background:#F3F4F6;color:#222632;letter-spacing:0}
+.dw-studio-active .shell{max-width:1500px}
+.dw-studio-active .topbar{padding:2px 0 24px}
+.dw-studio-active .topbar h1{font-size:19px;font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:12px;color:#252732}
+.dw-brand-tag{font-size:10px;font-weight:500;color:#8B90A0;letter-spacing:.13em;padding-top:2px}
+.dw-studio-active .tool-link{background:rgba(255,255,255,.76);border:1px solid #E6E9F1;border-radius:12px;color:#656D7B;min-height:36px;font-size:12px}
+.dw-studio-active .layout{gap:22px;align-items:stretch}
+.dw-studio-active .panel{background:transparent}
+.dw-studio-active .dw-sidebar{gap:13px;min-width:0}
+.dw-studio-active .dw-form{
+  display:flex;flex-direction:column;gap:17px;min-width:0;padding:24px;
+  border:1px solid #E7E9F0;border-radius:19px;
+  background:rgba(255,255,255,.83);
+  box-shadow:0 9px 35px rgba(31,39,74,.035);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+}
+.dw-form-heading{margin:0 0 4px}
+.dw-form-heading .dw-eyebrow,.dw-workspace-title .dw-eyebrow{
+  display:block;font-size:10px;font-weight:600;color:#0000FF;letter-spacing:.13em;margin-bottom:7px
+}
+.dw-form-heading h2,.dw-workspace-title h2{
+  font-size:19px;font-weight:600;line-height:1.3;letter-spacing:0;margin:0 0 5px;color:#282C38
+}
+.dw-form-heading p{font-size:12px;color:#989DA9;margin:0;line-height:1.6}
+.dw-studio-active .dw-form .field{margin:0;gap:7px}
+.dw-studio-active .dw-form .lbl{color:#777D8B;font-size:12px;font-weight:500}
+.dw-studio-active .dw-form .opt{font-size:11px;color:#A4A8B4}
+.dw-studio-active .dw-form .input-wrap input[type=text]{
+  min-height:48px;height:48px;background:#F7F8FA;border:1px solid #ECEEF3;
+  padding:0 42px 0 14px;border-radius:12px;color:#272B38;font-size:14px
+}
+.dw-studio-active .dw-form .input-wrap input[type=text]:focus{
+  background:#fff;border-color:#0000FF;box-shadow:0 0 0 3px rgba(0,0,255,.07);outline:0
+}
+.dw-studio-active .dw-form ::placeholder{color:#A0A5B1}
+.dw-studio-active .dw-form .clear-x{color:#8A909C}
+.dw-studio-active .dw-form .dw-panel{
+  order:0;display:block;margin:0;padding:3px 0 0;border:0;border-radius:0;
+  background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none
+}
+.dw-studio-active .dw-form .dw-panel h3{font-size:13px;font-weight:600;color:#343846;margin:0 0 9px}
+.dw-studio-active .dw-form .dw-note{font-size:11px;color:#969BA9;margin:0 0 12px;line-height:1.6}
+.dw-studio-active #dw-length{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.dw-studio-active #dw-length button{
+  display:grid;place-items:center;min-width:0;min-height:39px;padding:8px 4px;
+  background:#F7F8FA;border:1px solid #ECEEF2;border-radius:10px;
+  color:#777D8D;font:inherit;font-size:11px;font-weight:400;line-height:1.4;
+  text-align:center;cursor:pointer
+}
+.dw-studio-active #dw-length button[aria-pressed=true]{
+  color:#0000FF;font-weight:600;background:#EFEFFF;border:1px solid #9999FF
+}
+.dw-studio-active #dw-generate{
+  margin:10px 0 3px;padding:0 12px;min-height:49px;width:100%;
+  border-radius:11px;background:#0000FF;color:#fff;font-size:14px;font-weight:600;
+  box-shadow:0 5px 13px rgba(0,0,255,.11)
+}
+.dw-studio-active #dw-generate:disabled{opacity:.55}
+.dw-studio-active #dw-generate:hover:not(:disabled){background:#1515DB}
+.dw-studio-active #dw-status{margin:4px 0 0;min-height:0;font-size:11px;color:#828897}
+.dw-studio-active .dw-advanced{margin:1px 0 0;padding:12px 0 0;border-top:1px solid #EFF0F4}
+.dw-studio-active .dw-advanced>summary{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:#777D8C;cursor:pointer;list-style:none;padding:5px 0;
+}
+.dw-studio-active .dw-advanced>summary::-webkit-details-marker{display:none}
+.dw-studio-active .dw-advanced>summary::after{content:"⌄";font-size:16px}
+.dw-studio-active .dw-advanced[open]>summary::after{content:"⌃"}
+.dw-studio-active .dw-advanced>.field,.dw-studio-active .dw-advanced>.fold{margin-top:12px}
+.dw-studio-active .dw-advanced .tick span{border:1px solid #E7E9F0;background:#F9F9FB;border-radius:10px;font-size:11px;min-height:36px}
+.dw-studio-active .dw-advanced .tick input:checked+span{color:#0000FF;border-color:#AAA9FF;background:#EFEFFF}
+.dw-studio-active .dw-advanced .actions{margin-top:12px;gap:8px}
+.dw-studio-active .dw-advanced .btn{min-height:40px;border-radius:10px}
+.dw-studio-active .dw-advanced .btn-primary{background:#EEEEFF;color:#0000FF}
+.dw-studio-active .dw-advanced .btn-go{background:#EEEEFF;color:#0000FF;min-height:41px}
+.dw-studio-active .dw-advanced #btn-go .label{font-size:0}
+.dw-studio-active .dw-advanced #btn-go .label::after{content:"產生完整翻譯";font-size:12px}
+.dw-studio-active .dw-advanced .btn-go .arrow{background:white;color:#0000FF}
+.dw-studio-active .dw-advanced .btn-secondary{background:#fff;border:1px solid #E8EAF1;color:#626979}
+.dw-studio-active .key-card:not(.is-ready){
+  order:0;background:rgba(255,255,255,.86);border:1px solid #E7E9F0;
+  border-radius:18px;padding:16px;box-shadow:0 5px 20px rgba(31,39,74,.025)
+}
+.dw-studio-active .key-card.is-ready{order:0;margin-top:0;padding:2px 7px}
+.dw-studio-active .key-card .fine{font-size:11px}
+.dw-studio-active .key-card .panel-title{font-size:12px}
+.dw-studio-active .key-card .key-ready{gap:8px}
+.dw-studio-active .key-card .key-usage{font-size:11px}
+.dw-studio-active .key-card .btn-primary{background:#0000FF;color:white}
+.dw-studio-active .panel.results{
+  display:flex;flex-direction:column;min-height:0;border:0;background:none
+}
+.dw-studio-active .results-head{display:none}
+.dw-studio-active .dw-view-tabs{
+  flex:none;display:block;min-height:53px;padding:3px 0 12px;margin:0
+}
+.dw-workspace-title{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%}
+.dw-workspace-title h2{font-size:19px;margin:0}
+.dw-workspace-tools{display:flex;align-items:center;gap:7px}
+.dw-workspace-tools button,.dw-studio-active .dw-back{
+  font:inherit;font-size:11px;padding:8px 12px;min-height:36px;
+  background:rgba(255,255,255,.85);color:#777E8D;border:1px solid #E6E8EF;
+  border-radius:10px;cursor:pointer;white-space:nowrap
+}
+.dw-workspace-tools button:hover,.dw-studio-active .dw-back:hover{color:#0000FF;border-color:#A4A4FF}
+.dw-studio-active .dw-back{margin:6px 0 0}
+.dw-studio-active .dw-workspace{
+  flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;
+  padding:21px;border:1px solid #E6E8EF;border-radius:19px;
+  background:rgba(255,255,255,.83);box-shadow:0 9px 35px rgba(31,39,74,.035);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+}
+.dw-studio-active .dw-workspace>.dw-panel{
+  display:block;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;
+  backdrop-filter:none;-webkit-backdrop-filter:none
+}
+.dw-studio-active .dw-workspace>.dw-panel h3{
+  margin:0 0 14px;font-size:13px;font-weight:600;color:#393E4B
+}
+.dw-studio-active #dw-cards{display:grid;grid-template-columns:minmax(0,1fr);gap:11px}
+.dw-studio-active .dw-card{
+  min-width:0;margin:0;padding:15px 17px;background:#fff;border:1px solid #EAECF1;border-radius:13px;
+  box-shadow:0 3px 12px rgba(24,32,65,.02)
+}
+.dw-studio-active .dw-card.is-selected{border-color:#B4B4FF;background:#FDFDFF}
+.dw-studio-active .dw-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dw-studio-active .dw-card h4{margin:0;color:#0000FF;font-size:10px;font-weight:600;letter-spacing:.075em}
+.dw-card-placeholder-label{font-size:10px;color:#A4A9B6}
+.dw-card-icons{display:flex;align-items:center;gap:4px}
+.dw-studio-active .dw-card-icons .dw-icon-button{
+  display:grid;place-items:center;width:32px;height:32px;padding:0;background:transparent;
+  border:1px solid transparent;border-radius:9px;color:#969AA7;font-size:20px;cursor:pointer
+}
+.dw-studio-active .dw-card-icons .dw-icon-button:hover{color:#0000FF;background:#F1F1FF;border-color:#E5E5FF}
+.dw-studio-active .dw-card-icons .dw-icon-button.is-favorite{color:#0000FF}
+.dw-studio-active .dw-card-icons .dw-icon-button:disabled{opacity:.45;cursor:wait}
+.dw-studio-active .dw-card .dw-card-english{
+  font:500 19px/1.35 "Inter","Noto Sans TC",system-ui,sans-serif;
+  margin:8px 0 6px;color:#282C38;letter-spacing:-.015em
+}
+.dw-studio-active .dw-card .dw-card-meaning{margin:0;color:#989DA9;font-size:11px;line-height:1.5}
+.dw-studio-active .dw-card-empty{background:#FCFCFE;border:1px dashed #E7E8EE}
+.dw-studio-active .dw-card-empty .dw-card-english{color:#A2A7B3;font-size:16px;font-weight:400}
+.dw-studio-active .dw-card-empty .dw-card-meaning{color:#B6BAC4}
+.dw-studio-active .dw-card .dw-select-preview{
+  margin-top:9px;padding:5px 0;background:transparent;border:0;
+  font:inherit;font-size:11px;color:#777D8B;cursor:pointer
+}
+.dw-studio-active .dw-card.is-selected .dw-select-preview{color:#0000FF}
+.dw-studio-active .dw-card .dw-select-preview:hover{color:#0000FF}
+.dw-studio-active #dw-typesetter{margin-top:23px;padding-top:20px;border-top:1px solid #EBEDF2}
+.dw-studio-active #dw-typesetter h3{margin-bottom:11px}
+.dw-studio-active .dw-fields{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0}
+.dw-studio-active .dw-fields label{font-size:11px;color:#737987}
+.dw-studio-active .dw-fields select,.dw-studio-active .dw-fields input{
+  font:inherit;font-size:11px;background:#F8F9FB;border:1px solid #E6E8EE;
+  border-radius:8px;color:#4E5564;padding:7px;margin-left:5px
+}
+.dw-studio-active .dw-preview{
+  min-height:148px;padding:25px 12px;background:#F7F8FA;border:1px solid #EBEDF2;border-radius:11px;
+  color:#272C38;font:500 clamp(18px,2.1vw,29px)/1.55 "Inter",system-ui,sans-serif;
+  text-align:center;white-space:pre-line;overflow-wrap:anywhere;display:grid;place-items:center
+}
+.dw-studio-active #dw-copy-preview{
+  font:inherit;font-size:12px;min-height:36px;margin-top:12px;padding:8px 15px;
+  border:1px solid #0000FF;border-radius:10px;background:#0000FF;color:#fff;cursor:pointer
+}
+.dw-studio-active #dw-copy-preview:hover{background:#1717DC}
+.dw-studio-active .dw-legacy #result-body{
+  display:flex;flex-direction:column;min-height:0;overflow:visible;max-height:none;
+  -webkit-mask-image:none;mask-image:none;margin:0;padding:0
+}
+.dw-studio-active .dw-legacy .group{background:white;border:1px solid #E9EBF0;border-radius:13px;margin-top:12px}
+.dw-studio-active .dw-legacy .history{background:none;border:0;border-bottom:1px solid #ECEEF3}
+.dw-studio-active .dw-fav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #ECEEF3;font-size:12px}
+.dw-studio-active .dw-fav-row span{overflow-wrap:anywhere}
+.dw-studio-active .dw-actions{display:flex;gap:6px;flex-wrap:wrap}
+.dw-studio-active .dw-actions button{
+  border:1px solid #E6E8EE;background:white;color:#757B87;
+  border-radius:8px;padding:6px 9px;font:inherit;font-size:11px;cursor:pointer
+}
+.dw-studio-active .dw-actions button:hover{color:#0000FF;border-color:#B1B1FF;background:#F7F7FF}
+.dw-studio-active .dw-actions button:disabled{opacity:.45}
+.dw-studio-active #dw-search{flex:1;min-width:130px}
+.dw-studio-active #dw-import{max-width:185px}
+@media(min-width:1024px){
+  .dw-studio-active html,.dw-studio-active body{height:100%;overflow:hidden}
+  .dw-studio-active .shell{height:100dvh;display:flex;flex-direction:column;padding-inline:32px;padding-bottom:24px}
+  .dw-studio-active .layout{
+    flex:1;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+    grid-template-rows:minmax(0,1fr);gap:20px;min-height:0
+  }
+  .dw-studio-active .panel.side{
+    min-height:0;margin:0;padding:0;overflow-y:auto;scrollbar-width:thin
+  }
+  .dw-studio-active .panel.results{
+    padding:0;min-height:0;overflow:hidden
+  }
+  .dw-studio-active .dw-workspace{min-height:0;overflow-y:auto}
+  .dw-studio-active .dw-sidebar .key-card.is-ready{margin-top:0}
+  .dw-studio-active .dw-advanced .ticks{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:1023px){
+  .dw-studio-active .shell{padding:16px}
+  .dw-studio-active .layout{display:flex;flex-direction:column;gap:18px}
+  .dw-studio-active .panel.side,.dw-studio-active .panel.results{padding:0;border:0;overflow:visible}
+  .dw-studio-active .dw-sidebar .dw-form{padding:19px}
+  .dw-studio-active .dw-workspace{padding:18px;overflow:visible}
+  .dw-studio-active .dw-workspace-title{flex-wrap:wrap}
+}
+@media(max-width:450px){
+  .dw-studio-active .topbar h1{font-size:16px}
+  .dw-studio-active .dw-sidebar .dw-form{padding:16px}
+  .dw-studio-active .dw-workspace{padding:14px}
+  .dw-studio-active .dw-card{padding:13px}
+  .dw-studio-active .dw-card .dw-card-english{font-size:17px}
+  .dw-studio-active .dw-workspace-tools button{font-size:10px;padding:7px 9px}
+  .dw-studio-active #dw-length button{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.dw-studio-active *{scroll-behavior:auto}}
+
+
+/* Layout fidelity: one continuous work area, no result-mode tab switching */
+.dw-studio-active .panel.results{display:flex;flex-direction:column;min-height:0}
+.dw-studio-active .dw-workspace-title{padding:3px 0 14px;min-height:54px;flex:none}
+.dw-studio-active .dw-workspace-title h2{font-size:17px;margin:0}
+.dw-flow-label{font-size:11px;color:#9298A5;letter-spacing:.02em}
+.dw-studio-active .dw-workspace{display:flex;flex-direction:column;gap:0}
+.dw-studio-active #dw-results{display:block!important;flex:none}
+.dw-studio-active #dw-typesetter{display:block!important}
+.dw-inline-fold{display:block;margin-top:18px;padding:15px 0 0;border-top:1px solid #ECEEF3}
+.dw-inline-fold>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:12px;font-weight:500;color:#7C8190;padding:5px 2px}
+.dw-inline-fold>summary::-webkit-details-marker{display:none}
+.dw-inline-fold>summary::after{content:"⌄";font-size:15px;color:#878C98}
+.dw-inline-fold[open]>summary::after{content:"⌃";color:#0000FF}
+.dw-inline-fold[open]>summary{color:#0000FF;margin-bottom:14px}
+.dw-inline-fold>.dw-panel{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;background:transparent!important;backdrop-filter:none!important}
+.dw-inline-fold .dw-legacy{margin:0}
+.dw-studio-active #dw-cards{grid-template-columns:repeat(1,minmax(0,1fr))}
+.dw-studio-active .dw-workspace #dw-typesetter{margin-top:20px}
+@media(max-width:540px){.dw-flow-label{display:none}.dw-studio-active .dw-workspace-title{min-height:48px}}
+
+</style>
 </head>
 <body>
 <div class="shell">
   <header class="topbar">
-    <h1>英🦠</h1>
+    <h1>DECO WORDS <span style="font-size:11px;color:#0000FF">STUDIO 2.0</span></h1>
     <a class="tool-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer" title="前往家配咒語">家配咒語 <span aria-hidden="true">↗</span></a>
   </header>
 
@@ -1880,6 +2130,307 @@ syncOther();
 syncAvoidPicked();
 renderHistory();
 </script>
-<script src="deco-v2.js?v=interaction5" defer></script>
+<script id="dw-v2-inline-script">
+"use strict";
+/* DECO WORDS 2.0: standalone enhancement to original translator */
+(() => {
+  const root = document.getElementById("form");
+  const out = document.getElementById("result-body");
+  if (!root || !out) return;
+  const make = (tag, attributes = {}, ...children) => {
+    const e = document.createElement(tag);
+    for (const [key, value] of Object.entries(attributes)) {
+      if (key === "text") e.textContent = value;
+      else if (key === "class") e.className = value;
+      else e.setAttribute(key, value);
+    }
+    for (const child of children.flat()) if (child != null) e.append(child);
+    return e;
+  };
+  const $dw = id => document.getElementById(id);
+  const styles = [{id:"luxury",zh:"精品高級"},{id:"minimal",zh:"極簡俐落"},{id:"impact",zh:"廣告吸睛"}];
+  let length = "standard", selected = 0, entries = [], loading = false;
+  const storageKey = "decoWords.favorites.v2";
+  let favorites = [];
+  try {
+    const loaded = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    if (Array.isArray(loaded)) favorites = loaded.filter(x => x && typeof x.text === "string").slice(0, 500);
+  } catch (_) {}
+  const formBox = make("section",{"class":"dw-panel","aria-label":"英文提案設定"},
+    make("h3",{text:"英文長度"}),
+    make("p",{"class":"dw-note",text:"為不同廣告版面選擇合適的英文長度"}),
+    make("div",{"class":"dw-options",id:"dw-length"}),
+    make("button",{type:"button",id:"dw-generate","class":"btn btn-primary",text:"✦ 生成三組英文文案"}),
+    make("p",{"class":"dw-status",id:"dw-status",role:"status","aria-live":"polite"})
+  );
+  root.classList.add("dw-form");
+  document.body.classList.add("dw-studio-active");
+  const brand = document.querySelector(".topbar h1");
+  if (brand) brand.replaceChildren(make("span",{text:"DECO WORDS"}),make("span",{"class":"dw-brand-tag",text:"STUDIO 2.0"}));
+  document.title="DECO WORDS 2.0｜英文文案工作台";
+  document.querySelector(".side").classList.add("dw-sidebar");
+  root.insertBefore(make("div",{"class":"dw-form-heading"},
+    make("span",{"class":"dw-eyebrow",text:"01  /  YOUR COPY"}),
+    make("h2",{text:"中文文案"}),
+    make("p",{text:"從一句中文，找到適合設計的英文表達"})),root.firstElementChild);
+  root.querySelector("#f-sub").closest(".field").after(formBox);
+  const advanced = make("details",{"class":"dw-advanced",id:"dw-advanced"},
+    make("summary",{text:"更多設定與完整翻譯"}));
+  formBox.after(advanced);
+  advanced.append(document.getElementById("ctx"),document.getElementById("avoid-fold"),root.querySelector(".actions"));
+  // Keep the original form and all event bindings; only reorganize its controls.
+
+  const results = make("section",{"class":"dw-panel",id:"dw-results","aria-label":"三種語氣英文提案"},
+    make("h3",{text:"02  /  THREE STYLES"}),
+    make("div",{id:"dw-cards"}),
+    make("section",{id:"dw-typesetter"},
+      make("h3",{text:"03  /  英文排版預覽"}),
+      make("div",{"class":"dw-fields",id:"dw-fields"}),
+      make("div",{"class":"dw-preview",id:"dw-preview"}),
+      make("div",{"class":"dw-actions"},make("button",{type:"button",id:"dw-copy-preview",text:"複製排版文字"}))
+    )
+  );
+  results.hidden = false;
+  const favoritesBox = make("section",{"class":"dw-panel","aria-label":"英文收藏庫"},
+    make("div",{"class":"dw-card-head"},make("h3",{text:"我的英文收藏"}),
+      make("div",{"class":"dw-actions"},make("button",{id:"dw-export",type:"button",text:"匯出備份"}))),
+    make("p",{"class":"dw-note",text:"只儲存在目前瀏覽器；重要內容請匯出 JSON 備份"}),
+    make("div",{"class":"dw-fields"},
+      make("input",{id:"dw-search",type:"text",placeholder:"搜尋收藏","aria-label":"搜尋收藏"}),
+      make("label",{}, "匯入備份 ",make("input",{id:"dw-import",type:"file",accept:".json,application/json"}))
+    ),
+    make("div",{id:"dw-favorites"})
+  );
+  // The right side is one continuous interactive canvas, not a set of mutually exclusive tabs.
+  const parent = out.parentNode;
+  const stage=make("div",{"class":"dw-workspace",id:"dw-workspace"});
+  const heading=make("div",{"class":"dw-workspace-title"},
+    make("div",{},make("span",{"class":"dw-eyebrow",text:"02  /  ENGLISH STUDIO"}),
+      make("h2",{text:"三組英文提案"})),
+    make("span",{"class":"dw-flow-label",text:"選擇 · 預覽 · 收藏 · 複製"}));
+  const favoriteFold=make("details",{"class":"dw-inline-fold",id:"dw-favorites-fold"},
+    make("summary",{text:"♡  我的常用英文收藏"}),favoritesBox);
+  const legacyFold=make("details",{"class":"dw-inline-fold",id:"dw-legacy-fold"},
+    make("summary",{text:"完整翻譯與歷史紀錄"}));
+  const legacyBox=make("div",{"class":"dw-legacy"});
+  const history=document.getElementById("history");
+  if(history)legacyBox.append(history);
+  legacyBox.append(out);
+  legacyFold.append(legacyBox);
+  stage.append(results,favoriteFold,legacyFold);
+  parent.append(heading,stage);
+  function switchView(view) {
+    // Preserve the existing classic translation flow without replacing the three-card workspace.
+    if(view==="legacy"){
+      legacyFold.open=true;
+      legacyFold.scrollIntoView({block:"nearest",behavior:"smooth"});
+    } else if(view==="favorites"){
+      favoriteFold.open=true;
+      favoriteFold.scrollIntoView({block:"nearest",behavior:"smooth"});
+    }
+  }
+  root.addEventListener("submit",()=>switchView("legacy"));
+  document.getElementById("btn-again").addEventListener("click",()=>switchView("legacy"));
+  const status = text => { $dw("dw-status").textContent = text; };
+  const button = (label, onClick) => { const b = make("button",{type:"button",text:label});b.addEventListener("click",onClick);return b; };
+  const iconButton = (symbol,label,onClick) => {
+    const b=make("button",{type:"button","class":"dw-icon-button",title:label,"aria-label":label,text:symbol});
+    b.addEventListener("click",onClick);
+    return b;
+  };
+  const lengths = [{id:"short",label:"極短 1–3 字"},{id:"standard",label:"標準 4–6 字"},{id:"long",label:"完整 7–12 字"}];
+  function drawLengths() {
+    const box = $dw("dw-length");
+    box.replaceChildren(...lengths.map(item => button(item.label,() => {length=item.id;drawLengths();})));
+    Array.from(box.children).forEach((btn,i) => btn.setAttribute("aria-pressed",String(lengths[i].id === length)));
+  }
+  drawLengths();
+  const select = (name, items) => {
+    const el = make("select",{id:"dw-"+name});
+    for (const [value,label] of items) el.append(make("option",{value,text:label}));
+    el.addEventListener("change",drawPreview);
+    return make("label",{}, name === "case" ? "大小寫 " : name === "lines" ? "斷行 " : "字距 ",el);
+  };
+  $dw("dw-fields").append(
+    select("case",[["original","原樣"],["upper","全大寫"],["lower","全小寫"]]),
+    select("lines",[["single","單行"],["double","雙行"]]),
+    select("spacing",[["0","標準"],["1","寬鬆"],["2","加寬"]])
+  );
+  const previewText = () => {
+    const entry = entries[selected];if (!entry) return "";
+    let text = entry.text;
+    if ($dw("dw-case").value === "upper") text = text.toUpperCase();
+    if ($dw("dw-case").value === "lower") text = text.toLowerCase();
+    if ($dw("dw-lines").value === "double") {
+      const words = text.trim().split(/\s+/), mid = Math.ceil(words.length / 2);
+      if (words.length > 1) text = words.slice(0,mid).join(" ")+"\n"+words.slice(mid).join(" ");
+    }
+    return text;
+  };
+  function drawPreview() {
+    const p = $dw("dw-preview");
+    p.textContent = entries.length ? previewText() : "URBAN SERENITY";
+    p.style.letterSpacing = ["0em",".065em",".13em"][Number($dw("dw-spacing").value)];
+  }
+  const copy = async text => {
+    try {await navigator.clipboard.writeText(text);status("已複製到剪貼簿");}
+    catch (_) {status("無法存取剪貼簿，請手動選取文字");}
+  };
+  function saveFavorites() {
+    try {localStorage.setItem(storageKey,JSON.stringify(favorites));}
+    catch (_) {status("儲存失敗，可能是瀏覽器已停用本機儲存");}
+  }
+  function toggleFavorite(i) {
+    const item = entries[i], old = favorites.find(x => x.text === item.text);
+    if (old) favorites = favorites.filter(x => x.id !== old.id);
+    else favorites.unshift({id:Date.now()+"-"+Math.random().toString(36).slice(2),text:item.text,zh:item.zh,style:styles[i].zh,created:new Date().toISOString()});
+    favorites = favorites.slice(0,500);
+    saveFavorites();drawFavorites();drawEntries();
+  }
+  function drawEntries() {
+    const host=$dw("dw-cards");
+    host.replaceChildren();
+    const examples=[
+      ["A Quiet Place in the City","都會中的寧靜之所"],
+      ["Space for a Better Life","為美好生活留白"],
+      ["A New Standard of Living","嶄新的生活標準"]
+    ];
+    styles.forEach((style,i)=>{
+      const item=entries[i];
+      const isSelected=!!item&&selected===i;
+      const text=item?item.text:examples[i][0];
+      const description=item?(item.zh||""):examples[i][1];
+      const card=make("article",{"class":"dw-card"+(item?"":" dw-card-empty")+(isSelected?" is-selected":"")});
+      const head=make("div",{"class":"dw-card-head"},make("h4",{text:String(i+1).padStart(2,"0")+" / "+style.zh}));
+      const controls=make("div",{"class":"dw-card-icons"});
+      if(item){
+        const favorite=favorites.some(x=>x.text===item.text);
+        const mark=iconButton(favorite?"★":"☆",favorite?"取消收藏":"收藏英文",()=>toggleFavorite(i));
+        if(favorite)mark.classList.add("is-favorite");
+        controls.append(mark);
+        const regen=iconButton("↻","只重新生成這一組",()=>generate(i));
+        regen.disabled=loading;controls.append(regen);
+        controls.append(iconButton("▢","複製英文",()=>copy(item.text)));
+      } else {
+        controls.append(make("span",{"class":"dw-card-placeholder-label",text:"範例預覽"}));
+      }
+      head.append(controls);
+      const main=make("p",{"class":"dw-card-english",lang:"en",text});
+      const zh=make("p",{"class":"dw-card-meaning",text:description});
+      card.append(head,main,zh);
+      if(item) {
+        const selectButton=button(isSelected?"✓ 已選取預覽":"選取排版預覽",()=>{selected=i;drawEntries();});
+        selectButton.classList.add("dw-select-preview");
+        card.append(selectButton);
+      }
+      host.append(card);
+    });
+    $dw("dw-typesetter").hidden=false;
+    drawPreview();
+  }
+  function drawFavorites() {
+    const host=$dw("dw-favorites"), query=$dw("dw-search").value.toLowerCase();
+    host.replaceChildren();
+    const matching = favorites.filter(x=>(x.text+" "+(x.zh||"")).toLowerCase().includes(query));
+    matching.forEach(item=>{
+      host.append(make("div",{"class":"dw-fav-row"},make("span",{text:item.text}),
+        make("div",{"class":"dw-actions"},button("複製",()=>copy(item.text)),
+          button("移除",()=>{favorites=favorites.filter(x=>x.id!==item.id);saveFavorites();drawFavorites();drawEntries();}))
+      ));
+    });
+    if (!matching.length) host.append(make("p",{"class":"dw-note",text:"尚無符合的收藏"}));
+  }
+  $dw("dw-copy-preview").addEventListener("click",()=>copy(previewText()));
+  $dw("dw-search").addEventListener("input",drawFavorites);
+  $dw("dw-export").addEventListener("click",()=>{
+    const url=URL.createObjectURL(new Blob([JSON.stringify(favorites,null,2)],{type:"application/json"}));
+    const a=document.createElement("a");a.href=url;a.download="deco-words-favorites.json";a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  });
+  $dw("dw-import").addEventListener("change",async event=>{
+    const file=event.target.files[0];if(!file)return;
+    try {
+      const incoming=JSON.parse(await file.text());
+      if(!Array.isArray(incoming))throw Error("格式錯誤");
+      const seen=new Set(favorites.map(x=>x.text));
+      for(const x of incoming.slice(0,500)) {
+        if(!x||typeof x.text!=="string"||!x.text.trim()||x.text.length>500||seen.has(x.text))continue;
+        favorites.push({id:Date.now()+"-"+Math.random().toString(36).slice(2),text:x.text,zh:String(x.zh||""),style:String(x.style||""),created:String(x.created||"")});
+        seen.add(x.text);
+      }
+      favorites=favorites.slice(0,500);saveFavorites();drawFavorites();status("收藏已匯入");
+    } catch (_) {status("匯入失敗，請確認檔案是 DECO WORDS 收藏 JSON");}
+    event.target.value="";
+  });
+  function getPrompt(index) {
+    const input=readForm();
+    const range={short:"1–3",standard:"4–6",long:"7–12"}[length];
+    let prompt="你是專業的繁體中文與英文廣告文案編輯。英文須自然、保留原意、不生硬直譯、不添加未經證實的產品或建案宣稱。只回傳 JSON。";
+    prompt+="\n中文主標："+input.title+"\n中文副標："+(input.sub||"無");
+    prompt+="\n補充說明："+pickedText(els.ticks,els.otherBox,els.other);
+    prompt+="\n避免提及："+pickedText(els.avoidTicks,els.avoidOtherBox,els.avoidOther,true);
+    prompt+="\n每則英文目標："+range+" 個英文單字；保持英文自然優先。";
+    if(index === null) {
+      prompt+="\n請分別輸出 3 個有區別的版本，style 必須依序是 luxury（精品高級）、minimal（極簡俐落）、impact（廣告吸睛）。";
+      prompt+='\n格式：{"results":[{"style":"luxury","text":"英文","zh":"繁中大意"},{"style":"minimal","text":"英文","zh":"繁中大意"},{"style":"impact","text":"英文","zh":"繁中大意"}]}';
+    } else {
+      prompt+="\n只產生一組 "+styles[index].id+"（"+styles[index].zh+"）英文，且不得跟舊版相同。舊句："+entries[index].text;
+      prompt+='\n格式：{"text":"新英文","zh":"繁中大意"}';
+    }
+    return prompt;
+  }
+  async function ask(index,signal) {
+    if(!model) {model=await findModel(apiKey,signal);saveLS(LS_MODEL,model);showKeyState(false);}
+    const payload={systemInstruction:{parts:[{text:"Return a valid JSON object only. Never use markdown fences."}]},
+      contents:[{role:"user",parts:[{text:getPrompt(index)}]}]},generationConfig:{responseMimeType:"application/json"}};
+    let response;
+    try {response=await gfetch("models/"+encodeURIComponent(model)+":generateContent",apiKey,{method:"POST",signal,body:JSON.stringify(payload)});}
+    catch(error) {
+      if(!(error instanceof ApiError&&error.status===400&&FORMAT_ERR.test(error.detail)))throw error;
+      delete payload.generationConfig;
+      response=await gfetch("models/"+encodeURIComponent(model)+":generateContent",apiKey,{method:"POST",signal,body:JSON.stringify(payload)});
+    }
+    const candidate=response&&response.candidates&&response.candidates[0];
+    if(!candidate||!candidate.content||!Array.isArray(candidate.content.parts)||BLOCKED.includes(candidate.finishReason))throw new ApiError("incomplete");
+    const parsed=readJSON(candidate.content.parts.filter(p=>typeof p.text==="string"&&!p.thought).map(p=>p.text).join(""));
+    if(!parsed)throw new ApiError("incomplete");
+    return parsed;
+  }
+  async function generate(index=null) {
+    if(loading||busy)return;
+    if(!apiKey){status("請先設定 Gemini 金鑰");showKeyState(true);return;}
+    if(!els.title.value.trim()){status("請先輸入中文主標");els.title.focus();return;}
+    if(!(await allowOverLimit()))return;
+    loading=true;$dw("dw-generate").disabled=true;
+    status(index===null?"正在生成三組英文…":"正在重新生成 "+styles[index].zh+"…");
+    drawEntries();
+    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),60000);
+    try {
+      const data=await ask(index,controller.signal);
+      if(index===null) {
+        if(!Array.isArray(data.results))throw new ApiError("incomplete");
+        const ordered=styles.map(s=>data.results.find(x=>x&&x.style===s.id));
+        if(ordered.some(x=>!x||typeof x.text!=="string"||!x.text.trim()))throw new ApiError("incomplete");
+        entries=ordered.map(x=>({text:x.text.replace(/\s+/g," ").trim(),zh:String(x.zh||"")}));
+        selected=0;
+      } else {
+        if(typeof data.text!=="string"||!data.text.trim()||data.text.trim()===entries[index].text)throw new ApiError("incomplete");
+        entries[index]={text:data.text.replace(/\s+/g," ").trim(),zh:String(data.zh||"")};
+      }
+      status("已完成，可預覽、收藏或個別重生");drawEntries();
+      if(index===null&&isNarrow())results.scrollIntoView({block:"start",behavior:reduceMotion()?"auto":"smooth"});
+    } catch(error) {
+      const kind=error instanceof ApiError ? error.kind : "unknown";
+      status((MESSAGES[kind]||MESSAGES.unknown).text+"（原結果已保留）");
+    } finally {
+      clearTimeout(timer);loading=false;$dw("dw-generate").disabled=false;drawEntries();
+    }
+  }
+  $dw("dw-generate").addEventListener("click",()=>generate());
+  drawFavorites();
+  drawEntries();
+})();
+
+</script>
 </body>
 </html>
