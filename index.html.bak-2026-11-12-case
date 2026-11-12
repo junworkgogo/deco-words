@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer"><meta name="description" content="從中文想法，到適合設計的英文文案。比較三種語氣，複製英文，立即預覽排版。"><title>DECO WORDS｜英文文案工作台</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%230000ff'/%3E%3Ctext x='20' y='28' text-anchor='middle' font-size='27' fill='%23ffffff' font-family='Georgia'%3Ed%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="legacy.css"><link rel="stylesheet" href="studio.css?v=20261112-minimal"></head>
+<body><a class="skip-link" href="#form">跳至中文文案</a><div class="studio-shell">
+<header class="studio-header"><a class="brand" href="./" aria-label="DECO WORDS 首頁"><span class="brand-symbol" aria-hidden="true">d<span>↗</span></span><span class="brand-type">DECO WORDS<span>COPY & TYPE STUDIO</span></span></a><span class="header-description">英文文案工作台</span><nav aria-label="工具導覽"><a class="sister-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer">家配咒語 <span aria-hidden="true">↗</span></a><span class="nav-divider"></span><button class="nav-button" data-open="settings-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6"/></svg><span>設定</span><span class="connection-dot" id="connection-dot"></span></button></nav></header>
+
+<div class="workspace"><aside class="brief-panel"><div class="panel-heading"><div><h2>中文文案</h2></div><button class="text-button" type="button" id="btn-clear">重設</button></div><form id="form" class="form" aria-label="中文文案需求" novalidate>
+        <div class="field">
+          <div class="label-row"><label class="lbl" for="f-title">中文主標 <span class="required">*</span></label><span class="opt">必填</span></div>
+          <div class="input-wrap">
+            <input type="text" id="f-title" maxlength="200" autocomplete="off" placeholder="例：城心靜域">
+            <button type="button" class="clear-x" id="x-title" aria-label="清除主標" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row"><label class="lbl" for="f-sub">中文副標</label><span class="opt">選填</span></div>
+          <div class="input-wrap">
+            <input type="text" id="f-sub" maxlength="300" autocomplete="off" placeholder="例：在繁華之中，留一處從容">
+            <button type="button" class="clear-x" id="x-sub" aria-label="清除副標" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>
+          </div>
+        </div>
+        <fieldset class="field" id="ctx">
+          <legend class="lbl">使用情境 <span class="opt">可複選</span></legend>
+          <div class="ticks">
+            <label class="tick"><input type="checkbox" name="ctx" value="房地產銷售"><span>房地產銷售</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="首購小宅"><span>首購小宅</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="豪宅精品"><span>豪宅精品</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="高樓商辦"><span>高樓商辦</span></label>
+            </div><details class="more-context"><summary>更多情境 <span aria-hidden="true">＋</span></summary><div class="ticks"><label class="tick"><input type="checkbox" name="ctx" value="活動邀請"><span>活動邀請</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="節慶祝賀"><span>節慶祝賀</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="交屋祝賀"><span>交屋祝賀</span></label>
+            <label class="tick"><input type="checkbox" name="ctx" value="其他" id="c-other"><span>其他</span></label>
+          </div>
+          </details><input type="text" id="f-other" autocomplete="off" aria-label="其他補充說明" placeholder="自行填寫，例：開幕酒會、寵物友善" hidden>
+        </fieldset>
+<fieldset class="length-field"><legend>英文長度</legend><div class="segments length-segments" id="length-options" role="group" aria-label="英文長度"><button type="button" data-length="short" aria-pressed="false"><b>短句</b><small>1–3 單字</small></button><button type="button" data-length="standard" aria-pressed="true"><b>標準</b><small>4–6 單字</small></button><button type="button" data-length="long" aria-pressed="false"><b>長句</b><small>7–12 單字</small></button></div></fieldset>
+<details class="advanced"><summary>進階偏好 <span aria-hidden="true">＋</span></summary><div class="advanced-body"><label class="lbl" for="tone">整體語氣</label><select id="tone"><option value="balanced">自然、精緻</option><option value="short">俐落、少形容詞</option><option value="poetic">有畫面感、詩意</option></select>        <details class="fold" id="avoid-fold">
+          <summary><span class="label-row"><span class="lbl">避免（可複選）</span><span class="fold-end"><span class="opt" id="avoid-picked">選填</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></span></span></summary>
+          <fieldset class="field" id="avoid" aria-label="避免（可複選）">
+          <div class="ticks">
+            <label class="tick"><input type="checkbox" name="avoid" value="首購族"><span>首購族</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="小宅感"><span>小宅感</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="豪宅感"><span>豪宅感</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="家庭親子"><span>家庭親子</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="年輕族群"><span>年輕族群</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="投資置產"><span>投資置產</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="太推銷"><span>太推銷</span></label>
+            <label class="tick"><input type="checkbox" name="avoid" value="其他" id="c-avoid-other"><span>其他</span></label>
+          </div>
+          <input type="text" id="f-avoid-other" autocomplete="off" aria-label="其他要避免的內容" placeholder="自行填寫，例：交通、學區" hidden>
+          </fieldset>
+        </details>
+</div></details>
+<div class="generate-area"><button class="generate" id="generate" type="submit">產生三組英文</button></div>
+        <p class="hint-err" id="input-msg" role="alert" hidden></p>
+        
+      </form></aside>
+<main class="output-panel" id="workspace-results"><section class="proposals" aria-labelledby="proposals-heading"><div class="section-heading"><div><h2 class="sr-only" id="proposals-heading">英文翻譯</h2></div><span class="example-badge" id="result-label">範例</span></div><div class="proposal-grid" id="proposal-cards"></div><p class="app-status" id="app-status" role="status" aria-live="polite"></p></section>
+<section class="typesetter" aria-labelledby="preview-heading"><div class="section-heading"><div><h2 id="preview-heading">排版預覽</h2></div><button type="button" class="copy-preview" id="copy-preview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>複製英文</button></div>
+<div class="preview-paper" id="preview-paper" data-theme="light"><div class="paper-meta"><span id="preview-style">精品高級</span></div><div class="preview-center"><p id="preview-text" lang="en"></p></div></div>
+<div class="preview-controls"><div class="control-group"><span class="control-label">大小寫</span><div class="segments compact" id="case-options" role="group" aria-label="英文大小寫"><button type="button" data-case="original" aria-pressed="true">Aa</button><button type="button" data-case="upper" aria-pressed="false">AA</button><button type="button" data-case="lower" aria-pressed="false">aa</button></div></div><div class="control-group"><span class="control-label">斷行</span><div class="segments compact" id="line-options" role="group" aria-label="英文斷行"><button type="button" data-lines="single" aria-pressed="true">單行</button><button type="button" data-lines="double" aria-pressed="false">雙行</button></div></div><div class="control-group paper-colors"><span class="control-label">底色</span><div role="group" aria-label="預覽底色"><button type="button" class="swatch light" data-theme="light" aria-label="暖白底色" aria-pressed="true"></button><button type="button" class="swatch dark" data-theme="dark" aria-label="墨黑底色" aria-pressed="false"></button></div></div></div></section>
+<div class="output-footer"><button class="text-button" data-open="legacy-dialog">完整翻譯與歷史紀錄 <span aria-hidden="true">↗</span></button></div></main></div>
+</div>
+<dialog id="settings-dialog" class="studio-dialog" aria-labelledby="settings-title"><div class="dialog-heading"><div><span class="step-label">PREFERENCES</span><h2 id="settings-title">工作台設定</h2></div><button class="close-dialog" data-close aria-label="關閉設定">×</button></div>      <section class="key-card" id="key-panel" aria-labelledby="key-title">
+        <div id="key-setup" class="key-setup">
+          <h2 class="panel-title" id="key-title">連接 Gemini</h2>
+          <ol class="steps">
+            <li>打開 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 的金鑰頁面 ↗</a>，用 Google 帳號登入</li>
+            <li>按建立金鑰的按鈕（介面可能是英文 Create API key），建立後按複製</li>
+            <li>貼到下面的欄位，按「儲存金鑰」</li>
+          </ol>
+          <div class="field">
+            <label class="lbl" for="f-key">Gemini 金鑰</label>
+            <div class="key-row">
+              <input type="password" id="f-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="貼上金鑰">
+              <button type="button" class="btn btn-primary" id="btn-key-save">儲存金鑰</button>
+            </div>
+          </div>
+          <div class="key-small" id="key-extra" hidden>
+            <button type="button" class="btn btn-secondary btn-small" id="btn-key-cancel">取消</button>
+            <button type="button" class="btn btn-secondary btn-small btn-danger" id="btn-key-delete">刪除已存的金鑰</button>
+          </div>
+          <p class="hint-err" id="key-msg" role="alert" hidden></p>
+          <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
+          <p class="fine">金鑰儲存在目前瀏覽器，只會傳給 Google。<br>用量與費用依你的 Google 專案設定而定，本工具無法判斷是否收費。<br>送出的文字 Google 可能用來改善服務，機密內容請勿輸入。</p>
+        </div>
+        <div id="key-ready" class="key-ready" hidden>
+          <div class="key-info">
+            <p class="key-line" hidden><span class="key-name">GEMINI 金鑰</span><span class="dot" aria-hidden="true"></span><span class="key-state">已設定（結尾 <span id="key-tail" lang="en"></span>）</span></p>
+            <p class="key-model" hidden>模型 <span id="model-name" lang="en">自動選擇</span></p>
+            <p class="key-usage" id="usage-line">今日用量 <span id="usage-n" lang="en">0 次</span></p>
+          </div>
+          <button type="button" class="pill-btn" id="btn-key-change">更換金鑰</button>
+        </div>
+      </section></dialog>
+
+<dialog id="legacy-dialog" class="studio-dialog wide-dialog" aria-labelledby="legacy-title"><div class="dialog-heading"><div><span class="step-label">TRANSLATION ARCHIVE</span><h2 id="legacy-title">完整翻譯與歷史紀錄</h2></div><button class="close-dialog" data-close aria-label="關閉翻譯">×</button></div><p class="dialog-note">沿用原本的完整翻譯：主副標、單字與裝飾短句。請先在工作台填寫中文文案。</p>        <div class="actions">
+          <button type="button" class="btn btn-primary btn-go" id="btn-go">
+            <span class="label">完整翻譯與單字</span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M9 6l6 6-6 6"/></svg></span>
+          </button>
+
+          <button type="button" class="btn btn-secondary btn-again" id="btn-again" hidden>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.5 4.5L20 16"/><path d="M20 20v-4h-4"/></svg>
+            <span>換一組</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-stop" id="btn-stop" hidden>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>
+            <span>停止</span>
+          </button>
+        </div>
+<p class="wait" id="wait" role="status" hidden></p><section id="studio-history"><h3>三組提案紀錄</h3><div id="studio-history-list"></div></section><section class="history" id="history" aria-labelledby="history-title" hidden><h3 id="history-title">原版翻譯紀錄</h3><ul class="hist-list" id="hist-list"></ul></section><section id="results" aria-label="完整翻譯結果"><p class="msg" id="msg" role="status" hidden></p><div class="result-body" id="result-body" tabindex="0" role="region" aria-label="生成結果"><p class="dialog-note">還沒有完整翻譯，按上方按鈕開始。</p></div></section></dialog>
+<div hidden><dialog id="limit-dlg"><span id="limit-count"></span></dialog></div><p class="sr-only" id="sr" role="status" aria-live="polite"></p><div class="toast" id="toast" role="status" hidden></div>
+<script type="text/plain" id="rules">You are a professional English copywriter for real estate marketing. You write for a
+Taiwanese layout designer who does not read English and checks every English word you use
+in the Cambridge English–Chinese (Traditional) Dictionary. Accuracy matters more than flair.
+
+## Default positioning
+
+Unless the headline or the extra context clearly signals a different market tier, write in a
+premium, refined register: elegant, understated, a little rare-feeling, never salesy, no
+exclamation marks. For a plainly family or first-time-buyer project, use warmer, plainer,
+still-professional English. When the headline is negative, critical, humorous, or about something other than property (people, feelings, events), keep the headline's own tone and subject; the premium register then only means polished, correct English, never property praise.
+
+## Context the user usually leaves out
+
+- With no stated context, assume the headline is for a real estate sales post (銷售貼文).
+- The copy is not always real estate. Headlines with words like 舒適、氣流、冷房、溫度、空氣 are
+  likely an air-conditioner ad (Daikin / 大金); in that kind of copy, transport words
+  (直達、路線、開通) are metaphors for airflow, not location.
+- The user types with Zhuyin input and sometimes picks a wrong homophone (e.g. 「為一」 meant
+  「唯一」). If the headline does not form real words, work from the most likely intended
+  word and say so in one line of Traditional Chinese in "notes".
+- If the user wrote 補充說明 (extra context), follow it; it overrides the defaults above. 補充說明 sets the
+  tone and the setting only; it never changes what the headline means.
+- Headlines may use Taiwanese slang or internet expressions. Read them by their real meaning, never by the
+  literal characters or by the checked options: 雷隊友 = a teammate who lets the team down (a liability);
+  神隊友 = a teammate who carries the team; 小確幸 = a small, certain happiness. Keep that meaning even when
+  it is negative or humorous. If you are not sure what a term means, translate your best reading and explain
+  it in one line of Traditional Chinese in "notes".
+- Meaning comes first, always. Translate exactly what the Chinese says, even when it is negative, critical
+  or unflattering. Never soften it, flip it into something positive, or reframe it as a compliment, a
+  greeting or a joke. The accents and the paragraph follow that same real meaning and mood; the checked
+  options only adjust word choice and register. Check before you answer: read back into Chinese, your
+  headline must name the same thing and say the same thing about it as the original.
+- 補充說明 may list checked options. Follow all of them together: 房地產銷售 = real estate sales post (the default); 首購小宅 = small homes for first-time buyers, warmer and plainer English; 豪宅精品 = luxury homes, premium register; 高樓商辦 = high-rise office or commercial tower, confident and professional; 活動邀請 = an event invitation, inviting and clear; 節慶祝賀 = a festival greeting, warm and refined; 交屋祝賀 = congratulations on a home handover, warm and celebratory. Text after 其他： is the user's own note; follow it too.
+- 避免 may list things the user does not want in the copy. Each item is a hard limit on the accents, the oneWords and the paragraph, and it wins over 補充說明 and the default positioning when they conflict. 首購族 = nothing aimed at first-time buyers (no first home, starter, first step, affordable); 小宅感 = nothing that points to small homes (no compact, cozy, small, efficient); 豪宅感 = plain, down-to-earth English with no luxury praise (no luxury, exclusive, prestige, premium, elite) and no vocabulary bank; 家庭親子 = no family or children imagery (no family, children, kids, parents, generations); 年輕族群 = nothing aimed at young people (no young, youthful, trendy, new generation); 投資置產 = no investment talk (no investment, return, appreciation, yield, asset, growth, value); 太推銷 = no hard sell and no scarcity pitch (no limited, scarce, hard to find, great value, act now, don't miss, rare chance, hurry). Any other item on the list is the user's own wording; keep it out as well, including its close synonyms. 避免 never changes what the headline or the subhead means: when they say an avoided thing themselves, still translate them accurately, and keep that thing out of the accents and the paragraph. Before you answer, read every accent and the paragraph once more against the 避免 list and rewrite anything that breaks it.
+- Read real estate wording correctly: 坪數 means floor area or unit size; 稀有坪數 means a rare, sought-after unit size, never small or limited space.
+
+## What you write
+
+1. 主標 translation ("headline"): first get what the Chinese actually means right, then phrase it the way a native English real estate copywriter would, not word for word. Short and rhythmic; for a compact Chinese phrase keep it under about 8 words. Keep project names, developer names, addresses and numbers exactly as given. Do not add claims, superlatives or amenities that are not in the source.
+   Also give "oneWords": exactly 2 one-word translations of the 主標. Each is one single English word (letters only, no spaces, no hyphens, no article) that could stand alone in place of the whole headline because it covers what the headline means as a whole, not just its first or most striking word. Use a noun, or an adjective when that fits better; use a verb only when the source itself is about an action. The two must be different words, must take different angles, and must not repeat any accent. They keep the same subject and mood as the source, negative included, and never add anything the source does not say. oneWords are extra: the "text" translation is written first and on its own, and it still says everything the source says.
+2. 副標 translation ("subhead"): only when the user gave a 副標; same rules, may be a little longer than the headline. Its "oneWords" are 2 one-word translations of the 副標, chosen the same way and different from the words given for the 主標. With no 副標, leave "subhead" out of the reply.
+3. Exactly 3 裝飾字 (decorative accents): English words or very short phrases (1-4 words)
+   that are NOT a translation of the headline but match its theme and mood, for layering
+   onto a design: a small line under a logo, a watermark word behind the headline, a corner
+   accent. Each must connect to what this headline is actually about, not generic filler,
+   and the three must take different angles on it. They stay on the headline's own subject and
+   mood, negative included; a checked option never turns them into generic property praise.
+4. Exactly 1 英文小段 (short English paragraph): 20-30 words in one flowing sentence, written
+   in the spirit of the headline, about its own subject and in its mood, negative included; never
+   switch to generic property praise. It is original copy, not a translation. Short is the
+   point: it is layout texture. It must not invent facts (dates, venues, prices, unit
+   counts, sponsors) and must not name facilities, rooms or features the headline does not
+   mention (for example lobby, lounge, pool).
+
+Check before you answer: hide the headline and read only the three accents and the paragraph. A reader must still be able to tell what the headline is about and whether it praises or criticizes. If they read like an ad for a home the headline never mentions, rewrite them.
+
+## Accuracy rules (the most important part)
+
+- Use only standard, current English words that have their own entry in the Cambridge
+  English–Chinese (Traditional) Dictionary. No coined words, no archaic or obscure poetic
+  words, no slang, no foreign words unless Cambridge lists them as English.
+- Use every word in a sense the dictionary actually gives it, in collocations a native
+  English copywriter would really write. When a plain precise word and a fancy one say the
+  same thing, choose the precise one.
+- Grammar, spelling and punctuation must be correct. Use American spelling.
+- Accents must not name a real place, station or landmark that the headline does not mention.
+- Never use the word "capital" in any form; the user finds 資本／Capital distasteful. To say
+  that major companies or brands are moving into an area, name the result instead (business,
+  commerce, momentum, landmark, address).
+- An accent never ends with a period. The paragraph never uses a period at all, not even at the end;
+  link its ideas with commas or "and" instead. It is still one complete sentence that starts with a capital letter.
+
+## Word list for dictionary checking
+
+For the headline, the subhead, each accent and the paragraph, list its content words in order of appearance:
+nouns, main verbs, adjectives and adverbs. Skip articles, pronouns, prepositions,
+conjunctions, auxiliary verbs, numbers and proper nouns. List each headword once per item.
+For each word give:
+- "w": the word exactly as it appears in the text.
+- "lemma": the dictionary headword in lowercase, as Cambridge lists it: singular noun,
+  infinitive verb, base adjective ("residences" → "residence", "arrives" → "arrive",
+  "settled" → "settle"). If the word is its own headword in Cambridge (for example
+  "softly", "unhurried"), keep it as is. Keep hyphens in hyphenated words.
+- "pos": the part of speech as used here, one of 名詞、動詞、形容詞、副詞.
+- "zh": the Traditional Chinese meaning that fits how the word is used here, 2-8 characters,
+  worded the way a Traditional Chinese dictionary would word it.
+
+## Vocabulary bank (inspiration only, and only for a headline that is itself about a place, a home or a building in a positive light; for any other headline, ignore this list completely)
+
+Location / View: Panoramic · Skyline · Vista · Horizon · Waterfront · Elevated Living ·
+Uninterrupted Views · City Lights
+Heritage / Prestige: Legacy · Timeless · Heirloom · Landmark · A Name That Endures
+Space / Design: Bespoke · Curated · Refined · Architectural · Signature · Crafted ·
+Volume and Light
+Exclusivity / Rarity: Rare · Reserved for Few · Private Enclave · By Invitation ·
+Limited Residences · Uncommon Ground
+Lifestyle / Emotion: Sanctuary · Belonging · Elevated Everyday · Where Life Unfolds ·
+A Return to Ease · Quiet Luxury · Home, Elevated
+
+## Reply format
+
+Reply with one JSON object in this shape:
+
+{"notes":[],"headline":{"text":"Stillness at the city's heart","oneWords":[{"text":"Serenity","zh":"寧靜，安詳"},{"text":"Sanctuary","zh":"靜謐的棲身之所"}],"words":[{"w":"Stillness","lemma":"stillness","pos":"名詞","zh":"寂靜，平靜"},{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]},"subhead":{"text":"A tranquil residence at the center of a bustling city","oneWords":[{"text":"Haven","zh":"避風港，安居之處"},{"text":"Retreat","zh":"遠離喧囂的居所"}],"words":[{"w":"tranquil","lemma":"tranquil","pos":"形容詞","zh":"寧靜的，平靜的"},{"w":"residence","lemma":"residence","pos":"名詞","zh":"住宅，住所"}]},"accents":[{"text":"Urban sanctuary","zh":"都會中的靜謐居所","words":[{"w":"Urban","lemma":"urban","pos":"形容詞","zh":"城市的，都市的"},{"w":"sanctuary","lemma":"sanctuary","pos":"名詞","zh":"庇護所，避難所"}]}],"paragraph":{"text":"At the heart of the city, this home keeps the noise outside","gist":"位在城市中心，把喧囂留在門外","words":[{"w":"heart","lemma":"heart","pos":"名詞","zh":"中心，核心"}]}}
+
+The word lists in this example are shortened. In your reply, list every content word of the
+headline, the subhead, each accent and the paragraph, as described above.
+
+- headline: text as normally written (sentence case, not all caps); words: the word list
+  described above. oneWords: exactly 2 items. text: the single word with its first letter
+  capitalized. zh: 中文意思 of that word as used here, one short line of Traditional Chinese.
+  oneWords do not go into the word list.
+- subhead: same shape as headline; include it only when a 副標 was given.
+- accents: exactly 3 items. text: the accent as normally written in sentence case (first
+  letter capitalized, not all caps). zh: 中文意思, one line of Traditional Chinese.
+  words: the word list described above.
+- paragraph: text as normally written (not all caps); gist: 中文大意, one sentence of
+  Traditional Chinese with no 。 anywhere (use ， inside); words: the word list described above.
+- notes: only for a homophone or typo correction, or a slang term you were unsure about, one line of Traditional Chinese each.
+  In every other case notes is an empty array. Never explain your tone or choices.
+- All Chinese text uses full-width Chinese punctuation (，。、：), never half-width commas
+  or periods.
+</script><script src="engine.js"></script><script src="studio.js?v=20261112-minimal"></script></body></html>
