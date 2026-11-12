@@ -2268,7 +2268,7 @@ renderHistory();
   };
   const $dw = id => document.getElementById(id);
   const styles = [{id:"luxury",zh:"精品高級"},{id:"minimal",zh:"極簡俐落"},{id:"impact",zh:"廣告吸睛"}];
-  let length = "standard", selected = 0, entries = [], loading = false;
+  let length = "standard", selected = 2, entries = [], loading = false;
   const storageKey = "decoWords.favorites.v2";
   let favorites = [];
   try {
@@ -2502,15 +2502,20 @@ renderHistory();
         make("span",{"class":"dw-selected-indicator",text:chosen?"✓":""}));
       const english=make("p",{"class":"dw-card-english",lang:"en",text});
       const actions=make("div",{"class":"dw-card-icons"});
-      if(item){
-        const loved=favorites.some(x=>x.text===item.text);
-        const fav=iconButton(loved?"▣":"♧",loved?"取消收藏":"收藏此句",()=>toggleFavorite(i));
-        if(loved)fav.classList.add("is-favorite");
-        const retry=iconButton("↻","重新生成這組英文",()=>generate(i));retry.disabled=loading;
-        actions.append(fav,retry,iconButton("▢","複製此句英文",()=>copy(item.text)));
-      } else {
-        actions.append(make("span",{"class":"dw-demo-indicator",text:"互動示意"}));
-      }
+      const loved=favorites.some(x=>x.text===text);
+      const fav=iconButton(loved?"▣":"♧",loved?"取消收藏":"收藏此句",()=>{
+        if(item)toggleFavorite(i);
+        else {
+          const ex={text,zh:examples[i][1],style:style.zh};
+          if(loved)favorites=favorites.filter(x=>x.text!==text);
+          else favorites.unshift({id:Date.now()+"-"+i,...ex,created:new Date().toISOString()});
+          saveFavorites();drawFavorites();drawEntries();
+        }
+      });
+      if(loved)fav.classList.add("is-favorite");
+      const retry=iconButton("↻",item?"重新生成這組英文":"請先生成英文後再使用單句重生",()=>generate(i));
+      retry.disabled=loading||!item;
+      actions.append(fav,retry,iconButton("▢","複製此句英文",()=>copy(text)));
       const choose=make("button",{type:"button","class":"dw-card-hit",
         "aria-label":"選取 "+style.zh+" 進行排版預覽","aria-pressed":String(chosen)});
       choose.addEventListener("click",()=>{selected=i;drawEntries();});
