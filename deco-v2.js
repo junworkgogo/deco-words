@@ -30,6 +30,12 @@
     make("button",{type:"button",id:"dw-generate","class":"btn btn-primary",text:"✦ 生成三種英文語氣"}),
     make("p",{"class":"dw-status",id:"dw-status",role:"status","aria-live":"polite"})
   );
+  root.classList.add("dw-form");
+  document.querySelector(".side").classList.add("dw-sidebar");
+  root.insertBefore(make("div",{"class":"dw-form-heading"},
+    make("span",{"class":"dw-eyebrow",text:"01  /  YOUR COPY"}),
+    make("h2",{text:"中文文案"}),
+    make("p",{text:"從中文出發，找到更適合設計排版的英文"})),root.firstElementChild);
   root.insertBefore(formBox,root.querySelector(".actions"));
   const results = make("section",{"class":"dw-panel",id:"dw-results","aria-label":"三種語氣英文提案"},
     make("h3",{text:"三種語氣英文提案"}),
@@ -52,8 +58,37 @@
     ),
     make("div",{id:"dw-favorites"})
   );
-  out.parentNode.insertBefore(results,out);
-  out.parentNode.insertBefore(favoritesBox,out);
+  const parent = out.parentNode;
+  const nav = make("nav",{"class":"dw-view-tabs","aria-label":"結果檢視模式"});
+  const stage = make("div",{"class":"dw-workspace",id:"dw-workspace"});
+  const legacyBox = make("div",{"class":"dw-legacy"});
+  legacyBox.append(out);
+  stage.append(results,favoritesBox,legacyBox);
+  parent.append(nav,stage);
+  const tabs = [
+    {id:"proposal",text:"三種英文提案"},
+    {id:"legacy",text:"完整翻譯"},
+    {id:"favorites",text:"我的收藏"}
+  ];
+  let currentView = "proposal";
+  function switchView(view) {
+    currentView=view;
+    results.hidden=view!=="proposal";
+    favoritesBox.hidden=view!=="favorites";
+    legacyBox.hidden=view!=="legacy";
+    nav.replaceChildren(...tabs.map(t=>{
+      const btn=make("button",{
+        type:"button",text:t.text,
+        "aria-current":view===t.id?"page":"false"
+      });
+      btn.addEventListener("click",()=>switchView(t.id));
+      return btn;
+    }));
+    stage.scrollTop=0;
+  }
+  root.addEventListener("submit",()=>switchView("legacy"));
+  document.getElementById("btn-again").addEventListener("click",()=>switchView("legacy"));
+  switchView("proposal");
   const status = text => { $dw("dw-status").textContent = text; };
   const button = (label, onClick) => { const b = make("button",{type:"button",text:label});b.addEventListener("click",onClick);return b; };
   const lengths = [{id:"short",label:"極短 1–3 字"},{id:"standard",label:"標準 4–6 字"},{id:"long",label:"完整 7–12 字"}];
@@ -87,7 +122,7 @@
   };
   function drawPreview() {
     const p = $dw("dw-preview");
-    p.textContent = previewText();
+    p.textContent = entries.length ? previewText() : "選取英文提案後，這裡會顯示排版預覽";
     p.style.letterSpacing = ["0em",".065em",".13em"][Number($dw("dw-spacing").value)];
   }
   const copy = async text => {
@@ -108,7 +143,16 @@
   function drawEntries() {
     const host = $dw("dw-cards");
     host.replaceChildren();
-    results.hidden = entries.length === 0;
+    if (!entries.length) {
+      styles.forEach((style,i)=>{
+        host.append(make("article",{"class":"dw-card dw-card-empty"},
+          make("div",{"class":"dw-card-head"},make("h4",{text:(i+1)+" / "+style.zh}),
+            make("span",{"class":"dw-empty-label",text:"待生成"})),
+          make("p",{text:["Refined English for Your Story","Clean Words, Clear Meaning","Make Every Word Count"][i]}),
+          make("div",{"class":"dw-note",text:"輸入中文並點擊左側的生成按鈕，即可在這裡查看文案"})
+        ));
+      });
+    }
     entries.forEach((entry,i) => {
       const actions = make("div",{"class":"dw-actions"});
       actions.append(button(selected === i ? "✓ 預覽中" : "預覽",()=>{selected=i;drawEntries();}));
@@ -120,7 +164,7 @@
         make("p",{text:entry.text}),make("div",{"class":"dw-note",text:entry.zh || ""})
       ));
     });
-    $dw("dw-typesetter").hidden = !entries.length;
+    $dw("dw-typesetter").hidden = false;
     drawPreview();
   }
   function drawFavorites() {
@@ -212,7 +256,7 @@
         if(typeof data.text!=="string"||!data.text.trim()||data.text.trim()===entries[index].text)throw new ApiError("incomplete");
         entries[index]={text:data.text.replace(/\s+/g," ").trim(),zh:String(data.zh||"")};
       }
-      status("已完成，可預覽、收藏或個別重生");drawEntries();
+      status("已完成，可預覽、收藏或個別重生");drawEntries();switchView("proposal");
       if(index===null&&isNarrow())results.scrollIntoView({block:"start",behavior:reduceMotion()?"auto":"smooth"});
     } catch(error) {
       const kind=error instanceof ApiError ? error.kind : "unknown";
@@ -223,4 +267,5 @@
   }
   $dw("dw-generate").addEventListener("click",()=>generate());
   drawFavorites();
+  drawEntries();
 })();
