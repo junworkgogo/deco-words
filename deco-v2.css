@@ -1,0 +1,27 @@
+:root{--bg:#F5F5F6;--accent:#0000FF;--badge-bg:#EEEEFF;--ring:rgba(0,0,255,.3)}
+body{background:var(--bg)}
+.btn-primary{background:#0000FF;color:#fff}
+.btn-go::before{background:#1414DC}
+.btn-go .arrow{color:#0000FF}
+.tick input:checked+span,.hist.is-on{background:#EEEEFF;border-color:#9898FF;color:#0000CC}
+.group,.key-card:not(.is-ready),.msg,.notes,.hist,.dw-panel{background:rgba(255,255,255,.84);border:1px solid rgba(222,225,235,.9);box-shadow:0 7px 30px rgba(20,25,55,.035);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.dw-panel{padding:16px;border-radius:16px;margin:12px 0;flex:none}
+.dw-panel h3{font-size:14px;font-weight:600;margin:0 0 10px;color:#252734}
+.dw-panel h4{margin:0;font-size:12px;font-weight:600;color:#0000FF}
+.dw-note{font-size:12px;color:#69707e;margin:6px 0 10px}
+.dw-options,.dw-actions{display:flex;gap:7px;flex-wrap:wrap}
+.dw-options button,.dw-actions button{font:inherit;font-size:12px;color:#444B59;border:1px solid #e0e3ec;background:white;border-radius:10px;padding:8px 10px;cursor:pointer}
+.dw-options button[aria-pressed="true"]{background:#EEEEFF;border-color:#0000FF;color:#0000FF;font-weight:600}
+.dw-actions button:disabled{opacity:.5;cursor:wait}
+.dw-card{padding:14px;background:#fff;border:1px solid #e5e7ef;border-radius:12px;margin:9px 0}
+.dw-card p{font-size:16px;line-height:1.5;color:#252734;margin:9px 0;overflow-wrap:anywhere}
+.dw-card-head{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.dw-preview{min-height:120px;display:grid;place-items:center;padding:20px 12px;background:#F6F7FA;border-radius:12px;color:#222632;font-size:clamp(18px,2vw,26px);font-weight:600;text-align:center;white-space:pre-line;overflow-wrap:anywhere}
+.dw-fields{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.dw-fields label{font-size:12px;color:#656b77}
+.dw-fields select,.dw-fields input{font:inherit;font-size:12px;padding:7px;background:white;border:1px solid #e5e7ef;border-radius:9px}
+.dw-fav-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #e5e7ef;font-size:13px}
+.dw-fav-row span{overflow-wrap:anywhere}
+.dw-status{font-size:12px;color:#666e7c;min-height:1.5em}
+#dw-generate{width:100%;margin:10px 0}
+@media(min-width:1024px){.dw-card p{font-size:15px}}
