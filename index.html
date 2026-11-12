@@ -2249,10 +2249,30 @@ renderHistory();
       make("h3",{text:"03  /  英文排版預覽"}),
       make("div",{"class":"dw-fields",id:"dw-fields"}),
       make("div",{"class":"dw-preview",id:"dw-preview"}),
-      make("div",{"class":"dw-actions"},make("button",{type:"button",id:"dw-copy-preview",text:"複製排版文字"}))
+      make("div",{"class":"dw-actions"},make("button",{type:"button",id:"dw-copy-preview",text:"▢  複製排版英文"}))
     )
   );
   results.hidden = false;
+  // Match the original 01 / 02 / 03 interactive prototype exactly.
+  const lengthBox=make("section",{"class":"dw-prototype-block dw-prototype-length"},
+    make("h3",{text:"01 / 英文長度控制"}),
+    make("p",{"class":"dw-proto-hint",text:"4–6 個英文單字，適合不同廣告版面"}));
+  lengthBox.append($dw("dw-length"));
+  formBox.querySelector("h3").remove();
+  formBox.querySelector(".dw-note").remove();
+  results.prepend(lengthBox);
+  const proposalPanel=make("section",{"class":"dw-prototype-block dw-prototype-proposals"},
+    make("div",{"class":"dw-proto-header"},
+      make("h3",{text:"02 / 三組英文提案"}),
+      make("span",{"class":"dw-proto-caption",text:"選取預覽版本"})));
+  proposalPanel.append($dw("dw-cards"));
+  results.append(proposalPanel);
+  const previewPanel=$dw("dw-typesetter");
+  previewPanel.classList.add("dw-prototype-block","dw-prototype-typesetter");
+  previewPanel.querySelector("h3").textContent="03 / 英文排版預覽";
+  results.append(previewPanel);
+  // Relocate copied nodes after inserting results; they stay in the same work surface.
+
   const favoritesBox = make("section",{"class":"dw-panel","aria-label":"英文收藏庫"},
     make("div",{"class":"dw-card-head"},make("h3",{text:"我的英文收藏"}),
       make("div",{"class":"dw-actions"},make("button",{id:"dw-export",type:"button",text:"匯出備份"}))),
@@ -2322,23 +2342,42 @@ renderHistory();
     Array.from(box.children).forEach((btn,i) => btn.setAttribute("aria-pressed",String(lengths[i].id === length)));
   }
   drawLengths();
-  const select = (name, items) => {
-    const el = make("select",{id:"dw-"+name});
-    for (const [value,label] of items) el.append(make("option",{value,text:label}));
-    el.addEventListener("change",drawPreview);
-    return make("label",{}, name === "case" ? "大小寫 " : name === "lines" ? "斷行 " : "字距 ",el);
+  const previewControls={case:"original",lines:"single",spacing:50};
+  const segmented=(id,labels)=>{
+    const wrap=make("div",{"class":"dw-segmented","role":"group","aria-label":id==="case"?"英文大小寫":"英文斷行"});
+    const buttons=[];
+    labels.forEach(([value,label])=>{
+      const b=make("button",{type:"button",text:label,"aria-pressed":"false"});
+      b.addEventListener("click",()=>{
+        previewControls[id]=value;
+        buttons.forEach(([el,v])=>el.setAttribute("aria-pressed",String(v===value)));
+        drawPreview();
+      });
+      wrap.append(b);buttons.push([b,value]);
+    });
+    buttons.forEach(([el,v])=>el.setAttribute("aria-pressed",String(v===previewControls[id])));
+    return wrap;
   };
-  $dw("dw-fields").append(
-    select("case",[["original","原樣"],["upper","全大寫"],["lower","全小寫"]]),
-    select("lines",[["single","單行"],["double","雙行"]]),
-    select("spacing",[["0","標準"],["1","寬鬆"],["2","加寬"]])
-  );
+  const controls=$dw("dw-fields");
+  controls.classList.add("dw-preview-controls");
+  const caseControls=segmented("case",[["original","原樣"],["upper","大寫"],["lower","小寫"]]);
+  const lineControls=segmented("lines",[["single","單行"],["double","雙行"]]);
+  const letterSpacing=make("input",{type:"range",id:"dw-spacing",min:"0",max:"100",step:"1",value:"50","aria-label":"調整英文預覽字距"});
+  const spacingText=make("span",{"class":"dw-spacing-value",id:"dw-spacing-value",text:"字距：標準"});
+  letterSpacing.addEventListener("input",()=>{
+    previewControls.spacing=Number(letterSpacing.value);
+    drawPreview();
+  });
+  controls.append(make("div",{"class":"dw-control-row",role:"group","aria-label":"英文大小寫"},caseControls),
+    make("div",{"class":"dw-control-row",role:"group","aria-label":"英文斷行"},lineControls),
+    make("div",{"class":"dw-slider-wrap"},
+      make("div",{"class":"dw-slider-label"},make("span",{text:"字距"}),spacingText),letterSpacing));
   const previewText = () => {
     const entry = entries[selected];if (!entry) return "";
     let text = entry.text;
-    if ($dw("dw-case").value === "upper") text = text.toUpperCase();
-    if ($dw("dw-case").value === "lower") text = text.toLowerCase();
-    if ($dw("dw-lines").value === "double") {
+    if (previewControls.case === "upper") text = text.toUpperCase();
+    if (previewControls.case === "lower") text = text.toLowerCase();
+    if (previewControls.lines === "double") {
       const words = text.trim().split(/\s+/), mid = Math.ceil(words.length / 2);
       if (words.length > 1) text = words.slice(0,mid).join(" ")+"\n"+words.slice(mid).join(" ");
     }
@@ -2346,8 +2385,12 @@ renderHistory();
   };
   function drawPreview() {
     const p = $dw("dw-preview");
-    p.textContent = entries.length ? previewText() : "URBAN SERENITY";
-    p.style.letterSpacing = ["0em",".065em",".13em"][Number($dw("dw-spacing").value)];
+    p.textContent = entries.length ? previewText() : [
+      "A Quiet Place in the City","Space for a Better Life","A New Standard of Living"
+    ][selected];
+    const letter=(previewControls.spacing-50)/50*0.12;
+    p.style.letterSpacing=letter.toFixed(3)+"em";
+    $dw("dw-spacing-value").textContent=previewControls.spacing===50?"標準":(previewControls.spacing<50?"緊密":"加寬");
   }
   const copy = async text => {
     try {await navigator.clipboard.writeText(text);status("已複製到剪貼簿");}
@@ -2364,45 +2407,38 @@ renderHistory();
     favorites = favorites.slice(0,500);
     saveFavorites();drawFavorites();drawEntries();
   }
-  function drawEntries() {
-    const host=$dw("dw-cards");
-    host.replaceChildren();
+  function drawEntries(){
+    const host=$dw("dw-cards");host.replaceChildren();
     const examples=[
       ["A Quiet Place in the City","都會中的寧靜之所"],
       ["Space for a Better Life","為美好生活留白"],
       ["A New Standard of Living","嶄新的生活標準"]
     ];
     styles.forEach((style,i)=>{
-      const item=entries[i];
-      const isSelected=!!item&&selected===i;
+      const item=entries[i],chosen=selected===i;
       const text=item?item.text:examples[i][0];
-      const description=item?(item.zh||""):examples[i][1];
-      const card=make("article",{"class":"dw-card"+(item?"":" dw-card-empty")+(isSelected?" is-selected":"")});
-      const head=make("div",{"class":"dw-card-head"},make("h4",{text:String(i+1).padStart(2,"0")+" / "+style.zh}));
-      const controls=make("div",{"class":"dw-card-icons"});
+      const card=make("article",{"class":"dw-card dw-prototype-card"+(chosen?" is-selected":""),
+        "aria-label":style.zh+"英文提案"});
+      const head=make("div",{"class":"dw-card-head"},
+        make("h4",{text:String(i+1).padStart(2,"0")+" / "+style.zh}),
+        make("span",{"class":"dw-selected-indicator",text:chosen?"✓":""}));
+      const english=make("p",{"class":"dw-card-english",lang:"en",text});
+      const actions=make("div",{"class":"dw-card-icons"});
       if(item){
-        const favorite=favorites.some(x=>x.text===item.text);
-        const mark=iconButton(favorite?"★":"☆",favorite?"取消收藏":"收藏英文",()=>toggleFavorite(i));
-        if(favorite)mark.classList.add("is-favorite");
-        controls.append(mark);
-        const regen=iconButton("↻","只重新生成這一組",()=>generate(i));
-        regen.disabled=loading;controls.append(regen);
-        controls.append(iconButton("▢","複製英文",()=>copy(item.text)));
+        const loved=favorites.some(x=>x.text===item.text);
+        const fav=iconButton(loved?"▣":"♧",loved?"取消收藏":"收藏此句",()=>toggleFavorite(i));
+        if(loved)fav.classList.add("is-favorite");
+        const retry=iconButton("↻","重新生成這組英文",()=>generate(i));retry.disabled=loading;
+        actions.append(fav,retry,iconButton("▢","複製此句英文",()=>copy(item.text)));
       } else {
-        controls.append(make("span",{"class":"dw-card-placeholder-label",text:"範例預覽"}));
+        actions.append(make("span",{"class":"dw-demo-indicator",text:"互動示意"}));
       }
-      head.append(controls);
-      const main=make("p",{"class":"dw-card-english",lang:"en",text});
-      const zh=make("p",{"class":"dw-card-meaning",text:description});
-      card.append(head,main,zh);
-      if(item) {
-        const selectButton=button(isSelected?"✓ 已選取預覽":"選取排版預覽",()=>{selected=i;drawEntries();});
-        selectButton.classList.add("dw-select-preview");
-        card.append(selectButton);
-      }
+      const choose=make("button",{type:"button","class":"dw-card-hit",
+        "aria-label":"選取 "+style.zh+" 進行排版預覽","aria-pressed":String(chosen)});
+      choose.addEventListener("click",()=>{selected=i;drawEntries();});
+      card.append(head,english,actions,choose);
       host.append(card);
     });
-    $dw("dw-typesetter").hidden=false;
     drawPreview();
   }
   function drawFavorites() {
@@ -2417,7 +2453,9 @@ renderHistory();
     });
     if (!matching.length) host.append(make("p",{"class":"dw-note",text:"尚無符合的收藏"}));
   }
-  $dw("dw-copy-preview").addEventListener("click",()=>copy(previewText()));
+  $dw("dw-copy-preview").addEventListener("click",()=>copy(entries.length?previewText():[
+      "A Quiet Place in the City","Space for a Better Life","A New Standard of Living"
+    ][selected]));
   $dw("dw-search").addEventListener("input",drawFavorites);
   $dw("dw-export").addEventListener("click",()=>{
     const url=URL.createObjectURL(new Blob([JSON.stringify(favorites,null,2)],{type:"application/json"}));
