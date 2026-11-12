@@ -225,3 +225,24 @@ body.dw-studio-active{background:#F3F4F6;color:#222632;letter-spacing:0}
   .dw-studio-active #dw-length button{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){.dw-studio-active *{scroll-behavior:auto}}
+
+
+/* Layout fidelity: one continuous work area, no result-mode tab switching */
+.dw-studio-active .panel.results{display:flex;flex-direction:column;min-height:0}
+.dw-studio-active .dw-workspace-title{padding:3px 0 14px;min-height:54px;flex:none}
+.dw-studio-active .dw-workspace-title h2{font-size:17px;margin:0}
+.dw-flow-label{font-size:11px;color:#9298A5;letter-spacing:.02em}
+.dw-studio-active .dw-workspace{display:flex;flex-direction:column;gap:0}
+.dw-studio-active #dw-results{display:block!important;flex:none}
+.dw-studio-active #dw-typesetter{display:block!important}
+.dw-inline-fold{display:block;margin-top:18px;padding:15px 0 0;border-top:1px solid #ECEEF3}
+.dw-inline-fold>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:12px;font-weight:500;color:#7C8190;padding:5px 2px}
+.dw-inline-fold>summary::-webkit-details-marker{display:none}
+.dw-inline-fold>summary::after{content:"⌄";font-size:15px;color:#878C98}
+.dw-inline-fold[open]>summary::after{content:"⌃";color:#0000FF}
+.dw-inline-fold[open]>summary{color:#0000FF;margin-bottom:14px}
+.dw-inline-fold>.dw-panel{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;background:transparent!important;backdrop-filter:none!important}
+.dw-inline-fold .dw-legacy{margin:0}
+.dw-studio-active #dw-cards{grid-template-columns:repeat(1,minmax(0,1fr))}
+.dw-studio-active .dw-workspace #dw-typesetter{margin-top:20px}
+@media(max-width:540px){.dw-flow-label{display:none}.dw-studio-active .dw-workspace-title{min-height:48px}}
