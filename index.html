@@ -543,6 +543,21 @@ input:focus-visible { border-color: var(--accent); outline-offset: 0; }
   html { scroll-behavior: auto; }
   .btn, .copy, .pill-btn, .clear-x, .tick span, .btn::before, .pill-btn::before, .copy::before, .fold-end svg, .hist, .hist-x, .tool-link { transition: none; }
 }
+
+/* UI skeleton present in HTML, regardless of JS initialization */
+body.dw-studio-active .dw-static-fallback{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}
+body.dw-studio-active .dw-fallback-surface{background:rgba(255,255,255,.86);border:1px solid #E6E8EF;border-radius:18px;padding:20px;flex:1;overflow:auto}
+body.dw-studio-active .dw-fallback-surface h3{font-size:13px;font-weight:600;color:#3B404D;margin:0 0 12px}
+body.dw-studio-active .dw-fallback-card{display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #E7E9F0;border-radius:13px;padding:16px;margin:10px 0}
+body.dw-studio-active .dw-fallback-card small{font-size:11px;font-weight:600;letter-spacing:.05em;color:#0000FF}
+body.dw-studio-active .dw-fallback-card strong{font-size:19px;font-weight:500;color:#2C303C}
+body.dw-studio-active .dw-fallback-card span{font-size:11px;color:#989EAA}
+body.dw-studio-active .dw-fallback-preview{border-top:1px solid #EAECF1;padding-top:18px;margin-top:24px}
+body.dw-studio-active .dw-fallback-preview>div{background:#F6F7F9;border:1px solid #E9EBF1;min-height:145px;border-radius:12px;display:grid;place-items:center;font-size:26px;letter-spacing:.1em;color:#292D3B}
+body.dw-studio-active .dw-fallback-preview p{font-size:11px;color:#979BA7;margin-top:9px}
+@media(min-width:1024px){body.dw-studio-active .layout{display:grid!important;grid-template-columns:minmax(0,2fr) minmax(0,3fr)!important;grid-template-rows:minmax(0,1fr)}}
+@media(max-width:1023px){body.dw-studio-active .layout{display:flex!important;flex-direction:column}body.dw-studio-active .dw-static-fallback{height:auto}}
+
 </style>
 <style id="dw-v2-inline">
 
@@ -823,7 +838,7 @@ body.dw-studio-active{background:#F3F4F6;color:#222632;letter-spacing:0}
 
 </style>
 </head>
-<body>
+<body class="dw-studio-active">
 <div class="shell">
   <header class="topbar">
     <h1>英🦠 <span class="dw-brand-tag">STUDIO</span></h1>
@@ -945,6 +960,16 @@ body.dw-studio-active{background:#F3F4F6;color:#222632;letter-spacing:0}
     </div>
 
     <main class="panel results" id="results" aria-label="產生結果">
+      <section class="dw-static-fallback" id="dw-static-fallback" aria-label="三組英文提案與排版預覽">
+        <div class="dw-workspace-title"><div><span class="dw-eyebrow">02 / ENGLISH STUDIO</span><h2>三組英文提案</h2></div></div>
+        <div class="dw-fallback-surface">
+          <h3>三組英文提案</h3>
+          <div class="dw-fallback-card"><small>01 / 精品高級</small><strong>A Quiet Place in the City</strong><span>都會中的寧靜之所</span></div>
+          <div class="dw-fallback-card"><small>02 / 極簡俐落</small><strong>Space for a Better Life</strong><span>為美好生活留白</span></div>
+          <div class="dw-fallback-card"><small>03 / 廣告吸睛</small><strong>A New Standard of Living</strong><span>嶄新的生活標準</span></div>
+          <div class="dw-fallback-preview"><h3>英文排版預覽</h3><div>URBAN SERENITY</div><p>大寫／小寫　・　單行／雙行　・　字距調整</p></div>
+        </div>
+      </section>
       <section class="history" id="history" aria-labelledby="history-title" hidden>
         <h2 id="history-title">歷史紀錄</h2>
         <ul class="hist-list" id="hist-list"></ul>
@@ -2203,6 +2228,7 @@ renderHistory();
   if (brand) brand.replaceChildren(make("span",{text:"英🦠"}),make("span",{"class":"dw-brand-tag",text:"STUDIO"}));
   document.title="DECO WORDS 2.0｜英文文案工作台";
   document.querySelector(".side").classList.add("dw-sidebar");
+  document.getElementById("dw-static-fallback")?.remove();
   root.insertBefore(make("div",{"class":"dw-form-heading"},
     make("span",{"class":"dw-eyebrow",text:"01  /  YOUR COPY"}),
     make("h2",{text:"中文文案"}),
