@@ -24,10 +24,10 @@
     if (Array.isArray(loaded)) favorites = loaded.filter(x => x && typeof x.text === "string").slice(0, 500);
   } catch (_) {}
   const formBox = make("section",{"class":"dw-panel","aria-label":"英文提案設定"},
-    make("h3",{text:"DECO WORDS 2.0 · 英文文案提案"}),
-    make("p",{"class":"dw-note",text:"保留原本完整翻譯，新增英文長度與三種不同語氣"}),
+    make("h3",{text:"英文長度"}),
+    make("p",{"class":"dw-note",text:"為不同廣告版面選擇合適的英文長度"}),
     make("div",{"class":"dw-options",id:"dw-length"}),
-    make("button",{type:"button",id:"dw-generate","class":"btn btn-primary",text:"✦ 生成三種英文語氣"}),
+    make("button",{type:"button",id:"dw-generate","class":"btn btn-primary",text:"✦ 生成三組英文文案"}),
     make("p",{"class":"dw-status",id:"dw-status",role:"status","aria-live":"polite"})
   );
   root.classList.add("dw-form");
@@ -36,18 +36,24 @@
     make("span",{"class":"dw-eyebrow",text:"01  /  YOUR COPY"}),
     make("h2",{text:"中文文案"}),
     make("p",{text:"從中文出發，找到更適合設計排版的英文"})),root.firstElementChild);
-  root.insertBefore(formBox,root.querySelector(".actions"));
+  root.querySelector("#f-sub").closest(".field").after(formBox);
+  const advanced = make("details",{"class":"dw-advanced",id:"dw-advanced"},
+    make("summary",{text:"更多設定與完整翻譯"}));
+  formBox.after(advanced);
+  advanced.append(document.getElementById("ctx"),document.getElementById("avoid-fold"),root.querySelector(".actions"));
+  // Keep the original form and all event bindings; only reorganize its controls.
+
   const results = make("section",{"class":"dw-panel",id:"dw-results","aria-label":"三種語氣英文提案"},
-    make("h3",{text:"三種語氣英文提案"}),
+    make("h3",{text:"三組英文文案"}),
     make("div",{id:"dw-cards"}),
     make("section",{id:"dw-typesetter"},
-      make("h3",{text:"英文排版預覽"}),
+      make("h3",{text:"03  /  英文排版預覽"}),
       make("div",{"class":"dw-fields",id:"dw-fields"}),
       make("div",{"class":"dw-preview",id:"dw-preview"}),
       make("div",{"class":"dw-actions"},make("button",{type:"button",id:"dw-copy-preview",text:"複製排版文字"}))
     )
   );
-  results.hidden = true;
+  results.hidden = false;
   const favoritesBox = make("section",{"class":"dw-panel","aria-label":"英文收藏庫"},
     make("div",{"class":"dw-card-head"},make("h3",{text:"英文收藏庫"}),
       make("div",{"class":"dw-actions"},make("button",{id:"dw-export",type:"button",text:"匯出備份"}))),
@@ -65,25 +71,31 @@
   legacyBox.append(out);
   stage.append(results,favoritesBox,legacyBox);
   parent.append(nav,stage);
-  const tabs = [
-    {id:"proposal",text:"三種英文提案"},
-    {id:"legacy",text:"完整翻譯"},
-    {id:"favorites",text:"我的收藏"}
-  ];
-  let currentView = "proposal";
+  const history = document.getElementById("history");
+  if (history) legacyBox.prepend(history);
+  const viewHeading = make("div",{"class":"dw-workspace-title"},
+    make("div",{},make("span",{"class":"dw-eyebrow",text:"02  /  YOUR ENGLISH"}),
+      make("h2",{text:"英文提案"})),
+    make("div",{"class":"dw-workspace-tools"}));
+  const actions = viewHeading.querySelector(".dw-workspace-tools");
+  const viewButton = (label,view) => {
+    const btn=make("button",{type:"button",text:label});
+    btn.addEventListener("click",()=>switchView(view));
+    return btn;
+  };
+  actions.append(viewButton("我的收藏","favorites"),viewButton("完整翻譯","legacy"));
+  const back=make("button",{"class":"dw-back",type:"button",text:"← 返回英文提案"});
+  back.addEventListener("click",()=>switchView("proposal"));
+  nav.replaceChildren(viewHeading,back);
+  let currentView="proposal";
   function switchView(view) {
     currentView=view;
     results.hidden=view!=="proposal";
     favoritesBox.hidden=view!=="favorites";
     legacyBox.hidden=view!=="legacy";
-    nav.replaceChildren(...tabs.map(t=>{
-      const btn=make("button",{
-        type:"button",text:t.text,
-        "aria-current":view===t.id?"page":"false"
-      });
-      btn.addEventListener("click",()=>switchView(t.id));
-      return btn;
-    }));
+    back.hidden=view==="proposal";
+    viewHeading.querySelector("h2").textContent=view==="proposal"?"英文提案":view==="favorites"?"常用英文收藏":"完整翻譯";
+    actions.hidden=view!=="proposal";
     stage.scrollTop=0;
   }
   root.addEventListener("submit",()=>switchView("legacy"));
@@ -155,7 +167,7 @@
     }
     entries.forEach((entry,i) => {
       const actions = make("div",{"class":"dw-actions"});
-      actions.append(button(selected === i ? "✓ 預覽中" : "預覽",()=>{selected=i;drawEntries();}));
+      actions.append(button(selected === i ? "✓ 已選取" : "選取預覽",()=>{selected=i;drawEntries();}));
       actions.append(button(favorites.some(x=>x.text===entry.text) ? "★ 已收藏" : "☆ 收藏",()=>toggleFavorite(i)));
       const regenerate = button("↻ 單句重生",()=>generate(i));regenerate.disabled=loading;actions.append(regenerate);
       actions.append(button("複製",()=>copy(entry.text)));
