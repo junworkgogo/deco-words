@@ -31,11 +31,15 @@
     make("p",{"class":"dw-status",id:"dw-status",role:"status","aria-live":"polite"})
   );
   root.classList.add("dw-form");
+  document.body.classList.add("dw-studio-active");
+  const brand = document.querySelector(".topbar h1");
+  if (brand) brand.replaceChildren(make("span",{text:"DECO WORDS"}),make("span",{"class":"dw-brand-tag",text:"STUDIO 2.0"}));
+  document.title="DECO WORDS 2.0｜英文文案工作台";
   document.querySelector(".side").classList.add("dw-sidebar");
   root.insertBefore(make("div",{"class":"dw-form-heading"},
     make("span",{"class":"dw-eyebrow",text:"01  /  YOUR COPY"}),
     make("h2",{text:"中文文案"}),
-    make("p",{text:"從中文出發，找到更適合設計排版的英文"})),root.firstElementChild);
+    make("p",{text:"從一句中文，找到適合設計的英文表達"})),root.firstElementChild);
   root.querySelector("#f-sub").closest(".field").after(formBox);
   const advanced = make("details",{"class":"dw-advanced",id:"dw-advanced"},
     make("summary",{text:"更多設定與完整翻譯"}));
@@ -44,7 +48,7 @@
   // Keep the original form and all event bindings; only reorganize its controls.
 
   const results = make("section",{"class":"dw-panel",id:"dw-results","aria-label":"三種語氣英文提案"},
-    make("h3",{text:"三組英文文案"}),
+    make("h3",{text:"三組英文提案"}),
     make("div",{id:"dw-cards"}),
     make("section",{id:"dw-typesetter"},
       make("h3",{text:"03  /  英文排版預覽"}),
@@ -55,7 +59,7 @@
   );
   results.hidden = false;
   const favoritesBox = make("section",{"class":"dw-panel","aria-label":"英文收藏庫"},
-    make("div",{"class":"dw-card-head"},make("h3",{text:"英文收藏庫"}),
+    make("div",{"class":"dw-card-head"},make("h3",{text:"我的英文收藏"}),
       make("div",{"class":"dw-actions"},make("button",{id:"dw-export",type:"button",text:"匯出備份"}))),
     make("p",{"class":"dw-note",text:"只儲存在目前瀏覽器；重要內容請匯出 JSON 備份"}),
     make("div",{"class":"dw-fields"},
@@ -83,7 +87,7 @@
     btn.addEventListener("click",()=>switchView(view));
     return btn;
   };
-  actions.append(viewButton("我的收藏","favorites"),viewButton("完整翻譯","legacy"));
+  actions.append(viewButton("♡ 收藏庫","favorites"),viewButton("完整翻譯 ↗","legacy"));
   const back=make("button",{"class":"dw-back",type:"button",text:"← 返回英文提案"});
   back.addEventListener("click",()=>switchView("proposal"));
   nav.replaceChildren(viewHeading,back);
@@ -103,6 +107,11 @@
   switchView("proposal");
   const status = text => { $dw("dw-status").textContent = text; };
   const button = (label, onClick) => { const b = make("button",{type:"button",text:label});b.addEventListener("click",onClick);return b; };
+  const iconButton = (symbol,label,onClick) => {
+    const b=make("button",{type:"button","class":"dw-icon-button",title:label,"aria-label":label,text:symbol});
+    b.addEventListener("click",onClick);
+    return b;
+  };
   const lengths = [{id:"short",label:"極短 1–3 字"},{id:"standard",label:"標準 4–6 字"},{id:"long",label:"完整 7–12 字"}];
   function drawLengths() {
     const box = $dw("dw-length");
@@ -134,7 +143,7 @@
   };
   function drawPreview() {
     const p = $dw("dw-preview");
-    p.textContent = entries.length ? previewText() : "選取英文提案後，這裡會顯示排版預覽";
+    p.textContent = entries.length ? previewText() : "URBAN SERENITY";
     p.style.letterSpacing = ["0em",".065em",".13em"][Number($dw("dw-spacing").value)];
   }
   const copy = async text => {
@@ -153,30 +162,44 @@
     saveFavorites();drawFavorites();drawEntries();
   }
   function drawEntries() {
-    const host = $dw("dw-cards");
+    const host=$dw("dw-cards");
     host.replaceChildren();
-    if (!entries.length) {
-      styles.forEach((style,i)=>{
-        host.append(make("article",{"class":"dw-card dw-card-empty"},
-          make("div",{"class":"dw-card-head"},make("h4",{text:(i+1)+" / "+style.zh}),
-            make("span",{"class":"dw-empty-label",text:"待生成"})),
-          make("p",{text:["Refined English for Your Story","Clean Words, Clear Meaning","Make Every Word Count"][i]}),
-          make("div",{"class":"dw-note",text:"輸入中文並點擊左側的生成按鈕，即可在這裡查看文案"})
-        ));
-      });
-    }
-    entries.forEach((entry,i) => {
-      const actions = make("div",{"class":"dw-actions"});
-      actions.append(button(selected === i ? "✓ 已選取" : "選取預覽",()=>{selected=i;drawEntries();}));
-      actions.append(button(favorites.some(x=>x.text===entry.text) ? "★ 已收藏" : "☆ 收藏",()=>toggleFavorite(i)));
-      const regenerate = button("↻ 單句重生",()=>generate(i));regenerate.disabled=loading;actions.append(regenerate);
-      actions.append(button("複製",()=>copy(entry.text)));
-      host.append(make("article",{"class":"dw-card"},
-        make("div",{"class":"dw-card-head"},make("h4",{text:(i+1)+" / "+styles[i].zh}),actions),
-        make("p",{text:entry.text}),make("div",{"class":"dw-note",text:entry.zh || ""})
-      ));
+    const examples=[
+      ["A Quiet Place in the City","都會中的寧靜之所"],
+      ["Space for a Better Life","為美好生活留白"],
+      ["A New Standard of Living","嶄新的生活標準"]
+    ];
+    styles.forEach((style,i)=>{
+      const item=entries[i];
+      const isSelected=!!item&&selected===i;
+      const text=item?item.text:examples[i][0];
+      const description=item?(item.zh||""):examples[i][1];
+      const card=make("article",{"class":"dw-card"+(item?"":" dw-card-empty")+(isSelected?" is-selected":"")});
+      const head=make("div",{"class":"dw-card-head"},make("h4",{text:String(i+1).padStart(2,"0")+" / "+style.zh}));
+      const controls=make("div",{"class":"dw-card-icons"});
+      if(item){
+        const favorite=favorites.some(x=>x.text===item.text);
+        const mark=iconButton(favorite?"★":"☆",favorite?"取消收藏":"收藏英文",()=>toggleFavorite(i));
+        if(favorite)mark.classList.add("is-favorite");
+        controls.append(mark);
+        const regen=iconButton("↻","只重新生成這一組",()=>generate(i));
+        regen.disabled=loading;controls.append(regen);
+        controls.append(iconButton("▢","複製英文",()=>copy(item.text)));
+      } else {
+        controls.append(make("span",{"class":"dw-card-placeholder-label",text:"範例預覽"}));
+      }
+      head.append(controls);
+      const main=make("p",{"class":"dw-card-english",lang:"en",text});
+      const zh=make("p",{"class":"dw-card-meaning",text:description});
+      card.append(head,main,zh);
+      if(item) {
+        const selectButton=button(isSelected?"✓ 已選取預覽":"選取排版預覽",()=>{selected=i;drawEntries();});
+        selectButton.classList.add("dw-select-preview");
+        card.append(selectButton);
+      }
+      host.append(card);
     });
-    $dw("dw-typesetter").hidden = false;
+    $dw("dw-typesetter").hidden=false;
     drawPreview();
   }
   function drawFavorites() {

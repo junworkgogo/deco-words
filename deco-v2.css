@@ -1,237 +1,227 @@
-:root{--bg:#F5F5F6;--accent:#0000FF;--badge-bg:#EEEEFF;--ring:rgba(0,0,255,.3)}
-body{background:var(--bg)}
-.btn-primary{background:#0000FF;color:#fff}
-.btn-go::before{background:#1414DC}
-.btn-go .arrow{color:#0000FF}
-.tick input:checked+span,.hist.is-on{background:#EEEEFF;border-color:#9898FF;color:#0000CC}
-.group,.key-card:not(.is-ready),.msg,.notes,.hist,.dw-panel{background:rgba(255,255,255,.84);border:1px solid rgba(222,225,235,.9);box-shadow:0 7px 30px rgba(20,25,55,.035);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.dw-panel{padding:16px;border-radius:16px;margin:12px 0;flex:none}
-.dw-panel h3{font-size:14px;font-weight:600;margin:0 0 10px;color:#252734}
-.dw-panel h4{margin:0;font-size:12px;font-weight:600;color:#0000FF}
-.dw-note{font-size:12px;color:#69707e;margin:6px 0 10px}
-.dw-options,.dw-actions{display:flex;gap:7px;flex-wrap:wrap}
-.dw-options button,.dw-actions button{font:inherit;font-size:12px;color:#444B59;border:1px solid #e0e3ec;background:white;border-radius:10px;padding:8px 10px;cursor:pointer}
-.dw-options button[aria-pressed="true"]{background:#EEEEFF;border-color:#0000FF;color:#0000FF;font-weight:600}
-.dw-actions button:disabled{opacity:.5;cursor:wait}
-.dw-card{padding:14px;background:#fff;border:1px solid #e5e7ef;border-radius:12px;margin:9px 0}
-.dw-card p{font-size:16px;line-height:1.5;color:#252734;margin:9px 0;overflow-wrap:anywhere}
-.dw-card-head{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
-.dw-preview{min-height:120px;display:grid;place-items:center;padding:20px 12px;background:#F6F7FA;border-radius:12px;color:#222632;font-size:clamp(18px,2vw,26px);font-weight:600;text-align:center;white-space:pre-line;overflow-wrap:anywhere}
-.dw-fields{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
-.dw-fields label{font-size:12px;color:#656b77}
-.dw-fields select,.dw-fields input{font:inherit;font-size:12px;padding:7px;background:white;border:1px solid #e5e7ef;border-radius:9px}
-.dw-fav-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #e5e7ef;font-size:13px}
-.dw-fav-row span{overflow-wrap:anywhere}
-.dw-status{font-size:12px;color:#666e7c;min-height:1.5em}
-#dw-generate{width:100%;margin:10px 0}
-@media(min-width:1024px){.dw-card p{font-size:15px}}
 
-
-/* WORKSPACE LAYOUT — closer to approved interactive concept */
-:root{--bg:#F3F4F6;--line:#E7E9EF;--muted:#818695;--fg:#242733;--ctl-fg:#454B58}
-body{background:#F3F4F6}
-.shell{max-width:1550px}
-.topbar{padding-bottom:18px}
-.topbar h1{font-size:20px;letter-spacing:.018em;color:#202331;font-weight:700}
-.tool-link{background:rgba(255,255,255,.7);border-color:#E6E8EE}
-.layout{gap:16px}
-.panel.side,.panel.results{background:transparent}
-.dw-sidebar{gap:12px!important}
-.dw-sidebar .form{gap:15px}
+/* DECO WORDS 2.0 — the approved light, minimal glass studio */
+:root{
+  --bg:#F3F4F6;--card:#FFFFFF;--line:#E8EAF0;--fg:#222632;
+  --fg-soft:#323844;--muted:#858B98;--ctl-fg:#414755;
+  --accent:#0000FF;--badge-bg:#EEEEFF;--ring:rgba(0,0,255,.22);
+}
+body.dw-studio-active{background:#F3F4F6;color:#222632;letter-spacing:0}
+.dw-studio-active .shell{max-width:1500px}
+.dw-studio-active .topbar{padding:2px 0 24px}
+.dw-studio-active .topbar h1{font-size:19px;font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:12px;color:#252732}
+.dw-brand-tag{font-size:10px;font-weight:500;color:#8B90A0;letter-spacing:.13em;padding-top:2px}
+.dw-studio-active .tool-link{background:rgba(255,255,255,.76);border:1px solid #E6E9F1;border-radius:12px;color:#656D7B;min-height:36px;font-size:12px}
+.dw-studio-active .layout{gap:22px;align-items:stretch}
+.dw-studio-active .panel{background:transparent}
+.dw-studio-active .dw-sidebar{gap:13px;min-width:0}
+.dw-studio-active .dw-form{
+  display:flex;flex-direction:column;gap:17px;min-width:0;padding:24px;
+  border:1px solid #E7E9F0;border-radius:19px;
+  background:rgba(255,255,255,.83);
+  box-shadow:0 9px 35px rgba(31,39,74,.035);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+}
 .dw-form-heading{margin:0 0 4px}
-.dw-eyebrow{display:block;color:#0000FF;font-size:10px;font-weight:600;letter-spacing:.12em;margin-bottom:6px}
-.dw-form-heading h2{font-size:21px;line-height:1.4;margin:0 0 4px;font-weight:600}
-.dw-form-heading p{font-size:12px;color:#858A95;line-height:1.5;margin:0}
-.dw-sidebar .form,.dw-workspace,.dw-sidebar .key-card:not(.is-ready){background:rgba(255,255,255,.78);border:1px solid #E5E7EE;border-radius:18px;padding:21px;box-shadow:0 9px 35px rgba(30,33,60,.045);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.dw-sidebar .form .field>legend,.dw-sidebar .form .lbl{color:#686F7D;font-size:12px}
-.dw-sidebar input[type=text],.dw-sidebar input[type=password]{background:#F7F8FA;border:1px solid #EDEEF2;border-radius:11px}
-.dw-sidebar input[type=text]:focus,.dw-sidebar input[type=password]:focus{background:white;border-color:#0000FF}
-.dw-sidebar .tick span{font-size:12px;background:#F7F8FA;min-height:36px;border-radius:10px}
-.dw-sidebar .ticks{gap:7px}
-.dw-sidebar .key-card.is-ready{padding:0 3px}
-.dw-sidebar .key-card:not(.is-ready){order:0}
-.dw-sidebar .btn-go{background:#0000FF;color:white}
-.dw-sidebar .btn-go .arrow{color:#0000FF}
-.dw-sidebar .actions{padding-top:5px}
-.dw-sidebar .btn-secondary{background:white;border-radius:12px}
-.dw-sidebar .btn-primary{border-radius:12px}
-.dw-sidebar .btn-go{border-radius:12px;min-height:48px}
-.dw-sidebar .btn-go::before{border-radius:12px}
-.dw-sidebar .form .dw-panel{box-shadow:none;border:0;border-top:1px solid #EEF0F4;background:transparent;border-radius:0;margin:3px 0 0;padding:17px 0 0;backdrop-filter:none;-webkit-backdrop-filter:none}
-.dw-form .dw-panel h3{font-size:13px;color:#2C3040;margin-bottom:8px}
-.dw-form .dw-panel .dw-note{font-size:11px}
-.dw-form #dw-length button{flex:1 1 auto;min-height:35px;padding:6px 8px;background:#F6F7FA;border:1px solid #F0F1F5;border-radius:9px;color:#6B7080}
-.dw-form #dw-length button[aria-pressed=true]{background:#EEEEFF;border-color:#7C7CFF;color:#0000FF;font-weight:600}
-.dw-form #dw-generate{background:#0000FF;min-height:46px;margin:13px 0 4px;font-weight:600;border-radius:12px}
-.dw-form #dw-generate:hover{background:#1919DA}
-.dw-sidebar .fold{border-top:1px solid #ECEEF3;padding-top:10px}
-.dw-sidebar .key-card .key-setup{gap:9px}
-.dw-sidebar .key-ready .pill-btn{font-size:12px}
-.dw-sidebar .key-usage{font-size:11px}
-.dw-sidebar .form .actions .btn-go{flex:1 1 135px}
-.dw-sidebar .form .actions .btn-clear,.dw-sidebar .form .actions .btn-again{flex:0.7 1 auto}
-.results-head{display:none}
-.panel.results{border:0!important;padding-top:6px!important}
-.dw-view-tabs{display:flex;gap:7px;padding:4px 0 14px;flex:none}
-.dw-view-tabs button{font:inherit;font-size:12px;color:#777D8C;padding:10px 13px;min-height:40px;border:1px solid transparent;border-radius:10px;background:transparent;cursor:pointer;white-space:nowrap}
-.dw-view-tabs button[aria-current=page]{background:#FFFFFF;border-color:#E5E7EE;color:#0000FF;font-weight:600;box-shadow:0 3px 12px rgba(10,12,40,.03)}
-.dw-view-tabs button:focus-visible{outline:2px solid #0000FF}
-.dw-workspace{min-height:0;flex:1;display:block;overflow-y:auto;scrollbar-width:thin;padding:18px 20px}
-.dw-workspace>.dw-panel{background:transparent;box-shadow:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:0;padding:0;margin:0}
-.dw-workspace .dw-panel h3{font-size:14px;font-weight:600;margin:0 0 13px}
-.dw-workspace #dw-cards{display:grid;gap:10px}
-.dw-workspace .dw-card{margin:0;padding:16px 18px;border:1px solid #E9EAF1;border-radius:13px;background:rgba(255,255,255,.85);box-shadow:0 3px 13px rgba(30,30,60,.025)}
-.dw-workspace .dw-card h4{color:#777D90;font-size:11px;font-weight:600;letter-spacing:.035em}
-.dw-workspace .dw-card p{font-size:17px;font-weight:500;color:#252735;margin:12px 0 10px;line-height:1.4}
-.dw-workspace .dw-card .dw-note{font-size:11px;margin:0 0 8px;color:#8C909E}
-.dw-workspace .dw-actions button{font-size:11px;padding:5px 9px;border:1px solid #E8E9F0;color:#757A89;background:#FAFAFC;border-radius:8px}
-.dw-workspace .dw-actions button:hover{color:#0000FF;border-color:#A9A9FF;background:#F5F4FF}
-.dw-workspace .dw-card-empty{border-style:dashed;background:rgba(249,249,251,.65)}
-.dw-workspace .dw-card-empty p{color:#9398A6;font-weight:400}
-.dw-empty-label{font-size:10px;color:#A5A9B6}
-.dw-workspace #dw-typesetter{border-top:1px solid #E9EBF1;margin-top:20px;padding-top:20px}
-.dw-workspace #dw-typesetter h3{font-size:14px}
-.dw-workspace .dw-fields{gap:8px 14px;margin:12px 0}
-.dw-workspace .dw-fields label{font-size:11px}
-.dw-workspace .dw-fields select{margin-left:4px;background:#F7F8FA;color:#3B3F4D;border:1px solid #E8EAF1;border-radius:8px}
-.dw-workspace .dw-preview{min-height:150px;border:1px solid #EAEAF0;background:#F6F7F9;line-height:1.5;font-weight:500}
-.dw-workspace #dw-copy-preview{margin-top:12px}
-.dw-workspace .dw-fav-row{gap:12px}
-.dw-workspace #dw-search{flex:1;min-width:140px}
-.dw-legacy #result-body{overflow:visible!important;max-height:none!important;min-height:0!important;flex:none}
-.dw-legacy #result-body .group{background:#FFFFFF;border:1px solid #E8EAF0;margin-top:12px}
-.dw-legacy .history{margin-bottom:12px}
-@media(min-width:1024px){
- .shell{padding-inline:max(30px,env(safe-area-inset-left));padding-bottom:max(20px,env(safe-area-inset-bottom))}
- .layout{grid-template-columns:minmax(340px, 2fr) minmax(0,3fr);gap:18px}
- .panel.side{margin:0;padding:0!important;overflow-y:auto;scrollbar-width:thin}
- .panel.results{padding:0!important;display:flex;flex-direction:column;min-height:0}
- .dw-sidebar .form{padding:21px;gap:15px}
- .dw-workspace{min-height:0;overflow-y:auto}
- .dw-sidebar .key-card.is-ready{margin-top:0}
- .dw-view-tabs{padding-top:0}
- .dw-workspace .dw-card-head{align-items:flex-start}
- .dw-workspace .dw-card .dw-actions{justify-content:flex-end}
- .dw-workspace .dw-card p{font-size:18px}
- .dw-sidebar .ticks{grid-template-columns:repeat(4,minmax(0,1fr))}
- .dw-workspace .dw-card-empty{min-height:112px}
+.dw-form-heading .dw-eyebrow,.dw-workspace-title .dw-eyebrow{
+  display:block;font-size:10px;font-weight:600;color:#0000FF;letter-spacing:.13em;margin-bottom:7px
 }
-@media(max-width:1023px){
- .layout{gap:14px}
- .panel.results{padding:0}
- .dw-sidebar .form{padding:18px}
- .dw-workspace{padding:16px}
- .dw-view-tabs{overflow-x:auto}
- .dw-workspace .dw-card-head{align-items:flex-start}
- .dw-workspace .dw-card-head .dw-actions{justify-content:flex-start}
- .dw-workspace .dw-preview{min-height:130px}
- .dw-workspace #dw-cards{grid-template-columns:minmax(0,1fr)}
+.dw-form-heading h2,.dw-workspace-title h2{
+  font-size:19px;font-weight:600;line-height:1.3;letter-spacing:0;margin:0 0 5px;color:#282C38
 }
-@media(max-width:420px){
- .dw-workspace{padding:12px}
- .dw-sidebar .form{padding:15px}
- .dw-workspace .dw-card{padding:13px}
- .dw-workspace .dw-card .dw-actions{gap:4px}
- .dw-workspace .dw-actions button{padding:5px 7px}
- .dw-view-tabs button{padding:9px 10px}
+.dw-form-heading p{font-size:12px;color:#989DA9;margin:0;line-height:1.6}
+.dw-studio-active .dw-form .field{margin:0;gap:7px}
+.dw-studio-active .dw-form .lbl{color:#777D8B;font-size:12px;font-weight:500}
+.dw-studio-active .dw-form .opt{font-size:11px;color:#A4A8B4}
+.dw-studio-active .dw-form .input-wrap input[type=text]{
+  min-height:48px;height:48px;background:#F7F8FA;border:1px solid #ECEEF3;
+  padding:0 42px 0 14px;border-radius:12px;color:#272B38;font-size:14px
 }
-
-
-/* APPROVED INTERACTIVE CONCEPT — definitive layout */
-:root{--bg:#F3F4F6;--accent:#0000FF}
-.topbar{padding-bottom:18px}
-.topbar h1{font-size:18px;font-weight:700;letter-spacing:.025em}
-.layout{gap:18px}
-.dw-sidebar{gap:12px!important}
-.dw-sidebar .dw-form{display:flex;flex-direction:column;gap:16px;padding:24px;background:rgba(255,255,255,.78);border:1px solid rgba(227,229,236,.95);border-radius:18px}
-.dw-form-heading{margin-bottom:0}
-.dw-form-heading h2{font-size:18px;margin:0 0 3px}
-.dw-form-heading p{font-size:11px}
-.dw-form .field .lbl{font-size:12px}
-.dw-form .input-wrap input{background:#F7F8FA!important;border:1px solid #ECEEF2!important}
-.dw-form .input-wrap input:focus{background:#fff!important;border-color:#0000FF!important}
-.dw-form .dw-panel{order:0!important;border:0!important;box-shadow:none!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:3px 0 0!important;margin:0!important}
-.dw-form .dw-panel h3{font-size:13px;margin-bottom:8px}
-.dw-form .dw-panel .dw-note{margin:0 0 8px}
-.dw-form #dw-length{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
-.dw-form #dw-length button{min-width:0;font-size:12px;white-space:normal;padding:10px 5px;line-height:1.3;background:#F6F7F9;border:1px solid #EDEEF3}
-.dw-form #dw-length button[aria-pressed=true]{background:#ECECFF!important;border:1px solid #0000FF!important;color:#0000FF!important}
-.dw-form #dw-generate{margin:12px 0 2px!important;min-height:46px;background:#0000FF!important;color:white!important;border-radius:11px}
-.dw-form #dw-generate:hover{background:#1616DE!important}
-.dw-form .dw-status{min-height:0;margin:4px 0 0}
-.dw-advanced{margin:2px 0 0;padding:10px 0 0;border-top:1px solid #E9EBF1}
-.dw-advanced>summary{cursor:pointer;color:#7C8290;font-size:12px;line-height:1.5;padding:4px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
-.dw-advanced>summary::-webkit-details-marker{display:none}
-.dw-advanced>summary::after{content:"⌄";font-size:16px;color:#858B96}
-.dw-advanced[open]>summary::after{content:"⌃"}
-.dw-advanced>fieldset,.dw-advanced>.fold{margin-top:13px}
-.dw-advanced>.actions{margin-top:18px}
-.dw-advanced .tick span{background:#F7F8FA;font-size:11px}
-.dw-advanced .btn-go .label::after{content:"完整翻譯"}
-.dw-advanced #btn-go .label{font-size:0}
-.dw-advanced #btn-go .label::after{font-size:13px}
-.dw-advanced #btn-go{border-radius:10px;background:#EDEEFF!important;color:#0000FF!important}
-.dw-advanced #btn-go .arrow{background:#fff}
-.dw-advanced .btn-secondary{border-radius:10px}
-.dw-sidebar .key-card.is-ready{order:0;margin-top:0;padding:4px 10px}
-.dw-sidebar .key-card:not(.is-ready){order:0;border-radius:18px;background:rgba(255,255,255,.8)}
-.dw-sidebar .key-card:not(.is-ready) .fine{font-size:11px}
-.dw-sidebar .key-card .panel-title{font-size:13px}
-.dw-sidebar .key-card .key-ready{gap:6px}
-.dw-sidebar .key-card .key-usage{font-size:11px}
-.dw-view-tabs{padding:0 0 12px;min-height:51px;display:block}
+.dw-studio-active .dw-form .input-wrap input[type=text]:focus{
+  background:#fff;border-color:#0000FF;box-shadow:0 0 0 3px rgba(0,0,255,.07);outline:0
+}
+.dw-studio-active .dw-form ::placeholder{color:#A0A5B1}
+.dw-studio-active .dw-form .clear-x{color:#8A909C}
+.dw-studio-active .dw-form .dw-panel{
+  order:0;display:block;margin:0;padding:3px 0 0;border:0;border-radius:0;
+  background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none
+}
+.dw-studio-active .dw-form .dw-panel h3{font-size:13px;font-weight:600;color:#343846;margin:0 0 9px}
+.dw-studio-active .dw-form .dw-note{font-size:11px;color:#969BA9;margin:0 0 12px;line-height:1.6}
+.dw-studio-active #dw-length{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.dw-studio-active #dw-length button{
+  display:grid;place-items:center;min-width:0;min-height:39px;padding:8px 4px;
+  background:#F7F8FA;border:1px solid #ECEEF2;border-radius:10px;
+  color:#777D8D;font:inherit;font-size:11px;font-weight:400;line-height:1.4;
+  text-align:center;cursor:pointer
+}
+.dw-studio-active #dw-length button[aria-pressed=true]{
+  color:#0000FF;font-weight:600;background:#EFEFFF;border:1px solid #9999FF
+}
+.dw-studio-active #dw-generate{
+  margin:10px 0 3px;padding:0 12px;min-height:49px;width:100%;
+  border-radius:11px;background:#0000FF;color:#fff;font-size:14px;font-weight:600;
+  box-shadow:0 5px 13px rgba(0,0,255,.11)
+}
+.dw-studio-active #dw-generate:disabled{opacity:.55}
+.dw-studio-active #dw-generate:hover:not(:disabled){background:#1515DB}
+.dw-studio-active #dw-status{margin:4px 0 0;min-height:0;font-size:11px;color:#828897}
+.dw-studio-active .dw-advanced{margin:1px 0 0;padding:12px 0 0;border-top:1px solid #EFF0F4}
+.dw-studio-active .dw-advanced>summary{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:#777D8C;cursor:pointer;list-style:none;padding:5px 0;
+}
+.dw-studio-active .dw-advanced>summary::-webkit-details-marker{display:none}
+.dw-studio-active .dw-advanced>summary::after{content:"⌄";font-size:16px}
+.dw-studio-active .dw-advanced[open]>summary::after{content:"⌃"}
+.dw-studio-active .dw-advanced>.field,.dw-studio-active .dw-advanced>.fold{margin-top:12px}
+.dw-studio-active .dw-advanced .tick span{border:1px solid #E7E9F0;background:#F9F9FB;border-radius:10px;font-size:11px;min-height:36px}
+.dw-studio-active .dw-advanced .tick input:checked+span{color:#0000FF;border-color:#AAA9FF;background:#EFEFFF}
+.dw-studio-active .dw-advanced .actions{margin-top:12px;gap:8px}
+.dw-studio-active .dw-advanced .btn{min-height:40px;border-radius:10px}
+.dw-studio-active .dw-advanced .btn-primary{background:#EEEEFF;color:#0000FF}
+.dw-studio-active .dw-advanced .btn-go{background:#EEEEFF;color:#0000FF;min-height:41px}
+.dw-studio-active .dw-advanced #btn-go .label{font-size:0}
+.dw-studio-active .dw-advanced #btn-go .label::after{content:"產生完整翻譯";font-size:12px}
+.dw-studio-active .dw-advanced .btn-go .arrow{background:white;color:#0000FF}
+.dw-studio-active .dw-advanced .btn-secondary{background:#fff;border:1px solid #E8EAF1;color:#626979}
+.dw-studio-active .key-card:not(.is-ready){
+  order:0;background:rgba(255,255,255,.86);border:1px solid #E7E9F0;
+  border-radius:18px;padding:16px;box-shadow:0 5px 20px rgba(31,39,74,.025)
+}
+.dw-studio-active .key-card.is-ready{order:0;margin-top:0;padding:2px 7px}
+.dw-studio-active .key-card .fine{font-size:11px}
+.dw-studio-active .key-card .panel-title{font-size:12px}
+.dw-studio-active .key-card .key-ready{gap:8px}
+.dw-studio-active .key-card .key-usage{font-size:11px}
+.dw-studio-active .key-card .btn-primary{background:#0000FF;color:white}
+.dw-studio-active .panel.results{
+  display:flex;flex-direction:column;min-height:0;border:0;background:none
+}
+.dw-studio-active .results-head{display:none}
+.dw-studio-active .dw-view-tabs{
+  flex:none;display:block;min-height:53px;padding:3px 0 12px;margin:0
+}
 .dw-workspace-title{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%}
-.dw-workspace-title h2{font-size:17px;font-weight:600;margin:1px 0 0;color:#272A37}
-.dw-workspace-title .dw-eyebrow{font-size:10px;margin:0}
+.dw-workspace-title h2{font-size:19px;margin:0}
 .dw-workspace-tools{display:flex;align-items:center;gap:7px}
-.dw-workspace-tools button,.dw-back{font:inherit;font-size:12px;border:1px solid #E4E6EC;border-radius:10px;background:rgba(255,255,255,.85);color:#666D7D;min-height:36px;padding:7px 12px;cursor:pointer;white-space:nowrap}
-.dw-workspace-tools button:hover,.dw-back:hover{border-color:#9898FF;color:#0000FF}
-.dw-back{margin-top:5px}
-.dw-workspace{background:rgba(255,255,255,.76);border-radius:18px;border:1px solid #E5E7ED;padding:20px!important;box-shadow:0 8px 28px rgba(30,32,55,.04)}
-.dw-workspace>.dw-panel h3{color:#282B37;font-size:13px;margin:0 0 13px}
-.dw-workspace #dw-cards{gap:11px}
-.dw-workspace .dw-card{padding:17px 18px;background:#FFF;border-radius:13px;border:1px solid #ECEEF2;box-shadow:0 2px 7px rgba(20,25,55,.02)}
-.dw-workspace .dw-card-head{align-items:center}
-.dw-workspace .dw-card h4{color:#0000FF;font-size:11px;font-weight:600;letter-spacing:.02em}
-.dw-workspace .dw-card p{font-size:17px;margin:9px 0 7px;font-weight:500;line-height:1.4}
-.dw-workspace .dw-card .dw-note{color:#9499A6;font-size:11px}
-.dw-workspace .dw-card-empty{background:#FBFBFD;border:1px dashed #E3E5EB;min-height:100px}
-.dw-workspace .dw-card-empty p{color:#ABB0BB;font-size:15px}
-.dw-workspace .dw-actions button{background:#F7F8FA;color:#6F7583;border:1px solid #EDF0F3;border-radius:8px;font-size:11px;min-height:28px}
-.dw-workspace .dw-actions button:hover{background:#EEEEFF;border-color:#A8A8FF;color:#0000FF}
-.dw-workspace #dw-typesetter{margin-top:22px;border-top:1px solid #ECEEF2;padding-top:20px}
-.dw-workspace .dw-preview{background:#F6F7FA;border:1px solid #E9EBF0;min-height:145px;font-weight:500;border-radius:12px}
-.dw-workspace .dw-fields{margin:10px 0}
-.dw-workspace .dw-fields select{background:white}
-.dw-workspace #dw-copy-preview{background:#0000FF;color:#fff;border:1px solid #0000FF;padding:10px 16px;font-size:12px;border-radius:10px}
-.dw-workspace .dw-card:has(button:first-child){transition:border-color .15s ease}
-.dw-workspace .dw-card:focus-within{border-color:#9696FF}
-.dw-workspace .dw-fav-row{gap:10px}
-.dw-workspace #dw-search{width:100%;max-width:320px;background:#FAFAFC}
-.dw-legacy #result-body{overflow:visible!important}
+.dw-workspace-tools button,.dw-studio-active .dw-back{
+  font:inherit;font-size:11px;padding:8px 12px;min-height:36px;
+  background:rgba(255,255,255,.85);color:#777E8D;border:1px solid #E6E8EF;
+  border-radius:10px;cursor:pointer;white-space:nowrap
+}
+.dw-workspace-tools button:hover,.dw-studio-active .dw-back:hover{color:#0000FF;border-color:#A4A4FF}
+.dw-studio-active .dw-back{margin:6px 0 0}
+.dw-studio-active .dw-workspace{
+  flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;
+  padding:21px;border:1px solid #E6E8EF;border-radius:19px;
+  background:rgba(255,255,255,.83);box-shadow:0 9px 35px rgba(31,39,74,.035);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+}
+.dw-studio-active .dw-workspace>.dw-panel{
+  display:block;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;
+  backdrop-filter:none;-webkit-backdrop-filter:none
+}
+.dw-studio-active .dw-workspace>.dw-panel h3{
+  margin:0 0 14px;font-size:13px;font-weight:600;color:#393E4B
+}
+.dw-studio-active #dw-cards{display:grid;grid-template-columns:minmax(0,1fr);gap:11px}
+.dw-studio-active .dw-card{
+  min-width:0;margin:0;padding:15px 17px;background:#fff;border:1px solid #EAECF1;border-radius:13px;
+  box-shadow:0 3px 12px rgba(24,32,65,.02)
+}
+.dw-studio-active .dw-card.is-selected{border-color:#B4B4FF;background:#FDFDFF}
+.dw-studio-active .dw-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dw-studio-active .dw-card h4{margin:0;color:#0000FF;font-size:10px;font-weight:600;letter-spacing:.075em}
+.dw-card-placeholder-label{font-size:10px;color:#A4A9B6}
+.dw-card-icons{display:flex;align-items:center;gap:4px}
+.dw-studio-active .dw-card-icons .dw-icon-button{
+  display:grid;place-items:center;width:32px;height:32px;padding:0;background:transparent;
+  border:1px solid transparent;border-radius:9px;color:#969AA7;font-size:20px;cursor:pointer
+}
+.dw-studio-active .dw-card-icons .dw-icon-button:hover{color:#0000FF;background:#F1F1FF;border-color:#E5E5FF}
+.dw-studio-active .dw-card-icons .dw-icon-button.is-favorite{color:#0000FF}
+.dw-studio-active .dw-card-icons .dw-icon-button:disabled{opacity:.45;cursor:wait}
+.dw-studio-active .dw-card .dw-card-english{
+  font:500 19px/1.35 "Inter","Noto Sans TC",system-ui,sans-serif;
+  margin:8px 0 6px;color:#282C38;letter-spacing:-.015em
+}
+.dw-studio-active .dw-card .dw-card-meaning{margin:0;color:#989DA9;font-size:11px;line-height:1.5}
+.dw-studio-active .dw-card-empty{background:#FCFCFE;border:1px dashed #E7E8EE}
+.dw-studio-active .dw-card-empty .dw-card-english{color:#A2A7B3;font-size:16px;font-weight:400}
+.dw-studio-active .dw-card-empty .dw-card-meaning{color:#B6BAC4}
+.dw-studio-active .dw-card .dw-select-preview{
+  margin-top:9px;padding:5px 0;background:transparent;border:0;
+  font:inherit;font-size:11px;color:#777D8B;cursor:pointer
+}
+.dw-studio-active .dw-card.is-selected .dw-select-preview{color:#0000FF}
+.dw-studio-active .dw-card .dw-select-preview:hover{color:#0000FF}
+.dw-studio-active #dw-typesetter{margin-top:23px;padding-top:20px;border-top:1px solid #EBEDF2}
+.dw-studio-active #dw-typesetter h3{margin-bottom:11px}
+.dw-studio-active .dw-fields{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0}
+.dw-studio-active .dw-fields label{font-size:11px;color:#737987}
+.dw-studio-active .dw-fields select,.dw-studio-active .dw-fields input{
+  font:inherit;font-size:11px;background:#F8F9FB;border:1px solid #E6E8EE;
+  border-radius:8px;color:#4E5564;padding:7px;margin-left:5px
+}
+.dw-studio-active .dw-preview{
+  min-height:148px;padding:25px 12px;background:#F7F8FA;border:1px solid #EBEDF2;border-radius:11px;
+  color:#272C38;font:500 clamp(18px,2.1vw,29px)/1.55 "Inter",system-ui,sans-serif;
+  text-align:center;white-space:pre-line;overflow-wrap:anywhere;display:grid;place-items:center
+}
+.dw-studio-active #dw-copy-preview{
+  font:inherit;font-size:12px;min-height:36px;margin-top:12px;padding:8px 15px;
+  border:1px solid #0000FF;border-radius:10px;background:#0000FF;color:#fff;cursor:pointer
+}
+.dw-studio-active #dw-copy-preview:hover{background:#1717DC}
+.dw-studio-active .dw-legacy #result-body{
+  display:flex;flex-direction:column;min-height:0;overflow:visible;max-height:none;
+  -webkit-mask-image:none;mask-image:none;margin:0;padding:0
+}
+.dw-studio-active .dw-legacy .group{background:white;border:1px solid #E9EBF0;border-radius:13px;margin-top:12px}
+.dw-studio-active .dw-legacy .history{background:none;border:0;border-bottom:1px solid #ECEEF3}
+.dw-studio-active .dw-fav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #ECEEF3;font-size:12px}
+.dw-studio-active .dw-fav-row span{overflow-wrap:anywhere}
+.dw-studio-active .dw-actions{display:flex;gap:6px;flex-wrap:wrap}
+.dw-studio-active .dw-actions button{
+  border:1px solid #E6E8EE;background:white;color:#757B87;
+  border-radius:8px;padding:6px 9px;font:inherit;font-size:11px;cursor:pointer
+}
+.dw-studio-active .dw-actions button:hover{color:#0000FF;border-color:#B1B1FF;background:#F7F7FF}
+.dw-studio-active .dw-actions button:disabled{opacity:.45}
+.dw-studio-active #dw-search{flex:1;min-width:130px}
+.dw-studio-active #dw-import{max-width:185px}
 @media(min-width:1024px){
- .layout{grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:20px}
- .panel.side{overflow-y:auto;scrollbar-width:thin;padding:0!important;margin:0!important}
- .panel.results{padding:2px 0 0!important;border:0!important;display:flex;flex-direction:column;min-height:0}
- .dw-sidebar .dw-form{padding:24px}
- .dw-workspace{min-height:0;overflow-y:auto;scrollbar-width:thin;flex:1}
- .dw-workspace #dw-cards{display:grid;grid-template-columns:1fr;gap:11px}
- .dw-workspace .dw-card .dw-actions{justify-content:flex-end}
- .dw-advanced .ticks{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .dw-studio-active html,.dw-studio-active body{height:100%;overflow:hidden}
+  .dw-studio-active .shell{height:100dvh;display:flex;flex-direction:column;padding-inline:32px;padding-bottom:24px}
+  .dw-studio-active .layout{
+    flex:1;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+    grid-template-rows:minmax(0,1fr);gap:20px;min-height:0
+  }
+  .dw-studio-active .panel.side{
+    min-height:0;margin:0;padding:0;overflow-y:auto;scrollbar-width:thin
+  }
+  .dw-studio-active .panel.results{
+    padding:0;min-height:0;overflow:hidden
+  }
+  .dw-studio-active .dw-workspace{min-height:0;overflow-y:auto}
+  .dw-studio-active .dw-sidebar .key-card.is-ready{margin-top:0}
+  .dw-studio-active .dw-advanced .ticks{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media(max-width:1023px){
- .dw-sidebar .dw-form{padding:18px}
- .dw-view-tabs{padding:0 0 10px}
- .dw-workspace{padding:17px!important}
- .dw-workspace-title{flex-wrap:wrap}
- .dw-workspace #dw-cards{display:grid;grid-template-columns:1fr}
+  .dw-studio-active .shell{padding:16px}
+  .dw-studio-active .layout{display:flex;flex-direction:column;gap:18px}
+  .dw-studio-active .panel.side,.dw-studio-active .panel.results{padding:0;border:0;overflow:visible}
+  .dw-studio-active .dw-sidebar .dw-form{padding:19px}
+  .dw-studio-active .dw-workspace{padding:18px;overflow:visible}
+  .dw-studio-active .dw-workspace-title{flex-wrap:wrap}
 }
 @media(max-width:450px){
- .dw-workspace-title h2{font-size:16px}
- .dw-workspace-tools button{font-size:11px;padding:7px 9px}
- .dw-sidebar .dw-form{padding:16px}
- .dw-workspace{padding:13px!important}
- .dw-workspace .dw-card{padding:13px}
- .dw-workspace .dw-card-head{align-items:flex-start}
- .dw-form #dw-length button{font-size:11px}
+  .dw-studio-active .topbar h1{font-size:16px}
+  .dw-studio-active .dw-sidebar .dw-form{padding:16px}
+  .dw-studio-active .dw-workspace{padding:14px}
+  .dw-studio-active .dw-card{padding:13px}
+  .dw-studio-active .dw-card .dw-card-english{font-size:17px}
+  .dw-studio-active .dw-workspace-tools button{font-size:10px;padding:7px 9px}
+  .dw-studio-active #dw-length button{font-size:10px}
 }
+@media(prefers-reduced-motion:reduce){.dw-studio-active *{scroll-behavior:auto}}
