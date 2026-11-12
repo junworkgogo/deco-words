@@ -135,3 +135,103 @@ body{background:#F3F4F6}
  .dw-workspace .dw-actions button{padding:5px 7px}
  .dw-view-tabs button{padding:9px 10px}
 }
+
+
+/* APPROVED INTERACTIVE CONCEPT — definitive layout */
+:root{--bg:#F3F4F6;--accent:#0000FF}
+.topbar{padding-bottom:18px}
+.topbar h1{font-size:18px;font-weight:700;letter-spacing:.025em}
+.layout{gap:18px}
+.dw-sidebar{gap:12px!important}
+.dw-sidebar .dw-form{display:flex;flex-direction:column;gap:16px;padding:24px;background:rgba(255,255,255,.78);border:1px solid rgba(227,229,236,.95);border-radius:18px}
+.dw-form-heading{margin-bottom:0}
+.dw-form-heading h2{font-size:18px;margin:0 0 3px}
+.dw-form-heading p{font-size:11px}
+.dw-form .field .lbl{font-size:12px}
+.dw-form .input-wrap input{background:#F7F8FA!important;border:1px solid #ECEEF2!important}
+.dw-form .input-wrap input:focus{background:#fff!important;border-color:#0000FF!important}
+.dw-form .dw-panel{order:0!important;border:0!important;box-shadow:none!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:3px 0 0!important;margin:0!important}
+.dw-form .dw-panel h3{font-size:13px;margin-bottom:8px}
+.dw-form .dw-panel .dw-note{margin:0 0 8px}
+.dw-form #dw-length{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.dw-form #dw-length button{min-width:0;font-size:12px;white-space:normal;padding:10px 5px;line-height:1.3;background:#F6F7F9;border:1px solid #EDEEF3}
+.dw-form #dw-length button[aria-pressed=true]{background:#ECECFF!important;border:1px solid #0000FF!important;color:#0000FF!important}
+.dw-form #dw-generate{margin:12px 0 2px!important;min-height:46px;background:#0000FF!important;color:white!important;border-radius:11px}
+.dw-form #dw-generate:hover{background:#1616DE!important}
+.dw-form .dw-status{min-height:0;margin:4px 0 0}
+.dw-advanced{margin:2px 0 0;padding:10px 0 0;border-top:1px solid #E9EBF1}
+.dw-advanced>summary{cursor:pointer;color:#7C8290;font-size:12px;line-height:1.5;padding:4px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.dw-advanced>summary::-webkit-details-marker{display:none}
+.dw-advanced>summary::after{content:"⌄";font-size:16px;color:#858B96}
+.dw-advanced[open]>summary::after{content:"⌃"}
+.dw-advanced>fieldset,.dw-advanced>.fold{margin-top:13px}
+.dw-advanced>.actions{margin-top:18px}
+.dw-advanced .tick span{background:#F7F8FA;font-size:11px}
+.dw-advanced .btn-go .label::after{content:"完整翻譯"}
+.dw-advanced #btn-go .label{font-size:0}
+.dw-advanced #btn-go .label::after{font-size:13px}
+.dw-advanced #btn-go{border-radius:10px;background:#EDEEFF!important;color:#0000FF!important}
+.dw-advanced #btn-go .arrow{background:#fff}
+.dw-advanced .btn-secondary{border-radius:10px}
+.dw-sidebar .key-card.is-ready{order:0;margin-top:0;padding:4px 10px}
+.dw-sidebar .key-card:not(.is-ready){order:0;border-radius:18px;background:rgba(255,255,255,.8)}
+.dw-sidebar .key-card:not(.is-ready) .fine{font-size:11px}
+.dw-sidebar .key-card .panel-title{font-size:13px}
+.dw-sidebar .key-card .key-ready{gap:6px}
+.dw-sidebar .key-card .key-usage{font-size:11px}
+.dw-view-tabs{padding:0 0 12px;min-height:51px;display:block}
+.dw-workspace-title{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%}
+.dw-workspace-title h2{font-size:17px;font-weight:600;margin:1px 0 0;color:#272A37}
+.dw-workspace-title .dw-eyebrow{font-size:10px;margin:0}
+.dw-workspace-tools{display:flex;align-items:center;gap:7px}
+.dw-workspace-tools button,.dw-back{font:inherit;font-size:12px;border:1px solid #E4E6EC;border-radius:10px;background:rgba(255,255,255,.85);color:#666D7D;min-height:36px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.dw-workspace-tools button:hover,.dw-back:hover{border-color:#9898FF;color:#0000FF}
+.dw-back{margin-top:5px}
+.dw-workspace{background:rgba(255,255,255,.76);border-radius:18px;border:1px solid #E5E7ED;padding:20px!important;box-shadow:0 8px 28px rgba(30,32,55,.04)}
+.dw-workspace>.dw-panel h3{color:#282B37;font-size:13px;margin:0 0 13px}
+.dw-workspace #dw-cards{gap:11px}
+.dw-workspace .dw-card{padding:17px 18px;background:#FFF;border-radius:13px;border:1px solid #ECEEF2;box-shadow:0 2px 7px rgba(20,25,55,.02)}
+.dw-workspace .dw-card-head{align-items:center}
+.dw-workspace .dw-card h4{color:#0000FF;font-size:11px;font-weight:600;letter-spacing:.02em}
+.dw-workspace .dw-card p{font-size:17px;margin:9px 0 7px;font-weight:500;line-height:1.4}
+.dw-workspace .dw-card .dw-note{color:#9499A6;font-size:11px}
+.dw-workspace .dw-card-empty{background:#FBFBFD;border:1px dashed #E3E5EB;min-height:100px}
+.dw-workspace .dw-card-empty p{color:#ABB0BB;font-size:15px}
+.dw-workspace .dw-actions button{background:#F7F8FA;color:#6F7583;border:1px solid #EDF0F3;border-radius:8px;font-size:11px;min-height:28px}
+.dw-workspace .dw-actions button:hover{background:#EEEEFF;border-color:#A8A8FF;color:#0000FF}
+.dw-workspace #dw-typesetter{margin-top:22px;border-top:1px solid #ECEEF2;padding-top:20px}
+.dw-workspace .dw-preview{background:#F6F7FA;border:1px solid #E9EBF0;min-height:145px;font-weight:500;border-radius:12px}
+.dw-workspace .dw-fields{margin:10px 0}
+.dw-workspace .dw-fields select{background:white}
+.dw-workspace #dw-copy-preview{background:#0000FF;color:#fff;border:1px solid #0000FF;padding:10px 16px;font-size:12px;border-radius:10px}
+.dw-workspace .dw-card:has(button:first-child){transition:border-color .15s ease}
+.dw-workspace .dw-card:focus-within{border-color:#9696FF}
+.dw-workspace .dw-fav-row{gap:10px}
+.dw-workspace #dw-search{width:100%;max-width:320px;background:#FAFAFC}
+.dw-legacy #result-body{overflow:visible!important}
+@media(min-width:1024px){
+ .layout{grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:20px}
+ .panel.side{overflow-y:auto;scrollbar-width:thin;padding:0!important;margin:0!important}
+ .panel.results{padding:2px 0 0!important;border:0!important;display:flex;flex-direction:column;min-height:0}
+ .dw-sidebar .dw-form{padding:24px}
+ .dw-workspace{min-height:0;overflow-y:auto;scrollbar-width:thin;flex:1}
+ .dw-workspace #dw-cards{display:grid;grid-template-columns:1fr;gap:11px}
+ .dw-workspace .dw-card .dw-actions{justify-content:flex-end}
+ .dw-advanced .ticks{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:1023px){
+ .dw-sidebar .dw-form{padding:18px}
+ .dw-view-tabs{padding:0 0 10px}
+ .dw-workspace{padding:17px!important}
+ .dw-workspace-title{flex-wrap:wrap}
+ .dw-workspace #dw-cards{display:grid;grid-template-columns:1fr}
+}
+@media(max-width:450px){
+ .dw-workspace-title h2{font-size:16px}
+ .dw-workspace-tools button{font-size:11px;padding:7px 9px}
+ .dw-sidebar .dw-form{padding:16px}
+ .dw-workspace{padding:13px!important}
+ .dw-workspace .dw-card{padding:13px}
+ .dw-workspace .dw-card-head{align-items:flex-start}
+ .dw-form #dw-length button{font-size:11px}
+}
