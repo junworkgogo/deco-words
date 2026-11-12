@@ -558,6 +558,73 @@ body.dw-studio-active .dw-fallback-preview p{font-size:11px;color:#979BA7;margin
 @media(min-width:1024px){body.dw-studio-active .layout{display:grid!important;grid-template-columns:minmax(0,2fr) minmax(0,3fr)!important;grid-template-rows:minmax(0,1fr)}}
 @media(max-width:1023px){body.dw-studio-active .layout{display:flex!important;flex-direction:column}body.dw-studio-active .dw-static-fallback{height:auto}}
 
+
+/* Approved 02 interactive reference — component-accurate studio */
+.dw-studio-active .panel.results{background:transparent!important}
+.dw-studio-active .dw-workspace-title{display:flex;align-items:center;justify-content:space-between;background:#F2F2F5;padding:22px 23px 15px!important;min-height:auto;gap:20px;border-radius:24px 24px 0 0}
+.dw-studio-name h2{font-size:21px!important;line-height:1.2!important;margin:0 0 7px!important;font-weight:700!important;letter-spacing:-.02em!important;color:#272B37!important}
+.dw-studio-name span{font-size:11px;letter-spacing:.09em;color:#8D92A2}
+.dw-top-shortcuts{display:flex;align-items:center;gap:9px}
+.dw-top-shortcuts button{display:grid;place-items:center;font-size:21px;width:42px;height:42px;border:0;border-radius:13px;background:#fff;color:#615FB8;cursor:pointer}
+.dw-top-shortcuts button:hover{background:#E8E6FC}
+.dw-studio-active .dw-workspace{background:#F2F2F5!important;border:0!important;border-radius:0 0 24px 24px!important;box-shadow:none!important;padding:0 22px 22px!important;display:flex;flex-direction:column;gap:17px;overflow-y:auto}
+.dw-studio-active #dw-results{display:flex!important;flex-direction:column;gap:17px}
+.dw-studio-active #dw-results>h3{display:none}
+.dw-studio-active .dw-prototype-block{background:#fff!important;border:0!important;border-radius:19px!important;padding:21px 19px!important;box-shadow:none!important;margin:0!important}
+.dw-studio-active .dw-prototype-block h3{font-size:16px!important;line-height:1.4!important;margin:0 0 17px!important;color:#272A36!important;font-weight:600!important;letter-spacing:0!important}
+.dw-studio-active .dw-prototype-length{display:flex;flex-direction:column;gap:0}
+.dw-studio-active .dw-prototype-length #dw-length{display:inline-flex!important;justify-content:flex-start!important;align-items:center!important;gap:8px!important;grid-template-columns:none!important;padding:2px 0;margin:0}
+.dw-studio-active .dw-prototype-length #dw-length button{flex:none;min-width:75px;min-height:39px;border:0!important;background:transparent!important;border-radius:100px;font-size:14px!important;font-weight:500;color:#999AA5!important;padding:8px 16px!important}
+.dw-studio-active .dw-prototype-length #dw-length button[aria-pressed=true]{color:#282A36!important;background:#F0F0F2!important;font-weight:600!important}
+.dw-studio-active .dw-proto-hint{order:2;margin:14px 0 0!important;color:#8E93A1;font-size:12px;line-height:1.6}
+.dw-studio-active .dw-proto-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dw-studio-active .dw-proto-caption{font-size:11px;color:#A1A3AF}
+.dw-studio-active .dw-prototype-proposals #dw-cards{display:grid;gap:12px!important}
+.dw-studio-active .dw-prototype-card{position:relative;background:#F7F8FA!important;border:1px solid #E6E8EE!important;border-radius:15px!important;min-height:108px;margin:0!important;padding:19px 18px 15px!important;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:background .15s,border-color .15s}
+.dw-studio-active .dw-prototype-card.is-selected{background:#F0EEFB!important;border-color:#9387EC!important}
+.dw-studio-active .dw-prototype-card:hover{border-color:#A6A0D9!important}
+.dw-studio-active .dw-prototype-card .dw-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dw-studio-active .dw-prototype-card h4{font-size:12px!important;font-weight:500!important;color:#8F94A3!important;letter-spacing:0!important}
+.dw-studio-active .dw-prototype-card.is-selected h4{color:#6762B9!important}
+.dw-selected-indicator{color:#605CC1;width:19px;height:19px;border:1px solid #726ACE;border-radius:50%;font-size:12px;display:grid;place-items:center;line-height:1}
+.dw-selected-indicator:empty{border:0}
+.dw-studio-active .dw-prototype-card .dw-card-english{font-size:18px!important;line-height:1.45!important;color:#2B2E3A!important;margin:0 0 6px!important;font-weight:500!important;letter-spacing:-.01em!important}
+.dw-studio-active .dw-prototype-card .dw-card-icons{align-self:flex-end;display:flex;gap:6px;z-index:3;margin-top:auto}
+.dw-studio-active .dw-prototype-card .dw-icon-button{color:#939AA7!important;font-size:21px!important;width:31px;height:31px}
+.dw-studio-active .dw-prototype-card .dw-icon-button:hover{color:#5D57C7!important;background:#E9E6FC!important}
+.dw-studio-active .dw-prototype-card .dw-card-hit{position:absolute;inset:0;width:100%;height:100%;background:transparent;border:0;cursor:pointer;z-index:1}
+.dw-studio-active .dw-prototype-card .dw-card-icons button{position:relative;z-index:3}
+.dw-demo-indicator{font-size:10px;color:#B0B4BD}
+.dw-studio-active .dw-prototype-typesetter{display:flex!important;flex-direction:column;gap:0;border:0!important;margin:0!important;padding:21px 19px!important}
+.dw-studio-active .dw-prototype-typesetter h3{margin:0 0 16px!important}
+.dw-studio-active .dw-prototype-typesetter #dw-preview{min-height:178px!important;background:#F4F4F6!important;border:0!important;border-radius:16px!important;font-size:clamp(19px,2.2vw,25px)!important;font-weight:500!important;color:#2A2E3C!important;margin:0 0 20px;line-height:1.5}
+.dw-studio-active .dw-preview-controls{display:flex!important;flex-direction:column!important;gap:13px!important;margin:0!important;align-items:stretch!important}
+.dw-studio-active .dw-control-row{display:flex;width:100%;gap:6px}
+.dw-studio-active .dw-segmented{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:5px;width:100%}
+.dw-studio-active .dw-segmented button{font:inherit;font-size:14px!important;min-height:38px;border:0;border-radius:999px;background:transparent;color:#999CA6;cursor:pointer;padding:7px 10px}
+.dw-studio-active .dw-segmented button[aria-pressed=true]{background:#F0F0F2;color:#282C38;font-weight:600}
+.dw-studio-active .dw-segmented button:focus-visible{outline:2px solid #635BC8;outline-offset:1px}
+.dw-studio-active .dw-slider-wrap{margin:0 0 3px}
+.dw-studio-active .dw-slider-label{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#9297A4;font-size:13px;margin:5px 0 14px}
+.dw-studio-active #dw-spacing{display:block;width:100%;height:8px;border:0!important;border-radius:50px;background:#F0F0F2!important;appearance:none;-webkit-appearance:none;padding:0!important;margin:0!important}
+.dw-studio-active #dw-spacing::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;border:1px solid #E3E4EB;background:#fff;border-radius:50%;width:22px;height:22px;box-shadow:0 1px 3px rgba(15,17,35,.18);cursor:grab}
+.dw-studio-active #dw-spacing::-moz-range-thumb{border:1px solid #E3E4EB;background:#fff;border-radius:50%;width:22px;height:22px}
+.dw-studio-active .dw-prototype-typesetter .dw-actions{display:block!important;margin-top:17px!important}
+.dw-studio-active #dw-copy-preview{display:block!important;background:#191C20!important;border:0!important;color:#fff!important;border-radius:999px!important;font-size:14px!important;font-weight:500!important;min-height:48px!important;width:100%!important;padding:12px 20px!important;margin:0!important}
+.dw-studio-active #dw-copy-preview:hover{background:#36383D!important}
+.dw-studio-active .dw-inline-fold{padding:15px 18px!important;border-radius:15px;background:#fff;border:0!important;margin:0!important}
+.dw-studio-active .dw-inline-fold>summary{font-size:12px!important}
+@media(min-width:1024px){
+ .dw-studio-active .dw-workspace-title{flex:none}
+ .dw-studio-active .dw-workspace{overflow-y:auto}
+ .dw-studio-active .dw-prototype-card{min-height:120px}
+}
+@media(max-width:1023px){
+ .dw-studio-active .dw-workspace-title{padding:18px 17px 12px!important}
+ .dw-studio-active .dw-workspace{padding:0 16px 17px!important}
+ .dw-studio-active .dw-prototype-block{padding:18px 16px!important}
+}
+
 </style>
 <style id="dw-v2-inline">
 
@@ -2201,7 +2268,7 @@ renderHistory();
   };
   const $dw = id => document.getElementById(id);
   const styles = [{id:"luxury",zh:"精品高級"},{id:"minimal",zh:"極簡俐落"},{id:"impact",zh:"廣告吸睛"}];
-  let length = "standard", selected = 0, entries = [], loading = false;
+  let length = "standard", selected = 2, entries = [], loading = false;
   const storageKey = "decoWords.favorites.v2";
   let favorites = [];
   try {
@@ -2249,10 +2316,30 @@ renderHistory();
       make("h3",{text:"03  /  英文排版預覽"}),
       make("div",{"class":"dw-fields",id:"dw-fields"}),
       make("div",{"class":"dw-preview",id:"dw-preview"}),
-      make("div",{"class":"dw-actions"},make("button",{type:"button",id:"dw-copy-preview",text:"複製排版文字"}))
+      make("div",{"class":"dw-actions"},make("button",{type:"button",id:"dw-copy-preview",text:"▢  複製排版英文"}))
     )
   );
   results.hidden = false;
+  // Match the original 01 / 02 / 03 interactive prototype exactly.
+  const lengthBox=make("section",{"class":"dw-prototype-block dw-prototype-length"},
+    make("h3",{text:"01 / 英文長度控制"}),
+    make("p",{"class":"dw-proto-hint",id:"dw-prototype-length-note",text:"4–6 個英文單字，適合不同廣告版面"}));
+  lengthBox.append($dw("dw-length"));
+  formBox.querySelector("h3").remove();
+  formBox.querySelector(".dw-note").remove();
+  results.prepend(lengthBox);
+  const proposalPanel=make("section",{"class":"dw-prototype-block dw-prototype-proposals"},
+    make("div",{"class":"dw-proto-header"},
+      make("h3",{text:"02 / 三組英文提案"}),
+      make("span",{"class":"dw-proto-caption",text:"選取預覽版本"})));
+  proposalPanel.append($dw("dw-cards"));
+  results.append(proposalPanel);
+  const previewPanel=$dw("dw-typesetter");
+  previewPanel.classList.add("dw-prototype-block","dw-prototype-typesetter");
+  previewPanel.querySelector("h3").textContent="03 / 英文排版預覽";
+  results.append(previewPanel);
+  // Relocate copied nodes after inserting results; they stay in the same work surface.
+
   const favoritesBox = make("section",{"class":"dw-panel","aria-label":"英文收藏庫"},
     make("div",{"class":"dw-card-head"},make("h3",{text:"我的英文收藏"}),
       make("div",{"class":"dw-actions"},make("button",{id:"dw-export",type:"button",text:"匯出備份"}))),
@@ -2267,9 +2354,12 @@ renderHistory();
   const parent = out.parentNode;
   const stage=make("div",{"class":"dw-workspace",id:"dw-workspace"});
   const heading=make("div",{"class":"dw-workspace-title"},
-    make("div",{},make("span",{"class":"dw-eyebrow",text:"02  /  ENGLISH STUDIO"}),
-      make("h2",{text:"三組英文提案"})),
-    make("span",{"class":"dw-flow-label",text:"選擇 · 預覽 · 收藏 · 複製"}));
+    make("div",{"class":"dw-studio-name"},
+      make("h2",{text:"DECO WORDS"}),
+      make("span",{text:"COPY DESIGN STUDIO"})),
+    make("div",{"class":"dw-top-shortcuts"},
+      make("button",{type:"button",id:"dw-open-favorites",title:"我的收藏","aria-label":"我的收藏",text:"♧"}),
+      make("button",{type:"button",id:"dw-open-settings",title:"設定","aria-label":"設定",text:"☷"})));
   const favoriteFold=make("details",{"class":"dw-inline-fold",id:"dw-favorites-fold"},
     make("summary",{text:"♡  我的常用英文收藏"}),favoritesBox);
   const legacyFold=make("details",{"class":"dw-inline-fold",id:"dw-legacy-fold"},
@@ -2288,6 +2378,12 @@ renderHistory();
   const keyCard=document.getElementById("key-panel");
   if(keyCard)settingsPanel.append(keyCard);
   footer.append(historyPanel,favoritesPanel,settingsPanel);
+  $dw("dw-open-favorites").addEventListener("click",()=>{
+    favoritesPanel.open=true;favoritesPanel.scrollIntoView({block:"nearest",behavior:"smooth"});
+  });
+  $dw("dw-open-settings").addEventListener("click",()=>{
+    settingsPanel.open=true;settingsPanel.scrollIntoView({block:"nearest",behavior:"smooth"});
+  });
   document.getElementById("form").addEventListener("submit",()=>{
     if(!apiKey)settingsPanel.open=true;
   });
@@ -2318,27 +2414,48 @@ renderHistory();
   const lengths = [{id:"short",label:"極短 1–3 字"},{id:"standard",label:"標準 4–6 字"},{id:"long",label:"完整 7–12 字"}];
   function drawLengths() {
     const box = $dw("dw-length");
-    box.replaceChildren(...lengths.map(item => button(item.label,() => {length=item.id;drawLengths();})));
+    box.replaceChildren(...lengths.map(item => button(item.label.split(" ")[0],() => {length=item.id;drawLengths();})));
+    const note=$dw("dw-prototype-length-note");
+    if(note)note.textContent=({short:"1–3 個英文單字，適合極短標題",standard:"4–6 個英文單字，適合不同廣告版面",long:"7–12 個英文單字，適合完整文案"})[length];
     Array.from(box.children).forEach((btn,i) => btn.setAttribute("aria-pressed",String(lengths[i].id === length)));
   }
   drawLengths();
-  const select = (name, items) => {
-    const el = make("select",{id:"dw-"+name});
-    for (const [value,label] of items) el.append(make("option",{value,text:label}));
-    el.addEventListener("change",drawPreview);
-    return make("label",{}, name === "case" ? "大小寫 " : name === "lines" ? "斷行 " : "字距 ",el);
+  const previewControls={case:"original",lines:"single",spacing:50};
+  const segmented=(id,labels)=>{
+    const wrap=make("div",{"class":"dw-segmented","role":"group","aria-label":id==="case"?"英文大小寫":"英文斷行"});
+    const buttons=[];
+    labels.forEach(([value,label])=>{
+      const b=make("button",{type:"button",text:label,"aria-pressed":"false"});
+      b.addEventListener("click",()=>{
+        previewControls[id]=value;
+        buttons.forEach(([el,v])=>el.setAttribute("aria-pressed",String(v===value)));
+        drawPreview();
+      });
+      wrap.append(b);buttons.push([b,value]);
+    });
+    buttons.forEach(([el,v])=>el.setAttribute("aria-pressed",String(v===previewControls[id])));
+    return wrap;
   };
-  $dw("dw-fields").append(
-    select("case",[["original","原樣"],["upper","全大寫"],["lower","全小寫"]]),
-    select("lines",[["single","單行"],["double","雙行"]]),
-    select("spacing",[["0","標準"],["1","寬鬆"],["2","加寬"]])
-  );
+  const controls=$dw("dw-fields");
+  controls.classList.add("dw-preview-controls");
+  const caseControls=segmented("case",[["original","原樣"],["upper","大寫"],["lower","小寫"]]);
+  const lineControls=segmented("lines",[["single","單行"],["double","雙行"]]);
+  const letterSpacing=make("input",{type:"range",id:"dw-spacing",min:"0",max:"100",step:"1",value:"50","aria-label":"調整英文預覽字距"});
+  const spacingText=make("span",{"class":"dw-spacing-value",id:"dw-spacing-value",text:"字距：標準"});
+  letterSpacing.addEventListener("input",()=>{
+    previewControls.spacing=Number(letterSpacing.value);
+    drawPreview();
+  });
+  controls.append(make("div",{"class":"dw-control-row",role:"group","aria-label":"英文大小寫"},caseControls),
+    make("div",{"class":"dw-control-row",role:"group","aria-label":"英文斷行"},lineControls),
+    make("div",{"class":"dw-slider-wrap"},
+      make("div",{"class":"dw-slider-label"},make("span",{text:"字距"}),spacingText),letterSpacing));
   const previewText = () => {
     const entry = entries[selected];if (!entry) return "";
     let text = entry.text;
-    if ($dw("dw-case").value === "upper") text = text.toUpperCase();
-    if ($dw("dw-case").value === "lower") text = text.toLowerCase();
-    if ($dw("dw-lines").value === "double") {
+    if (previewControls.case === "upper") text = text.toUpperCase();
+    if (previewControls.case === "lower") text = text.toLowerCase();
+    if (previewControls.lines === "double") {
       const words = text.trim().split(/\s+/), mid = Math.ceil(words.length / 2);
       if (words.length > 1) text = words.slice(0,mid).join(" ")+"\n"+words.slice(mid).join(" ");
     }
@@ -2346,8 +2463,12 @@ renderHistory();
   };
   function drawPreview() {
     const p = $dw("dw-preview");
-    p.textContent = entries.length ? previewText() : "URBAN SERENITY";
-    p.style.letterSpacing = ["0em",".065em",".13em"][Number($dw("dw-spacing").value)];
+    p.textContent = entries.length ? previewText() : [
+      "A Quiet Place in the City","Space for a Better Life","A New Standard of Living"
+    ][selected];
+    const letter=(previewControls.spacing-50)/50*0.12;
+    p.style.letterSpacing=letter.toFixed(3)+"em";
+    $dw("dw-spacing-value").textContent=previewControls.spacing===50?"標準":(previewControls.spacing<50?"緊密":"加寬");
   }
   const copy = async text => {
     try {await navigator.clipboard.writeText(text);status("已複製到剪貼簿");}
@@ -2364,45 +2485,43 @@ renderHistory();
     favorites = favorites.slice(0,500);
     saveFavorites();drawFavorites();drawEntries();
   }
-  function drawEntries() {
-    const host=$dw("dw-cards");
-    host.replaceChildren();
+  function drawEntries(){
+    const host=$dw("dw-cards");host.replaceChildren();
     const examples=[
       ["A Quiet Place in the City","都會中的寧靜之所"],
       ["Space for a Better Life","為美好生活留白"],
       ["A New Standard of Living","嶄新的生活標準"]
     ];
     styles.forEach((style,i)=>{
-      const item=entries[i];
-      const isSelected=!!item&&selected===i;
+      const item=entries[i],chosen=selected===i;
       const text=item?item.text:examples[i][0];
-      const description=item?(item.zh||""):examples[i][1];
-      const card=make("article",{"class":"dw-card"+(item?"":" dw-card-empty")+(isSelected?" is-selected":"")});
-      const head=make("div",{"class":"dw-card-head"},make("h4",{text:String(i+1).padStart(2,"0")+" / "+style.zh}));
-      const controls=make("div",{"class":"dw-card-icons"});
-      if(item){
-        const favorite=favorites.some(x=>x.text===item.text);
-        const mark=iconButton(favorite?"★":"☆",favorite?"取消收藏":"收藏英文",()=>toggleFavorite(i));
-        if(favorite)mark.classList.add("is-favorite");
-        controls.append(mark);
-        const regen=iconButton("↻","只重新生成這一組",()=>generate(i));
-        regen.disabled=loading;controls.append(regen);
-        controls.append(iconButton("▢","複製英文",()=>copy(item.text)));
-      } else {
-        controls.append(make("span",{"class":"dw-card-placeholder-label",text:"範例預覽"}));
-      }
-      head.append(controls);
-      const main=make("p",{"class":"dw-card-english",lang:"en",text});
-      const zh=make("p",{"class":"dw-card-meaning",text:description});
-      card.append(head,main,zh);
-      if(item) {
-        const selectButton=button(isSelected?"✓ 已選取預覽":"選取排版預覽",()=>{selected=i;drawEntries();});
-        selectButton.classList.add("dw-select-preview");
-        card.append(selectButton);
-      }
+      const card=make("article",{"class":"dw-card dw-prototype-card"+(chosen?" is-selected":""),
+        "aria-label":style.zh+"英文提案"});
+      const head=make("div",{"class":"dw-card-head"},
+        make("h4",{text:String(i+1).padStart(2,"0")+" / "+style.zh}),
+        make("span",{"class":"dw-selected-indicator",text:chosen?"✓":""}));
+      const english=make("p",{"class":"dw-card-english",lang:"en",text});
+      const actions=make("div",{"class":"dw-card-icons"});
+      const loved=favorites.some(x=>x.text===text);
+      const fav=iconButton(loved?"▣":"♧",loved?"取消收藏":"收藏此句",()=>{
+        if(item)toggleFavorite(i);
+        else {
+          const ex={text,zh:examples[i][1],style:style.zh};
+          if(loved)favorites=favorites.filter(x=>x.text!==text);
+          else favorites.unshift({id:Date.now()+"-"+i,...ex,created:new Date().toISOString()});
+          saveFavorites();drawFavorites();drawEntries();
+        }
+      });
+      if(loved)fav.classList.add("is-favorite");
+      const retry=iconButton("↻",item?"重新生成這組英文":"請先生成英文後再使用單句重生",()=>generate(i));
+      retry.disabled=loading||!item;
+      actions.append(fav,retry,iconButton("▢","複製此句英文",()=>copy(text)));
+      const choose=make("button",{type:"button","class":"dw-card-hit",
+        "aria-label":"選取 "+style.zh+" 進行排版預覽","aria-pressed":String(chosen)});
+      choose.addEventListener("click",()=>{selected=i;drawEntries();});
+      card.append(head,english,actions,choose);
       host.append(card);
     });
-    $dw("dw-typesetter").hidden=false;
     drawPreview();
   }
   function drawFavorites() {
@@ -2417,7 +2536,9 @@ renderHistory();
     });
     if (!matching.length) host.append(make("p",{"class":"dw-note",text:"尚無符合的收藏"}));
   }
-  $dw("dw-copy-preview").addEventListener("click",()=>copy(previewText()));
+  $dw("dw-copy-preview").addEventListener("click",()=>copy(entries.length?previewText():[
+      "A Quiet Place in the City","Space for a Better Life","A New Standard of Living"
+    ][selected]));
   $dw("dw-search").addEventListener("input",drawFavorites);
   $dw("dw-export").addEventListener("click",()=>{
     const url=URL.createObjectURL(new Blob([JSON.stringify(favorites,null,2)],{type:"application/json"}));
