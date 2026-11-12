@@ -48,7 +48,7 @@
   // Keep the original form and all event bindings; only reorganize its controls.
 
   const results = make("section",{"class":"dw-panel",id:"dw-results","aria-label":"三種語氣英文提案"},
-    make("h3",{text:"三組英文提案"}),
+    make("h3",{text:"02  /  THREE STYLES"}),
     make("div",{id:"dw-cards"}),
     make("section",{id:"dw-typesetter"},
       make("h3",{text:"03  /  英文排版預覽"}),
@@ -68,43 +68,36 @@
     ),
     make("div",{id:"dw-favorites"})
   );
+  // The right side is one continuous interactive canvas, not a set of mutually exclusive tabs.
   const parent = out.parentNode;
-  const nav = make("nav",{"class":"dw-view-tabs","aria-label":"結果檢視模式"});
-  const stage = make("div",{"class":"dw-workspace",id:"dw-workspace"});
-  const legacyBox = make("div",{"class":"dw-legacy"});
+  const stage=make("div",{"class":"dw-workspace",id:"dw-workspace"});
+  const heading=make("div",{"class":"dw-workspace-title"},
+    make("div",{},make("span",{"class":"dw-eyebrow",text:"02  /  ENGLISH STUDIO"}),
+      make("h2",{text:"三組英文提案"})),
+    make("span",{"class":"dw-flow-label",text:"選擇 · 預覽 · 收藏 · 複製"}));
+  const favoriteFold=make("details",{"class":"dw-inline-fold",id:"dw-favorites-fold"},
+    make("summary",{text:"♡  我的常用英文收藏"}),favoritesBox);
+  const legacyFold=make("details",{"class":"dw-inline-fold",id:"dw-legacy-fold"},
+    make("summary",{text:"完整翻譯與歷史紀錄"}));
+  const legacyBox=make("div",{"class":"dw-legacy"});
+  const history=document.getElementById("history");
+  if(history)legacyBox.append(history);
   legacyBox.append(out);
-  stage.append(results,favoritesBox,legacyBox);
-  parent.append(nav,stage);
-  const history = document.getElementById("history");
-  if (history) legacyBox.prepend(history);
-  const viewHeading = make("div",{"class":"dw-workspace-title"},
-    make("div",{},make("span",{"class":"dw-eyebrow",text:"02  /  YOUR ENGLISH"}),
-      make("h2",{text:"英文提案"})),
-    make("div",{"class":"dw-workspace-tools"}));
-  const actions = viewHeading.querySelector(".dw-workspace-tools");
-  const viewButton = (label,view) => {
-    const btn=make("button",{type:"button",text:label});
-    btn.addEventListener("click",()=>switchView(view));
-    return btn;
-  };
-  actions.append(viewButton("♡ 收藏庫","favorites"),viewButton("完整翻譯 ↗","legacy"));
-  const back=make("button",{"class":"dw-back",type:"button",text:"← 返回英文提案"});
-  back.addEventListener("click",()=>switchView("proposal"));
-  nav.replaceChildren(viewHeading,back);
-  let currentView="proposal";
+  legacyFold.append(legacyBox);
+  stage.append(results,favoriteFold,legacyFold);
+  parent.append(heading,stage);
   function switchView(view) {
-    currentView=view;
-    results.hidden=view!=="proposal";
-    favoritesBox.hidden=view!=="favorites";
-    legacyBox.hidden=view!=="legacy";
-    back.hidden=view==="proposal";
-    viewHeading.querySelector("h2").textContent=view==="proposal"?"英文提案":view==="favorites"?"常用英文收藏":"完整翻譯";
-    actions.hidden=view!=="proposal";
-    stage.scrollTop=0;
+    // Preserve the existing classic translation flow without replacing the three-card workspace.
+    if(view==="legacy"){
+      legacyFold.open=true;
+      legacyFold.scrollIntoView({block:"nearest",behavior:"smooth"});
+    } else if(view==="favorites"){
+      favoriteFold.open=true;
+      favoriteFold.scrollIntoView({block:"nearest",behavior:"smooth"});
+    }
   }
   root.addEventListener("submit",()=>switchView("legacy"));
   document.getElementById("btn-again").addEventListener("click",()=>switchView("legacy"));
-  switchView("proposal");
   const status = text => { $dw("dw-status").textContent = text; };
   const button = (label, onClick) => { const b = make("button",{type:"button",text:label});b.addEventListener("click",onClick);return b; };
   const iconButton = (symbol,label,onClick) => {
@@ -291,7 +284,7 @@
         if(typeof data.text!=="string"||!data.text.trim()||data.text.trim()===entries[index].text)throw new ApiError("incomplete");
         entries[index]={text:data.text.replace(/\s+/g," ").trim(),zh:String(data.zh||"")};
       }
-      status("已完成，可預覽、收藏或個別重生");drawEntries();switchView("proposal");
+      status("已完成，可預覽、收藏或個別重生");drawEntries();
       if(index===null&&isNarrow())results.scrollIntoView({block:"start",behavior:reduceMotion()?"auto":"smooth"});
     } catch(error) {
       const kind=error instanceof ApiError ? error.kind : "unknown";
