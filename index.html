@@ -2262,6 +2262,12 @@ renderHistory();
   const keyCard=document.getElementById("key-panel");
   if(keyCard)settingsPanel.append(keyCard);
   footer.append(historyPanel,favoritesPanel,settingsPanel);
+  document.getElementById("form").addEventListener("submit",()=>{
+    if(!apiKey)settingsPanel.open=true;
+  });
+  document.getElementById("dw-generate").addEventListener("click",()=>{
+    if(!apiKey)settingsPanel.open=true;
+  });
   document.querySelector(".shell").append(footer);
   parent.append(heading,stage);
   function switchView(view) {
