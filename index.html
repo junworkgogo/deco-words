@@ -794,12 +794,39 @@ body.dw-studio-active{background:#F3F4F6;color:#222632;letter-spacing:0}
 .dw-studio-active .dw-workspace #dw-typesetter{margin-top:20px}
 @media(max-width:540px){.dw-flow-label{display:none}.dw-studio-active .dw-workspace-title{min-height:48px}}
 
+
+/* Exact approved information architecture */
+.dw-studio-active .topbar h1{font-size:20px}
+.dw-studio-active .dw-brand-tag{font-size:10px;color:#848B99;font-weight:500}
+.dw-studio-active .dw-tone-control{display:flex;flex-direction:column;gap:8px;margin:14px 0 0}
+.dw-studio-active .dw-tone-control label{color:#727888;font-size:12px;font-weight:600}
+.dw-studio-active .dw-tone-control select{height:42px;width:100%;padding:0 12px;border:1px solid #E7E9EF;border-radius:10px;background:#F7F8FA;color:#3D4250;font:inherit;font-size:13px}
+.dw-studio-active .dw-tone-control select:focus-visible{outline:2px solid #0000FF}
+.dw-studio-active .dw-form #ctx{order:0;display:block}
+.dw-studio-active .dw-form .dw-panel{order:0}
+.dw-studio-active .dw-form #dw-generate{margin-top:15px}
+.dw-studio-active .dw-advanced{order:1}
+.dw-studio-active .dw-footer{display:flex;flex-wrap:wrap;gap:12px;padding:15px 3px 2px;border-top:1px solid #E3E6ED;flex:none;position:relative;z-index:3}
+.dw-studio-active .dw-footer-details{font-size:12px;color:#6D7482}
+.dw-studio-active .dw-footer-details>summary{cursor:pointer;list-style:none;padding:7px 10px;border:1px solid #E5E8F0;border-radius:9px;background:rgba(255,255,255,.8)}
+.dw-studio-active .dw-footer-details>summary::-webkit-details-marker{display:none}
+.dw-studio-active .dw-footer-details[open]{width:100%}
+.dw-studio-active .dw-footer-details[open]>summary{display:inline-block;color:#0000FF;margin-bottom:10px}
+.dw-studio-active .dw-footer-details .history{margin:0;background:transparent}
+.dw-studio-active .dw-footer-details .key-card{margin:0;max-width:650px}
+.dw-studio-active .dw-footer-details .dw-panel{margin:0;padding:0;max-width:680px;box-shadow:none;background:transparent;border:0}
+.dw-studio-active .dw-workspace #dw-results{display:block!important}
+.dw-studio-active .dw-workspace #dw-typesetter{display:block!important}
+.dw-studio-active .dw-inline-fold{margin-top:14px}
+@media(min-width:1024px){.dw-studio-active .shell{min-height:0}.dw-studio-active .layout{min-height:0;flex:1}.dw-studio-active .dw-footer-details[open]{max-height:220px;overflow:auto}}
+@media(max-width:1023px){.dw-studio-active .dw-footer{padding-bottom:25px}.dw-studio-active .dw-footer-details[open]{max-height:none}}
+
 </style>
 </head>
 <body>
 <div class="shell">
   <header class="topbar">
-    <h1>DECO WORDS <span style="font-size:11px;color:#0000FF">STUDIO 2.0</span></h1>
+    <h1>英🦠 <span class="dw-brand-tag">STUDIO</span></h1>
     <a class="tool-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer" title="前往家配咒語">家配咒語 <span aria-hidden="true">↗</span></a>
   </header>
 
@@ -2160,13 +2187,20 @@ renderHistory();
     make("h3",{text:"英文長度"}),
     make("p",{"class":"dw-note",text:"為不同廣告版面選擇合適的英文長度"}),
     make("div",{"class":"dw-options",id:"dw-length"}),
+    make("div",{"class":"dw-tone-control"},
+      make("label",{"for":"dw-tone",text:"風格設定"}),
+      make("select",{id:"dw-tone"},
+        make("option",{value:"balanced",text:"自然、精緻（預設）"}),
+        make("option",{value:"short",text:"俐落、少形容詞"}),
+        make("option",{value:"poetic",text:"有畫面感、詩意"}))
+    ),
     make("button",{type:"button",id:"dw-generate","class":"btn btn-primary",text:"✦ 生成三組英文文案"}),
     make("p",{"class":"dw-status",id:"dw-status",role:"status","aria-live":"polite"})
   );
   root.classList.add("dw-form");
   document.body.classList.add("dw-studio-active");
   const brand = document.querySelector(".topbar h1");
-  if (brand) brand.replaceChildren(make("span",{text:"DECO WORDS"}),make("span",{"class":"dw-brand-tag",text:"STUDIO 2.0"}));
+  if (brand) brand.replaceChildren(make("span",{text:"英🦠"}),make("span",{"class":"dw-brand-tag",text:"STUDIO"}));
   document.title="DECO WORDS 2.0｜英文文案工作台";
   document.querySelector(".side").classList.add("dw-sidebar");
   root.insertBefore(make("div",{"class":"dw-form-heading"},
@@ -2174,14 +2208,16 @@ renderHistory();
     make("h2",{text:"中文文案"}),
     make("p",{text:"從一句中文，找到適合設計的英文表達"})),root.firstElementChild);
   root.querySelector("#f-sub").closest(".field").after(formBox);
+  // Keep industry selection as the third always-visible control, before English length.
+  formBox.before(document.getElementById("ctx"));
   const advanced = make("details",{"class":"dw-advanced",id:"dw-advanced"},
     make("summary",{text:"更多設定與完整翻譯"}));
   formBox.after(advanced);
-  advanced.append(document.getElementById("ctx"),document.getElementById("avoid-fold"),root.querySelector(".actions"));
+  advanced.append(document.getElementById("avoid-fold"),root.querySelector(".actions"));
   // Keep the original form and all event bindings; only reorganize its controls.
 
   const results = make("section",{"class":"dw-panel",id:"dw-results","aria-label":"三種語氣英文提案"},
-    make("h3",{text:"02  /  THREE STYLES"}),
+    make("h3",{text:"三組英文提案"}),
     make("div",{id:"dw-cards"}),
     make("section",{id:"dw-typesetter"},
       make("h3",{text:"03  /  英文排版預覽"}),
@@ -2214,10 +2250,19 @@ renderHistory();
     make("summary",{text:"完整翻譯與歷史紀錄"}));
   const legacyBox=make("div",{"class":"dw-legacy"});
   const history=document.getElementById("history");
-  if(history)legacyBox.append(history);
   legacyBox.append(out);
   legacyFold.append(legacyBox);
-  stage.append(results,favoriteFold,legacyFold);
+  stage.append(results,legacyFold);
+  const footer=make("footer",{"class":"dw-footer"});
+  const historyPanel=make("details",{"class":"dw-footer-details"},make("summary",{text:"歷史紀錄"}));
+  if(history)historyPanel.append(history);
+  const favoritesPanel=make("details",{"class":"dw-footer-details"},make("summary",{text:"我的收藏"}));
+  favoritesPanel.append(favoritesBox);
+  const settingsPanel=make("details",{"class":"dw-footer-details"},make("summary",{text:"設定"}));
+  const keyCard=document.getElementById("key-panel");
+  if(keyCard)settingsPanel.append(keyCard);
+  footer.append(historyPanel,favoritesPanel,settingsPanel);
+  document.querySelector(".shell").append(footer);
   parent.append(heading,stage);
   function switchView(view) {
     // Preserve the existing classic translation flow without replacing the three-card workspace.
@@ -2225,8 +2270,8 @@ renderHistory();
       legacyFold.open=true;
       legacyFold.scrollIntoView({block:"nearest",behavior:"smooth"});
     } else if(view==="favorites"){
-      favoriteFold.open=true;
-      favoriteFold.scrollIntoView({block:"nearest",behavior:"smooth"});
+      favoritesPanel.open=true;
+      favoritesPanel.scrollIntoView({block:"nearest",behavior:"smooth"});
     }
   }
   root.addEventListener("submit",()=>switchView("legacy"));
@@ -2370,6 +2415,9 @@ renderHistory();
     prompt+="\n補充說明："+pickedText(els.ticks,els.otherBox,els.other);
     prompt+="\n避免提及："+pickedText(els.avoidTicks,els.avoidOtherBox,els.avoidOther,true);
     prompt+="\n每則英文目標："+range+" 個英文單字；保持英文自然優先。";
+    const tone=document.getElementById("dw-tone").value;
+    if(tone==="short")prompt+="\n整體風格偏好：俐落、避免冗詞和不必要的形容詞。";
+    if(tone==="poetic")prompt+="\n整體風格偏好：有畫面感、帶點詩意，但避免浮誇與生硬英文。";
     if(index === null) {
       prompt+="\n請分別輸出 3 個有區別的版本，style 必須依序是 luxury（精品高級）、minimal（極簡俐落）、impact（廣告吸睛）。";
       prompt+='\n格式：{"results":[{"style":"luxury","text":"英文","zh":"繁中大意"},{"style":"minimal","text":"英文","zh":"繁中大意"},{"style":"impact","text":"英文","zh":"繁中大意"}]}';
