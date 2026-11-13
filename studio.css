@@ -55,3 +55,38 @@ body{font-family:var(--font)}::selection{background:#ddddff;color:#000099}
 
 /* Infrequent reset stays beneath the primary action and its feedback. */
 .reset-row{display:flex;justify-content:flex-end;margin-top:6px}.reset-row .text-button{min-height:28px;font-size:11px;padding:4px 0}.error-details{margin-top:7px;font-size:11px;color:#62626d;overflow-wrap:anywhere}.error-details summary{cursor:pointer;padding:4px 0}.error-details p{white-space:pre-wrap;margin:6px 0 0;padding:9px;background:#f6f6f8;border-radius:6px;line-height:1.6}.error-details[hidden]{display:none!important}
+
+/* Shared visual language with jia-pei: identical type and button proportions. */
+:root{--font:Inter,"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{font:16px/1.6 var(--font)}
+.studio-header{height:86px;gap:20px}
+.brand-type{font-size:18px;font-weight:700;letter-spacing:.04em}
+.header-description{font-size:10px;font-weight:500;letter-spacing:.12em;padding-left:18px;line-height:1.45}
+.studio-header nav{gap:28px}
+.sister-link,.nav-button{font-size:13px;font-weight:400;color:#626973}
+.nav-button{min-height:33px;padding:7px 0;gap:7px}
+.nav-button svg{width:14px;height:14px}
+.lbl,.length-field legend{font-size:12px;font-weight:550;color:#242424}
+.opt{font-size:10px;font-weight:400;color:#686875}
+.studio-shell input[type=text],.studio-dialog input[type=password]{font-family:var(--font);border-radius:10px;border-color:#e0e3e6}
+.studio-shell #f-title{font-size:16px;font-weight:400}
+.tick span{font:12px/1.6 var(--font);padding:8px 12px;min-height:36px;border-radius:10px;border-color:#e0e3e6;color:#626973}
+.tick input:checked+span{color:#000099;border-color:#0000ff;background:#eeeeff}
+.more-context>summary,.advanced>summary{font-size:12px}
+.generate{min-height:46.5px;padding:13px 20px;border-radius:24px;font:550 13px/1.5 var(--font);background:#0000ff;color:#fff;border:1px solid #0000ff}
+.generate:hover{background:#2929dc;border-color:#2929dc}
+.text-button,.reset-row .text-button{font:400 13px/1.5 var(--font);padding:7px 0;color:#6b717a}
+.reset-row{margin-top:6px}
+.proposal-card,.proposal-card.selected{border-color:#e0e3e6;border-radius:16px}
+.card-label,.card-heading>.card-label{font:550 12px/1.7 var(--font);color:#242424}
+.card-english,.variant-row .card-english{font:500 18px/1.55 var(--font);letter-spacing:0;color:#242424}
+.variant-row[data-kind="paragraph"] .card-english{font:400 14px/1.8 var(--font);letter-spacing:0}
+.variant-label{font:400 10px/1.5 var(--font);color:#686875}
+.variant-body .card-chinese{font:400 10px/1.8 var(--font);color:#686875}
+.card-case-options{background:#f5f5f7;border-radius:7px}
+.card-case-options button{font-family:var(--font);border-radius:5px}
+.card-action{color:#626973;border-radius:7px}
+.secondary-button,.studio-dialog .btn{font:400 12px/1.5 var(--font);border-radius:24px;padding:11px 18px}
+.dialog-heading h2{font:600 19px/1.5 var(--font)}
+.output-footer .text-button{font-size:12px}
+@media(max-width:700px){.studio-header{height:72px}.brand-type{font-size:16px}.studio-header nav{gap:16px}.nav-button,.sister-link{font-size:12px}.variant-row .card-english{font-size:18px}.variant-row[data-kind="paragraph"] .card-english{font-size:14px}.variant-body .card-chinese{font-size:11px}}
