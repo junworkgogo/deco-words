@@ -70,7 +70,7 @@
       });
       const retry=action("retry","重新產生"+style.name,()=>generate(i));
       retry.disabled=loading||!entries.length;
-      footer.append(cases,retry);card.append(content,footer);host.append(card);
+      footer.append(cases,retry);const heading=make("div","card-heading");heading.append(content.querySelector(".card-label"),footer);content.prepend(heading);card.append(content);host.append(card);
     });
   }
   async function copy(text){try{await navigator.clipboard.writeText(text);toast("英文已複製。");}catch(_){toast("無法使用剪貼簿，請選取英文後複製。");}}

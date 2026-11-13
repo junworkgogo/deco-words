@@ -49,3 +49,6 @@ body{font-family:var(--font)}::selection{background:#ddddff;color:#000099}
 .variant-body .card-chinese{display:block;margin:7px 0 0;font:10px/1.6 var(--font);color:#62626d;letter-spacing:0;overflow-wrap:anywhere}.variant-body .card-chinese:empty{display:none}@media(max-width:700px){.variant-body .card-chinese{font-size:11px}}
 
 .generate-area .app-status{margin:9px 0 0;font-size:12px;line-height:1.65}.generate-area .app-status.error{color:#b42318}
+
+/* Case and retry actions sit beside the style heading, above all results. */
+.card-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:16px}.card-heading>.card-label{margin:0;flex:0 0 auto;width:auto}.card-heading>.card-footer{margin:0 0 0 auto;padding:0;gap:6px;flex-wrap:nowrap}.card-heading .card-case-options button{min-width:25px;padding-inline:5px}.card-heading>.card-footer>.card-action{min-width:25px}
