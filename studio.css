@@ -41,3 +41,11 @@ body{font-family:var(--font)}::selection{background:#ddddff;color:#000099}
 /* 句子: a connected paragraph alongside the short, medium and long lines. */
 .variant-row[data-kind="paragraph"]{min-height:0;padding-top:17px}.variant-row[data-kind="paragraph"] .card-english{font-size:18px;line-height:1.5;letter-spacing:-.01em}.variant-row[data-kind="long"]{min-height:145px}.variant-row[data-kind="paragraph"] .card-action{margin-top:17px}
 @media(max-width:700px){.variant-row[data-kind="long"]{min-height:0}.variant-row[data-kind="paragraph"] .card-english{font-size:20px;line-height:1.45}.variant-row[data-kind="paragraph"]{padding-top:14px}}
+
+/* Before generation, show only the three style headings. */
+.proposals>.section-heading{display:none}.proposal-card.is-empty{min-height:74px}.proposal-card.is-empty .card-label{margin:0;padding-bottom:14px;border-bottom:1px solid #eeeef2}.proposal-card.is-empty .card-select{min-height:0!important}.proposal-card.is-empty .card-footer{display:none}
+
+/* Small Chinese meanings stay with each English result. */
+.variant-body .card-chinese{display:block;margin:7px 0 0;font:10px/1.6 var(--font);color:#62626d;letter-spacing:0;overflow-wrap:anywhere}.variant-body .card-chinese:empty{display:none}@media(max-width:700px){.variant-body .card-chinese{font-size:11px}}
+
+.generate-area .app-status{margin:9px 0 0;font-size:12px;line-height:1.65}.generate-area .app-status.error{color:#b42318}
