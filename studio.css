@@ -52,3 +52,6 @@ body{font-family:var(--font)}::selection{background:#ddddff;color:#000099}
 
 /* Case and retry actions sit beside the style heading, above all results. */
 .card-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:16px}.card-heading>.card-label{margin:0;flex:0 0 auto;width:auto}.card-heading>.card-footer{margin:0 0 0 auto;padding:0;gap:6px;flex-wrap:nowrap}.card-heading .card-case-options button{min-width:25px;padding-inline:5px}.card-heading>.card-footer>.card-action{min-width:25px}
+
+/* Infrequent reset stays beneath the primary action and its feedback. */
+.reset-row{display:flex;justify-content:flex-end;margin-top:6px}.reset-row .text-button{min-height:28px;font-size:11px;padding:4px 0}.error-details{margin-top:7px;font-size:11px;color:#62626d;overflow-wrap:anywhere}.error-details summary{cursor:pointer;padding:4px 0}.error-details p{white-space:pre-wrap;margin:6px 0 0;padding:9px;background:#f6f6f8;border-radius:6px;line-height:1.6}.error-details[hidden]{display:none!important}

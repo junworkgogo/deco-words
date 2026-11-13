@@ -329,10 +329,13 @@ function classify(status, body) {
   const reasons = Array.isArray(err.details) ? err.details.map((d) => d && d.reason).filter(Boolean) : [];
   if (status === 401 || reasons.includes("API_KEY_INVALID") || /api key (not valid|invalid|expired)/i.test(text)) return "bad_key";
   if (/location is not supported/i.test(text)) return "region";
+  if (status === 402) return "billing";
   if (status === 403) return "denied";
   if (status === 404) return "no_model";
   if (status === 429) return "quota";
-  if (status >= 500) return "busy";
+  if (status === 503) return "busy";
+  if (status === 504) return "server_timeout";
+  if (status >= 500) return "server";
   return "unknown";
 }
 
@@ -355,7 +358,15 @@ async function gfetch(path, key, init) {
   try { body = await res.json(); } catch (_) { body = null; }
   if (!res.ok) {
     const detail = body && body.error && body.error.message ? body.error.message : "HTTP " + res.status;
-    throw new ApiError(classify(res.status, body), detail, res.status);
+    const error = new ApiError(classify(res.status, body), detail, res.status);
+    const code = body && body.error && body.error.status;
+    error.code = typeof code === "string" && /^[A-Z_]{1,60}$/.test(code) ? code : "";
+    const retryHeader = res.headers.get("retry-after");
+    const headerDelay = retryHeader ? (/^\d+(?:\.\d+)?$/.test(retryHeader) ? Number(retryHeader) * 1000 : Date.parse(retryHeader) - Date.now()) : 0;
+    const retryInfo = body && body.error && Array.isArray(body.error.details) ? body.error.details.find(d => d && /RetryInfo$/.test(d["@type"] || "")) : null;
+    const retryMatch = retryInfo && typeof retryInfo.retryDelay === "string" ? retryInfo.retryDelay.match(/^(\d+(?:\.\d+)?)s$/) : null;
+    error.retryAfterMs = Math.max(0, Number.isFinite(headerDelay) ? headerDelay : 0, retryMatch ? Number(retryMatch[1]) * 1000 : 0);
+    throw error;
   }
   return body;
 }
@@ -530,7 +541,7 @@ async function askGemini(title, sub, extra, avoid, fresh, signal) {
   try {
     data = await withTimeLimit(signal, FIRST_TRY, (s) => callModel(model, input, s));
   } catch (e) {
-    const retry = e instanceof ApiError && (e.kind === "slow" || e.kind === "busy") && model !== BACKUP_MODEL;
+    const retry = e instanceof ApiError && (e.kind === "slow" || [500, 502, 503, 504].includes(e.status)) && model !== BACKUP_MODEL;
     if (!retry) throw e instanceof ApiError && e.kind === "slow" ? new ApiError("busy") : e;
     try {
       data = await callModel(BACKUP_MODEL, input, signal);
@@ -562,7 +573,10 @@ const MESSAGES = {
   denied: { text: "這組金鑰沒有使用 Gemini 的權限，請到 Google AI Studio 重新建立一組金鑰。", kind: "error" },
   no_model: { text: "找不到可以用的模型，請再按一次「產生」。", kind: "error" },
   quota: { text: "Google 回報用量限制。請稍後再試，或至 Google AI Studio 檢查專案額度。", kind: "error" },
-  busy: { text: "Google 那邊忙線中，請過一會兒再按一次。", kind: "error" },
+  busy: { text: "Google 服務暫時無法回應，請稍後再試。", kind: "error" },
+  server: { text: "Google 回報伺服器錯誤，請稍後再試。", kind: "error" },
+  server_timeout: { text: "Google 處理這次要求逾時，請稍後再試。", kind: "error" },
+  billing: { text: "Google 專案目前無法使用，請查看 AI Studio 的專案狀態。", kind: "error" },
   network: { text: "連不上 Google，請確認網路後再試。", kind: "error" },
   blocked: { text: "Google 沒有處理這段內容，請調整標題後再試。", kind: "error" },
   incomplete: { text: "這次的結果不完整，請再按一次「產生」。", kind: "error" },
