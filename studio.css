@@ -124,3 +124,9 @@ body{font:16px/1.6 var(--font)}
  .brief-panel{padding-right:4px;margin-right:-4px}.output-panel{padding:1px 4px 12px 1px;margin:-1px -4px 0 -1px}
 }
 @media(max-width:700px){.studio-header{position:sticky;top:0;background:var(--bg);z-index:10}.studio-shell{padding-bottom:20px}.reset-row{gap:20px}.key-image-dialog{padding:54px 12px 12px}}
+
+
+/* Keep the expanded icon within its row and prevent horizontal panel scrolling. */
+.advanced>summary{align-items:center}
+.advanced>summary>span{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex:0 0 20px}
+@media(min-width:701px){.brief-panel,.output-panel{overflow-x:hidden}}
