@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer"><meta name="description" content="從中文想法，到適合設計的英文文案。比較三種語氣，複製英文，各自切換大小寫。"><title>英JUN百科</title><link rel="icon" type="image/svg+xml" sizes="any" href="./favicon-smile.svg?v=20261113-brand"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="legacy.css"><link rel="stylesheet" href="studio.css?v=20261116-real-key-photos"></head>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer"><meta name="description" content="從中文想法，到適合設計的英文文案。比較三種語氣，複製英文，各自切換大小寫。"><title>英JUN百科</title><link rel="icon" type="image/svg+xml" sizes="any" href="./favicon-smile.svg?v=20261113-brand"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="legacy.css"><link rel="stylesheet" href="studio.css?v=20261116-cleanup"></head>
 <body><a class="skip-link" href="#form">跳至中文文案</a><div class="studio-shell">
-<header class="studio-header"><a class="brand" href="./" aria-label="英JUN百科首頁"><span class="brand-type">英JUN百科</span></a><span class="header-description">英文文案工作台</span><nav aria-label="工具導覽"><a class="sister-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer">家配咒語 <span aria-hidden="true">↗</span></a><span class="nav-divider"></span><button class="nav-button" data-open="settings-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6"/></svg><span>設定</span><span class="connection-dot" id="connection-dot"></span></button></nav></header>
+<header class="studio-header"><a class="brand" href="./" aria-label="英JUN百科首頁"><span class="brand-type">英JUN百科</span></a><span class="header-description">英文文案工作台</span><nav aria-label="工具導覽"><a class="sister-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer">JAI配咒語 <span aria-hidden="true">↗</span></a><span class="nav-divider"></span><button class="nav-button" data-open="settings-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6"/></svg><span>設定</span><span class="connection-dot" id="connection-dot"></span></button></nav></header>
 
 <div class="workspace"><aside class="brief-panel"><form id="form" class="form" aria-label="中文文案需求" novalidate>
         <div class="field">
@@ -50,37 +50,25 @@
           </fieldset>
         </details>
 </div></details>
-<div class="generate-area"><button class="generate" id="generate" type="submit">產生英文</button><p class="app-status" id="app-status" role="status" aria-live="polite"></p><details class="error-details" id="error-details" hidden><summary>查看錯誤原因</summary><p id="error-detail"></p></details><div class="reset-row"><button class="text-button" type="button" id="btn-clear">重設</button></div></div>
+<div class="generate-area"><button class="generate" id="generate" type="submit">產生英文</button><p class="app-status" id="app-status" role="status" aria-live="polite"></p><details class="error-details" id="error-details" hidden><summary>查看錯誤原因</summary><p id="error-detail"></p></details><div class="reset-row"><button class="text-button" type="button" id="btn-clear">重設</button><button class="text-button" type="button" data-open="history-dialog">歷史紀錄</button></div></div>
         <p class="hint-err" id="input-msg" role="alert" hidden></p>
         
       </form></aside>
 <main class="output-panel" id="workspace-results"><section class="proposals" aria-labelledby="proposals-heading"><div class="section-heading"><div><h2 class="sr-only" id="proposals-heading">英文翻譯</h2></div></div><div class="proposal-grid" id="proposal-cards"></div></section>
 
-<div class="output-footer"><button class="text-button" data-open="legacy-dialog">完整翻譯與歷史紀錄 <span aria-hidden="true">↗</span></button></div></main></div>
+</main></div>
 </div>
 <dialog id="settings-dialog" class="studio-dialog" aria-labelledby="settings-title"><div class="dialog-heading"><div><span class="step-label">PREFERENCES</span><h2 id="settings-title">工作台設定</h2></div><button class="close-dialog" data-close aria-label="關閉設定">×</button></div>      <section class="key-card" id="key-panel" aria-labelledby="key-title">
         <div id="key-setup" class="key-setup">
           <h2 class="panel-title" id="key-title">連接 Gemini</h2>
-          <p class="key-guide-intro">先在 Google AI Studio 建立 Gemini 金鑰，再貼回這裡。</p>
-          <details class="api-guide"><summary>第一次設定？查看金鑰圖文教學 <span aria-hidden="true">＋</span></summary>
-            <p class="api-guide-note">以下為實際操作截圖；金鑰與個人資訊已遮蔽。可點圖片放大查看，介面可能隨語言及版本調整。</p>
+          <details class="api-guide"><summary>第一次設定？金鑰教學 <span aria-hidden="true">＋</span></summary>
             <ol class="api-guide-steps">
-              <li><div class="api-step-heading"><span>01</span><h3>打開金鑰頁面，按「Create API key」</h3></div>
-                <p>前往 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 金鑰頁面 ↗</a>，登入後點右上角「Create API key」。若已有金鑰，可直接跳到第 3 步。</p>
-                <figure class="api-guide-shot"><a href="./img/key-guide/01-api-keys.png" target="_blank" rel="noopener noreferrer" aria-label="放大查看：Google AI Studio API Keys 頁面，右上角為 Create API key 建立按鈕"><img src="./img/key-guide/01-api-keys.png" alt="Google AI Studio API Keys 頁面，右上角為 Create API key 建立按鈕" loading="lazy" decoding="async"></a><figcaption>右上角 Create API key → 建立金鑰 · 點圖放大 ↗</figcaption></figure>
-              </li>
-              <li><div class="api-step-heading"><span>02</span><h3>填寫名稱與專案，按「Create key」</h3></div>
-                <p>在「Name your key」輸入方便辨識的名稱，於「Choose an imported project」選擇自己的專案，再點右下角「Create key」。圖中的專案名稱僅為範例。</p>
-                <figure class="api-guide-shot"><a href="./img/key-guide/02-create-key.png" target="_blank" rel="noopener noreferrer" aria-label="放大查看：Create a new key 視窗，包含金鑰名稱、專案選單及右下角 Create key 按鈕"><img src="./img/key-guide/02-create-key.png" alt="Create a new key 視窗，包含金鑰名稱、專案選單及右下角 Create key 按鈕" loading="lazy" decoding="async"></a><figcaption>名稱與專案填妥 → 右下角 Create key · 點圖放大 ↗</figcaption></figure>
-              </li>
-              <li><div class="api-step-heading"><span>03</span><h3>開啟金鑰詳細資訊，按「Copy key」</h3></div>
-                <p>建立完成後，若回到清單，點該筆金鑰開啟「API key details」。按右下角「Copy key」複製完整金鑰；也可點「API Key」那一列右側的複製圖示。不要複製 Name、Project name 或 Project number。</p>
-                <figure class="api-guide-shot"><a href="./img/key-guide/03-copy-key.png" target="_blank" rel="noopener noreferrer" aria-label="放大查看：API key details 視窗，API Key 列右側有複製圖示，右下角為 Copy key 按鈕"><img src="./img/key-guide/03-copy-key.png" alt="API key details 視窗，API Key 列右側有複製圖示，右下角為 Copy key 按鈕" loading="lazy" decoding="async"></a><figcaption>右下角 Copy key → 複製完整金鑰 · 點圖放大 ↗</figcaption></figure>
-              </li>
-              <li><div class="api-step-heading"><span>04</span><h3>回到本站，貼上後按「儲存金鑰」</h3></div><p>將剛剛複製的內容貼到下方「Gemini 金鑰」欄位，再按「儲存金鑰」。等本站確認成功後，就能開始輸入中文文案。</p></li>
+              <li><div class="api-step-heading"><span>01</span><h3>建立金鑰</h3></div><p><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">開啟 Google AI Studio ↗</a></p><figure class="api-guide-shot"><button type="button" class="key-shot-button" data-key-image aria-label="放大查看：建立金鑰入口"><span class="key-shot"><img src="./img/key-guide/01-api-keys.png" alt="建立金鑰入口" loading="lazy" decoding="async"><svg class="key-shot-marks" viewBox="0 0 2314 342" aria-hidden="true"><rect x="1945" y="86" width="320" height="90" rx="8" vector-effect="non-scaling-stroke"/></svg></span></button></figure></li>
+              <li><div class="api-step-heading"><span>02</span><h3>填寫名稱與專案</h3></div><p>完成後按「Create key」。</p><figure class="api-guide-shot"><button type="button" class="key-shot-button" data-key-image aria-label="放大查看：填寫名稱、選擇專案並建立"><span class="key-shot"><img src="./img/key-guide/02-create-key.png" alt="填寫名稱、選擇專案並建立" loading="lazy" decoding="async"><svg class="key-shot-marks" viewBox="0 0 1076 614" aria-hidden="true"><rect x="85" y="237" width="949" height="73" rx="8" vector-effect="non-scaling-stroke"/><rect x="85" y="387" width="949" height="77" rx="8" vector-effect="non-scaling-stroke"/><rect x="817" y="486" width="216" height="80" rx="8" vector-effect="non-scaling-stroke"/></svg></span></button></figure></li>
+              <li><div class="api-step-heading"><span>03</span><h3>複製金鑰</h3></div><p>按「Copy key」。</p><figure class="api-guide-shot"><button type="button" class="key-shot-button" data-key-image aria-label="放大查看：複製完整金鑰"><span class="key-shot"><img src="./img/key-guide/03-copy-key.png" alt="複製完整金鑰" loading="lazy" decoding="async"><svg class="key-shot-marks" viewBox="0 0 1104 1082" aria-hidden="true"><rect x="861" y="945" width="199" height="86" rx="8" vector-effect="non-scaling-stroke"/></svg></span></button></figure></li>
+              <li><div class="api-step-heading"><span>04</span><h3>貼回本站</h3></div><p>貼至下方欄位，按「儲存金鑰」。</p></li>
             </ol>
-            <p class="api-guide-note">金鑰請當作密碼保管，不要傳給他人或放進公開截圖。若遇到付款或升級提示，先確認專案的用量與計費設定；建立教學不需要操作「Set up billing」。</p>
-            <a class="api-guide-source" href="https://ai.google.dev/gemini-api/docs/api-key?hl=zh-tw" target="_blank" rel="noopener noreferrer">Google 官方金鑰說明 ↗</a>
+            <a class="api-guide-source" href="https://ai.google.dev/gemini-api/docs/api-key?hl=zh-tw" target="_blank" rel="noopener noreferrer">官方說明 ↗</a>
           </details>
           <div class="field">
             <label class="lbl" for="f-key">Gemini 金鑰</label>
@@ -95,7 +83,7 @@
           </div>
           <p class="hint-err" id="key-msg" role="alert" hidden></p>
           <p class="wait" id="key-wait" role="status" hidden>正在向 Google 確認金鑰…</p>
-          <p class="fine">金鑰儲存在目前瀏覽器，只會傳給 Google。<br>用量與費用依你的 Google 專案設定而定，本工具無法判斷是否收費。<br>送出的文字 Google 可能用來改善服務，機密內容請勿輸入。</p>
+          <p class="fine">金鑰僅存於此瀏覽器，直接傳送 Google。<br>費用依 Google 專案設定。Google 可能使用送出文字改善服務，請勿輸入機密內容。</p>
         </div>
         <div id="key-ready" class="key-ready" hidden>
           <div class="key-info">
@@ -107,22 +95,8 @@
         </div>
       </section></dialog>
 
-<dialog id="legacy-dialog" class="studio-dialog wide-dialog" aria-labelledby="legacy-title"><div class="dialog-heading"><div><span class="step-label">TRANSLATION ARCHIVE</span><h2 id="legacy-title">完整翻譯與歷史紀錄</h2></div><button class="close-dialog" data-close aria-label="關閉翻譯">×</button></div><p class="dialog-note">沿用原本的完整翻譯：主副標、單字與裝飾短句。請先在工作台填寫中文文案。</p>        <div class="actions">
-          <button type="button" class="btn btn-primary btn-go" id="btn-go">
-            <span class="label">完整翻譯與單字</span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M9 6l6 6-6 6"/></svg></span>
-          </button>
-
-          <button type="button" class="btn btn-secondary btn-again" id="btn-again" hidden>
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.5 4.5L20 16"/><path d="M20 20v-4h-4"/></svg>
-            <span>換一組</span>
-          </button>
-          <button type="button" class="btn btn-secondary btn-stop" id="btn-stop" hidden>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>
-            <span>停止</span>
-          </button>
-        </div>
-<p class="wait" id="wait" role="status" hidden></p><section id="studio-history"><h3>文案紀錄</h3><div id="studio-history-list"></div></section><section class="history" id="history" aria-labelledby="history-title" hidden><h3 id="history-title">原版翻譯紀錄</h3><ul class="hist-list" id="hist-list"></ul></section><section id="results" aria-label="完整翻譯結果"><p class="msg" id="msg" role="status" hidden></p><div class="result-body" id="result-body" tabindex="0" role="region" aria-label="生成結果"><p class="dialog-note">還沒有完整翻譯，按上方按鈕開始。</p></div></section></dialog>
+<dialog id="history-dialog" class="studio-dialog wide-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">歷史紀錄</h2><button class="close-dialog" data-close aria-label="關閉歷史紀錄">×</button></div><div id="studio-history-list"></div></dialog>
+<dialog id="key-image-dialog" class="studio-dialog key-image-dialog" aria-label="金鑰教學圖片"><button class="close-dialog" data-close aria-label="關閉圖片">×</button><div id="key-image-content"></div></dialog>
 <div hidden><dialog id="limit-dlg"><span id="limit-count"></span></dialog></div><p class="sr-only" id="sr" role="status" aria-live="polite"></p><div class="toast" id="toast" role="status" hidden></div>
 <script type="text/plain" id="rules">You are a professional English copywriter for real estate marketing. You write for a
 Taiwanese layout designer who does not read English and checks every English word you use
@@ -246,4 +220,4 @@ headline, the subhead, each accent and the paragraph, as described above.
   In every other case notes is an empty array. Never explain your tone or choices.
 - All Chinese text uses full-width Chinese punctuation (，。、：), never half-width commas
   or periods.
-</script><script src="engine.js?v=20261113-reliability"></script><script src="studio.js?v=20261113-reliability"></script></body></html>
+</script><script src="engine.js?v=20261116-cleanup"></script><script src="studio.js?v=20261116-cleanup"></script></body></html>

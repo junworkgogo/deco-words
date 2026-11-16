@@ -106,3 +106,21 @@ body{font:16px/1.6 var(--font)}
 @media(max-width:700px){.api-mock-body{align-items:flex-start;gap:10px}.api-mock-copy{flex-direction:column}.api-mock-input{width:100%;min-width:0}.api-mock-action{max-width:100%}.api-guide-steps li>p{font-size:12px}}
 
 .api-guide-shot{margin:0 0 4px}.api-guide-shot a{display:block;border:1px solid #dfe0e6;border-radius:9px;overflow:hidden;background:#1c1c1c;cursor:zoom-in}.api-guide-shot img{display:block;width:100%;height:auto}.api-guide-shot figcaption{font-size:10px;line-height:1.8;color:var(--muted);margin-top:7px}
+
+/* Compact guide with brand-blue highlights placed directly over the screenshots. */
+.api-guide-steps{padding-top:14px;gap:18px}.api-guide-steps li>p{margin:5px 0 10px}.api-guide-source{margin-top:16px}
+.key-shot-button{display:block;width:100%;padding:0;border:1px solid #dfe0e6;border-radius:9px;background:#1c1c1c;overflow:hidden;cursor:zoom-in}
+.key-shot{display:block;position:relative;width:100%;line-height:0}.key-shot img{width:100%;height:auto;display:block}
+.key-shot .key-shot-marks{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;fill:#0000ff;fill-opacity:.24;stroke:#0000ff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.key-image-dialog{width:min(1240px,calc(100vw - 32px));max-width:1240px;padding:54px 20px 20px}.key-image-dialog>.close-dialog{position:absolute;top:10px;right:12px;background:white;z-index:1}.key-image-dialog .key-shot{max-width:1104px;margin:auto}.key-image-dialog img{width:100%;height:auto}
+.reset-row{display:flex;justify-content:flex-end;align-items:center;gap:20px}.reset-row .text-button{margin:0}
+/* Stationary desktop header and input panel; results scroll within the workspace. */
+@media(min-width:701px){
+ html,body{height:100%;overflow:hidden}
+ .studio-shell{height:100dvh;display:flex;flex-direction:column;padding-bottom:24px}
+ .studio-header{flex:0 0 86px}
+ .workspace{flex:1;min-height:0;overflow:hidden}
+ .brief-panel,.output-panel{height:100%;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin}
+ .brief-panel{padding-right:4px;margin-right:-4px}.output-panel{padding:1px 4px 12px 1px;margin:-1px -4px 0 -1px}
+}
+@media(max-width:700px){.studio-header{position:sticky;top:0;background:var(--bg);z-index:10}.studio-shell{padding-bottom:20px}.reset-row{gap:20px}.key-image-dialog{padding:54px 12px 12px}}

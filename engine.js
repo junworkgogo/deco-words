@@ -1022,9 +1022,6 @@ async function runGenerate(fresh) {
   }
 }
 
-els.btnGo.addEventListener("click", () => { runGenerate(false); });
-els.btnAgain.addEventListener("click", () => { runGenerate(true); });
-els.btnStop.addEventListener("click", () => { if (ctl) ctl.abort(); });
 els.btnClear.addEventListener("click", () => {
   els.title.value = "";
   els.sub.value = "";
@@ -1070,4 +1067,3 @@ showKeyState(false);
 showUsage();
 syncOther();
 syncAvoidPicked();
-renderHistory();

@@ -33,14 +33,17 @@
     q("error-detail").textContent=lines.join("\n");q("error-details").hidden=!lines.length;
   }
   function openDialog(id) {const d=q(id); if(!d.open)d.showModal();}
-  document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.open==="legacy-dialog")drawHistory();openDialog(b.dataset.open);}));
+  document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.open==="history-dialog")drawHistory();openDialog(b.dataset.open);}));
   document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));
   document.querySelectorAll(".studio-dialog").forEach(d=>d.addEventListener("click",event=>{if(event.target===d){const r=d.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)d.close();}}));
+  document.querySelectorAll('[data-key-image]').forEach(button=>button.addEventListener('click',()=>{
+    const content=q('key-image-content');
+    content.replaceChildren(button.querySelector('.key-shot').cloneNode(true));
+    content.querySelector('img').loading='eager';
+    openDialog('key-image-dialog');
+  }));
   function keyState(){const dot=q("connection-dot");dot.classList.toggle("connected",!!apiKey);dot.title=apiKey?"已設定 Gemini":"尚未設定 Gemini";}
   document.addEventListener("deco:key-state",()=>{keyState();if(apiKey&&q("settings-dialog").open&&q("key-setup").hidden){q("settings-dialog").close();toast("Gemini 已設定，可以開始寫文案。");}});
-  // Keep the legacy translator accessible while sharing one set of brief fields.
-  q("btn-go").addEventListener("click",event=>{if(!els.title.value.trim()){event.stopImmediatePropagation();q("legacy-dialog").close();showInputMsg("請先寫下中文主標，再產生完整翻譯。");els.title.focus();return;}if(!apiKey){event.stopImmediatePropagation();q("legacy-dialog").close();showKeyState(true);openDialog("settings-dialog");q("f-key").focus();}},true);
-  q("btn-again").addEventListener("click",event=>{if(!apiKey){event.stopImmediatePropagation();q("legacy-dialog").close();showKeyState(true);openDialog("settings-dialog");}},true);
   function icon(name){const paths={copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/>',retry:'<path d="M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-2l2 3M4 16l2 3a7 7 0 0 0 12-2"/>'};const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");s.setAttribute("aria-hidden","true");s.innerHTML=paths[name];return s;}
   function action(name,label,handler){const b=make("button","card-action");b.type="button";b.title=label;b.setAttribute("aria-label",label);b.append(icon(name));b.addEventListener("click",handler);return b;}
   function entryAt(index,key){
@@ -199,7 +202,7 @@
       if(format===0)rememberFormat(active,0);return parsed;
     }
   }
-  function setLoading(value){loading=value;busy=value;q("generate").disabled=value;q("generate").textContent=value?"產生中…":"產生英文";q("form").querySelectorAll("input,select,button").forEach(e=>{if(e.id!=="generate")e.disabled=value;});q("btn-clear").disabled=value;["btn-key-save","btn-key-delete","btn-key-change","btn-go","btn-again"].forEach(id=>q(id).disabled=value);drawEntries();}
+  function setLoading(value){loading=value;busy=value;q("generate").disabled=value;q("generate").textContent=value?"產生中…":"產生英文";q("form").querySelectorAll("input,select,button").forEach(e=>{if(e.id!=="generate")e.disabled=value;});q("btn-clear").disabled=value;["btn-key-save","btn-key-delete","btn-key-change"].forEach(id=>q(id).disabled=value);drawEntries();}
   function normalized(item){
     const result={};
     for(const variant of variants){
@@ -214,14 +217,12 @@
     }return result;
   }
   function saveHistory(){const item={id:crypto.randomUUID(),created:new Date().toISOString(),brief:generationBrief,entries:entries.map(x=>({...x}))};const next=[item,...history].slice(0,20);if(writeArray(historyKey,next))history=next;drawHistory();}
-  function drawHistory(){const host=q("studio-history-list");host.replaceChildren();if(!history.length){host.append(make("p","dialog-note","產生過的文案會保留在這裡。"));return;}history.forEach(rec=>{const row=make("div","history-row"),open=make("button");open.type="button";open.disabled=loading;open.append(document.createTextNode(rec.brief.title),make("small",null,rec.brief.sub||"三組英文提案"));open.addEventListener("click",()=>{if(loading)return;const b=rec.brief;fillForm({...b,ctxOther:b.ctxOther||"",avoidOther:b.avoidOther||""});q("tone").value=b.tone||"balanced";entries=rec.entries.map(x=>({...x}));generationBrief={...b};drawEntries();q("legacy-dialog").close();status("已開啟歷史提案。");});const remove=make("button","text-button","移除");remove.type="button";remove.addEventListener("click",()=>{const next=history.filter(x=>x.id!==rec.id);if(writeArray(historyKey,next)){history=next;drawHistory();}});row.append(open,remove);host.append(row);});}
+  function drawHistory(){const host=q("studio-history-list");host.replaceChildren();if(!history.length){host.append(make("p","dialog-note","尚無紀錄。"));return;}history.forEach(rec=>{const row=make("div","history-row"),open=make("button");open.type="button";open.disabled=loading;open.append(document.createTextNode(rec.brief.title),make("small",null,rec.brief.sub||"三組英文提案"));open.addEventListener("click",()=>{if(loading)return;const b=rec.brief;fillForm({...b,ctxOther:b.ctxOther||"",avoidOther:b.avoidOther||""});q("tone").value=b.tone||"balanced";entries=rec.entries.map(x=>({...x}));generationBrief={...b};drawEntries();q("history-dialog").close();status("已開啟歷史提案。");});const remove=make("button","text-button","移除");remove.type="button";remove.addEventListener("click",()=>{const next=history.filter(x=>x.id!==rec.id);if(writeArray(historyKey,next)){history=next;drawHistory();}});row.append(open,remove);host.append(row);});}
   async function generate(index=null){if(loading||busy)return;const brief=index===null?snapshot():generationBrief;if(!brief?.title.trim()){showInputMsg("請先寫下中文主標，再產生英文。");els.title.setAttribute("aria-invalid","true");els.title.focus();return;}hideInputMsg();els.title.removeAttribute("aria-invalid");if(!apiKey){status("設定 Gemini 後，就能產生你的英文文案。");showKeyState(true);openDialog("settings-dialog");els.keyInput.focus();return;}if(index!==null&&!entries.length)return;let timedOut=false;controller=new AbortController();const timer=setTimeout(()=>{timedOut=true;controller.abort();},60000);setLoading(true);status(index===null?"產生中…":"正在重新寫「"+styles[index].name+"」…");try{const data=await ask(brief,index,controller.signal);if(index===null){if(!Array.isArray(data.results))throw new ApiError("incomplete","Google 回覆缺少三種風格的文案清單。");const ordered=styles.map(s=>data.results.find(x=>x?.style===s.id));const next=ordered.map(normalized);entries=next;generationBrief=brief;}else{const item=normalized(data);if(variants.every(v=>item[v.key].text.toLowerCase()===(entries[index]?.[v.key]?.text||"").toLowerCase()))throw new ApiError("incomplete","重寫結果與上一版相同，原文已保留。");entries[index]=item;}saveHistory();status("");if(window.matchMedia("(max-width:700px)").matches)q("workspace-results").scrollIntoView({block:"start",behavior:reduceMotion()?"auto":"smooth"});}catch(error){if(error instanceof ApiError&&error.kind==="no_model"){model="";saveLS(LS_MODEL,"");availableModelCache=null;availableModelCheckedAt=0;}showFailure(error,timedOut);}finally{clearTimeout(timer);controller=null;setLoading(false);}}
   q("form").addEventListener("submit",event=>{event.preventDefault();generate();});
   q("f-title").addEventListener("input",()=>{q("f-title").removeAttribute("aria-invalid");hideInputMsg();});
   q("btn-clear").addEventListener("click",()=>{q("tone").value="balanced";q("form").querySelectorAll("details").forEach(d=>d.open=false);q("f-title").removeAttribute("aria-invalid");status(entries.length?"需求已清空，上一組提案仍保留。":"");});
   q("form").addEventListener("input",()=>{if(entries.length&&!loading)status("需求已變更。");});
   q("form").addEventListener("change",()=>{if(entries.length&&!loading)status("需求已變更。");});
-  // Show legacy API messages in the same visible dialog as their controls.
-  q("btn-go").addEventListener("click",()=>{if(!els.title.value.trim())toast("請先在工作台輸入中文主標。");});
   keyState();drawEntries();drawHistory();
 })();
