@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const selector = '.choice strong, .radio-row label, .tick > span, .text-button, .secondary, .primary, .generate, .sister-link, .nav-button, .site-header nav a, .reset-row button, .prompt-trigger, summary';
+  const selector = '.studio-header .sister-link, .studio-header .nav-button, .reset-row button, .site-header nav a, .site-header #help';
   const skip = 'svg, input, select, textarea, .text-roll, [aria-hidden="true"], .count, .connection-dot';
   function enhance() {
     document.querySelectorAll(selector).forEach(target => {
