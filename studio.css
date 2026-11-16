@@ -90,3 +90,17 @@ body{font:16px/1.6 var(--font)}
 .dialog-heading h2{font:600 19px/1.5 var(--font)}
 .output-footer .text-button{font-size:12px}
 @media(max-width:700px){.studio-header{height:72px}.brand-type{font-size:16px}.studio-header nav{gap:16px}.nav-button,.sister-link{font-size:12px}.variant-row .card-english{font-size:18px}.variant-row[data-kind="paragraph"] .card-english{font-size:14px}.variant-body .card-chinese{font-size:11px}}
+
+/* Illustrated Gemini setup; all sample controls are non-interactive diagrams. */
+.key-guide-intro{font-size:12px;line-height:1.8;color:var(--muted);margin:10px 0 15px}
+.api-guide{margin:0 0 20px;border:1px solid var(--line);border-radius:12px;background:#fafafa;overflow:hidden}
+.api-guide>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:12px;font-weight:550;color:#0000bd;display:flex;justify-content:space-between;gap:12px}
+.api-guide>summary::-webkit-details-marker{display:none}.api-guide[open]>summary>span{transform:rotate(45deg)}
+.api-guide-note{font-size:11px;line-height:1.8;color:var(--muted);margin:0 16px 14px}
+.api-guide-steps{list-style:none;padding:0 16px;margin:0;display:grid;gap:22px}
+.api-step-heading{display:flex;gap:9px;align-items:baseline}.api-step-heading>span{font-size:10px;color:#0000ff;font-weight:600}.api-step-heading h3{font-size:12px;font-weight:600;line-height:1.8;margin:0}
+.api-guide-steps li>p{font-size:12px;line-height:1.9;margin:7px 0 12px;color:var(--muted)}.api-guide a{color:#0000bd;text-decoration:underline;text-underline-offset:3px}
+.api-mock{border:1px solid #dfe0e6;border-radius:9px;background:white;overflow:hidden;margin-bottom:4px}
+.api-mock-bar{padding:9px 12px;background:#f0f0f5;border-bottom:1px solid #e1e1e8;font-size:10px;font-weight:550;color:#444452;display:flex;justify-content:space-between;gap:10px}.api-mock-bar small{font-size:9px;font-weight:400;color:#686875}
+.api-mock-body{padding:16px 12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;justify-content:space-between}.api-mock-label{font-size:12px;font-weight:600}.api-mock-action{background:#eeeeff;border:1px solid #a6a6ff;color:#0000bd;padding:9px 10px;border-radius:7px;font-size:10px;font-weight:550;line-height:1.6}.api-mock-action b{display:block;font-size:9px;font-weight:400;margin-top:2px}.api-mock-secret{font-size:12px;letter-spacing:.08em}.api-mock-secret small{font-size:9px;color:var(--muted);letter-spacing:0}.api-mock-input{border:1px solid #dfe0e6;border-radius:7px;padding:9px 10px;font-size:11px;color:#686875;flex:1;min-width:170px}.api-guide-source{display:inline-block;margin:0 16px 16px;font-size:11px}.api-guide-steps+.api-guide-note{margin-top:18px}
+@media(max-width:700px){.api-mock-body{align-items:flex-start;gap:10px}.api-mock-copy{flex-direction:column}.api-mock-input{width:100%;min-width:0}.api-mock-action{max-width:100%}.api-guide-steps li>p{font-size:12px}}
