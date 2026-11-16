@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer"><meta name="description" content="從中文想法，到適合設計的英文文案。比較三種語氣，複製英文，各自切換大小寫。"><title>英JUN百科</title><link rel="icon" type="image/svg+xml" sizes="any" href="./favicon-smile.svg?v=20261113-brand"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="legacy.css"><link rel="stylesheet" href="studio.css?v=20261116-key-guide"></head>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer"><meta name="description" content="從中文想法，到適合設計的英文文案。比較三種語氣，複製英文，各自切換大小寫。"><title>英JUN百科</title><link rel="icon" type="image/svg+xml" sizes="any" href="./favicon-smile.svg?v=20261113-brand"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="legacy.css"><link rel="stylesheet" href="studio.css?v=20261116-real-key-photos"></head>
 <body><a class="skip-link" href="#form">跳至中文文案</a><div class="studio-shell">
 <header class="studio-header"><a class="brand" href="./" aria-label="英JUN百科首頁"><span class="brand-type">英JUN百科</span></a><span class="header-description">英文文案工作台</span><nav aria-label="工具導覽"><a class="sister-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer">家配咒語 <span aria-hidden="true">↗</span></a><span class="nav-divider"></span><button class="nav-button" data-open="settings-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6"/></svg><span>設定</span><span class="connection-dot" id="connection-dot"></span></button></nav></header>
 
@@ -63,20 +63,21 @@
           <h2 class="panel-title" id="key-title">連接 Gemini</h2>
           <p class="key-guide-intro">先在 Google AI Studio 建立 Gemini 金鑰，再貼回這裡。</p>
           <details class="api-guide"><summary>第一次設定？查看金鑰圖文教學 <span aria-hidden="true">＋</span></summary>
-            <p class="api-guide-note">以下為操作位置示意，非 Google 實際畫面；按鈕文字與位置可能隨語言及版本調整。</p>
+            <p class="api-guide-note">以下為實際操作截圖；金鑰與個人資訊已遮蔽。可點圖片放大查看，介面可能隨語言及版本調整。</p>
             <ol class="api-guide-steps">
               <li><div class="api-step-heading"><span>01</span><h3>打開金鑰頁面，按「Create API key」</h3></div>
-                <p>前往 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 金鑰頁面 ↗</a>，用 Google 帳號登入。若已有金鑰，可直接查看並複製，不必重建。</p>
-                <div class="api-mock" role="img" aria-label="操作示意：API Keys 頁面的 Create API key 建立金鑰按鈕"><div class="api-mock-bar">Google AI Studio <small>操作示意</small></div><div class="api-mock-body"><span class="api-mock-label">API Keys</span><span class="api-mock-action">＋ Create API key <b>← 點這裡</b></span></div></div>
+                <p>前往 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio 金鑰頁面 ↗</a>，登入後點右上角「Create API key」。若已有金鑰，可直接跳到第 3 步。</p>
+                <figure class="api-guide-shot"><a href="./img/key-guide/01-api-keys.png" target="_blank" rel="noopener noreferrer" aria-label="放大查看：Google AI Studio API Keys 頁面，右上角為 Create API key 建立按鈕"><img src="./img/key-guide/01-api-keys.png" alt="Google AI Studio API Keys 頁面，右上角為 Create API key 建立按鈕" loading="lazy" decoding="async"></a><figcaption>右上角 Create API key → 建立金鑰 · 點圖放大 ↗</figcaption></figure>
               </li>
-              <li><div class="api-step-heading"><span>02</span><h3>完成建立，複製完整金鑰</h3></div>
-                <p>依建立視窗填寫名稱、選擇或建立可使用的專案，再確認建立。完成後，在金鑰詳細資訊中找「Copy API key」或複製圖示。若回到清單，先點該筆金鑰查看。請複製完整金鑰，別複製名稱、專案 ID 或末幾碼。</p>
-                <div class="api-mock" role="img" aria-label="操作示意：金鑰詳細資訊中的 Copy API key 複製按鈕，示例不是可用金鑰"><div class="api-mock-bar">金鑰詳細資訊 <small>操作示意</small></div><div class="api-mock-body api-mock-copy"><span class="api-mock-secret">•••• •••• •••• •••• <small>僅示意</small></span><span class="api-mock-action">▣ Copy API key <b>← 複製這裡</b></span></div></div>
+              <li><div class="api-step-heading"><span>02</span><h3>填寫名稱與專案，按「Create key」</h3></div>
+                <p>在「Name your key」輸入方便辨識的名稱，於「Choose an imported project」選擇自己的專案，再點右下角「Create key」。圖中的專案名稱僅為範例。</p>
+                <figure class="api-guide-shot"><a href="./img/key-guide/02-create-key.png" target="_blank" rel="noopener noreferrer" aria-label="放大查看：Create a new key 視窗，包含金鑰名稱、專案選單及右下角 Create key 按鈕"><img src="./img/key-guide/02-create-key.png" alt="Create a new key 視窗，包含金鑰名稱、專案選單及右下角 Create key 按鈕" loading="lazy" decoding="async"></a><figcaption>名稱與專案填妥 → 右下角 Create key · 點圖放大 ↗</figcaption></figure>
               </li>
-              <li><div class="api-step-heading"><span>03</span><h3>回到本站，貼上後按「儲存金鑰」</h3></div>
-                <p>將剛剛複製的內容貼到下方「Gemini 金鑰」欄位，再按「儲存金鑰」。等本站確認成功後，就能開始輸入中文文案。</p>
-                <div class="api-mock" role="img" aria-label="操作示意：在本站 Gemini 金鑰欄位貼上完整金鑰，再按儲存金鑰"><div class="api-mock-bar">英JUN百科 · 工作台設定</div><div class="api-mock-body api-mock-copy"><span class="api-mock-input">Gemini 金鑰　••••••••••</span><span class="api-mock-action">儲存金鑰</span></div></div>
+              <li><div class="api-step-heading"><span>03</span><h3>開啟金鑰詳細資訊，按「Copy key」</h3></div>
+                <p>建立完成後，若回到清單，點該筆金鑰開啟「API key details」。按右下角「Copy key」複製完整金鑰；也可點「API Key」那一列右側的複製圖示。不要複製 Name、Project name 或 Project number。</p>
+                <figure class="api-guide-shot"><a href="./img/key-guide/03-copy-key.png" target="_blank" rel="noopener noreferrer" aria-label="放大查看：API key details 視窗，API Key 列右側有複製圖示，右下角為 Copy key 按鈕"><img src="./img/key-guide/03-copy-key.png" alt="API key details 視窗，API Key 列右側有複製圖示，右下角為 Copy key 按鈕" loading="lazy" decoding="async"></a><figcaption>右下角 Copy key → 複製完整金鑰 · 點圖放大 ↗</figcaption></figure>
               </li>
+              <li><div class="api-step-heading"><span>04</span><h3>回到本站，貼上後按「儲存金鑰」</h3></div><p>將剛剛複製的內容貼到下方「Gemini 金鑰」欄位，再按「儲存金鑰」。等本站確認成功後，就能開始輸入中文文案。</p></li>
             </ol>
             <p class="api-guide-note">金鑰請當作密碼保管，不要傳給他人或放進公開截圖。若遇到付款或升級提示，先確認專案的用量與計費設定；建立教學不需要操作「Set up billing」。</p>
             <a class="api-guide-source" href="https://ai.google.dev/gemini-api/docs/api-key?hl=zh-tw" target="_blank" rel="noopener noreferrer">Google 官方金鑰說明 ↗</a>
