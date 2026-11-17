@@ -3,7 +3,7 @@
 <body><a class="skip-link" href="#form">跳至中文文案</a><div class="studio-shell">
 <header class="studio-header"><a class="brand" href="./" aria-label="英JUN百科首頁"><span class="brand-type">英JUN百科</span></a><span class="header-description">英文文案工作台</span><nav aria-label="工具導覽"><a class="sister-link" href="https://junworkgogo.github.io/jia-pei/" target="_blank" rel="noopener noreferrer">JAI配咒語 <span aria-hidden="true">↗</span></a><span class="nav-divider"></span><button class="nav-button" data-open="settings-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6"/></svg><span>設定</span><span class="connection-dot" id="connection-dot"></span></button></nav></header>
 
-<div class="workspace"><aside class="brief-panel"><form id="form" class="form" aria-label="中文文案需求" novalidate>
+<div class="workspace"><aside class="brief-panel"><div id="form" class="form" role="form" aria-label="中文文案需求">
         <div class="field">
           <div class="label-row"><label class="lbl" for="f-title">中文主標 <span class="required">*</span></label><span class="opt">必填</span></div>
           <div class="input-wrap">
@@ -50,10 +50,10 @@
           </fieldset>
         </details>
 </div></details>
-<div class="generate-area"><button class="generate" id="generate" type="submit">產生英文</button><p class="app-status" id="app-status" role="status" aria-live="polite"></p><details class="error-details" id="error-details" hidden><summary>查看錯誤原因</summary><p id="error-detail"></p></details><div class="reset-row"><button class="text-button" type="button" id="btn-clear">重設</button><button class="text-button" type="button" data-open="history-dialog">歷史紀錄</button></div></div>
+<div class="generate-area"><button class="generate" id="generate" type="button">產生英文</button><p class="app-status" id="app-status" role="status" aria-live="polite"></p><details class="error-details" id="error-details" hidden><summary>查看錯誤原因</summary><p id="error-detail"></p></details><div class="reset-row"><button class="text-button" type="button" id="btn-clear">重設</button><button class="text-button" type="button" data-open="history-dialog">歷史紀錄</button></div></div>
         <p class="hint-err" id="input-msg" role="alert" hidden></p>
         
-      </form></aside>
+      </div></aside>
 <main class="output-panel" id="workspace-results"><section class="proposals" aria-labelledby="proposals-heading"><div class="section-heading"><div><h2 class="sr-only" id="proposals-heading">英文翻譯</h2></div></div><div class="proposal-grid" id="proposal-cards"></div></section>
 
 </main></div>
@@ -220,5 +220,5 @@ headline, the subhead, each accent and the paragraph, as described above.
   In every other case notes is an empty array. Never explain your tone or choices.
 - All Chinese text uses full-width Chinese punctuation (，。、：), never half-width commas
   or periods.
-</script><script src="engine.js?v=20261116-cleanup"></script><script src="studio.js?v=20261116-cleanup"></script><script defer src="./option-motion.js?v=20261116-scope"></script></body></html>
+</script><script src="engine.js?v=20261116-cleanup"></script><script src="studio.js?v=20261118-safari-form-fix"></script><script defer src="./option-motion.js?v=20261116-scope"></script></body></html>
 
