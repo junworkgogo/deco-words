@@ -51,12 +51,19 @@
     const entry=entries[index];
     return entry?.[key]||(key==="standard"&&validSingle(entry)?entry:null);
   }
+  // Aa 採一般英文句首大寫；保留原本的人名、地名及品牌大小寫。
+  // 同一個函式供畫面顯示與複製使用，避免兩者不一致。
+  function formatCase(text,mode){
+    const value=String(text||"");
+    if(mode==="upper")return value.toUpperCase();
+    if(mode==="lower")return value.toLowerCase();
+    return value.replace(/(^|[.!?]\\s+)([^A-Za-z]*)([a-z])/g,(_,prefix,separators,letter)=>prefix+separators+letter.toUpperCase());
+  }
   function cardText(index,key){
-    const text=entryAt(index,key)?.text||"";
-    return caseModes[index]==="upper"?text.toUpperCase():caseModes[index]==="lower"?text.toLowerCase():text;
+    return formatCase(entryAt(index,key)?.text||"",caseModes[index]);
   }
   // 主標・副標的忠實英文翻譯（不改寫），放在三種風格上方
-  function titleText(text){return titleCase==="upper"?text.toUpperCase():titleCase==="lower"?text.toLowerCase():text;}
+  function titleText(text){return formatCase(text,titleCase);}
   function drawTitles(){
     const host=q("title-cards");if(!host)return;host.replaceChildren();
     const brief=generationBrief;
