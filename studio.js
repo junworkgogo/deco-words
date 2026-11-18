@@ -57,7 +57,7 @@
     const value=String(text||"");
     if(mode==="upper")return value.toUpperCase();
     if(mode==="lower")return value.toLowerCase();
-    return value.replace(/(^|[.!?]\\s+)([^A-Za-z]*)([a-z])/g,(_,prefix,separators,letter)=>prefix+separators+letter.toUpperCase());
+    return value.replace(/(^|[.!?]\s+)([^A-Za-z]*)([a-z])/g,(_,prefix,separators,letter)=>prefix+separators+letter.toUpperCase());
   }
   function cardText(index,key){
     return formatCase(entryAt(index,key)?.text||"",caseModes[index]);
