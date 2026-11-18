@@ -5,9 +5,10 @@
   const variants=[{key:"short",label:"短",min:1,max:1},{key:"standard",label:"中",min:4,max:6},{key:"long",label:"長",min:7,max:12},{key:"paragraph",label:"句子",min:20,max:35}];
   const historyKey = "decoWords.studioHistory.v3";
   let history = readArray(historyKey).filter(validHistory).slice(0,20);
-  let entries = [], generationBrief = null;
+  let entries = [], generationBrief = null, titles = null;
   let loading = false, controller = null;
   const caseModes = ["original", "original", "original"];
+  let titleCase = "original";
   let toastTimer;
   function make(tag,cls,text) {
     const e=document.createElement(tag); if(cls)e.className=cls; if(text!==undefined)e.textContent=text; return e;
@@ -54,7 +55,46 @@
     const text=entryAt(index,key)?.text||"";
     return caseModes[index]==="upper"?text.toUpperCase():caseModes[index]==="lower"?text.toLowerCase():text;
   }
+  // 主標・副標的忠實英文翻譯（不改寫），放在三種風格上方
+  function titleText(text){return titleCase==="upper"?text.toUpperCase():titleCase==="lower"?text.toLowerCase():text;}
+  function drawTitles(){
+    const host=q("title-cards");if(!host)return;host.replaceChildren();
+    const brief=generationBrief;
+    const rows=[["主標",brief?.title,titles?.headline]];
+    if(brief?.sub?.trim())rows.push(["副標",brief.sub,titles?.subhead]);
+    const card=make("article","proposal-card title-card");card.setAttribute("aria-label","主標・副標翻譯");
+    const content=make("div","card-select");
+    const heading=make("div","card-heading");heading.append(make("h3","card-label",rows.length>1?"主標・副標翻譯":"主標翻譯"));
+    if(!titles){card.classList.add("is-empty");content.append(heading);card.append(content);host.append(card);return;}
+    const footer=make("div","card-footer");
+    const cases=make("div","segments compact card-case-options");
+    cases.setAttribute("role","group");cases.setAttribute("aria-label","主標副標大小寫");
+    [["original","Aa","原樣"],["upper","AA","大寫"],["lower","aa","小寫"]].forEach(([value,label,name])=>{
+      const button=make("button",null,label);button.type="button";
+      button.setAttribute("aria-label","主標副標"+name);button.setAttribute("aria-pressed",String(titleCase===value));
+      button.addEventListener("click",()=>{titleCase=value;drawTitles();});cases.append(button);
+    });
+    footer.append(cases);heading.append(footer);content.append(heading);
+    const list=make("div","title-rows");
+    rows.forEach(([label,zh,item])=>{
+      const row=make("div","variant-row title-row");
+      const body=make("div","variant-body");
+      const en=make("p","card-english",item?titleText(item.text):"—");en.lang="en";
+      body.append(make("span","variant-label",label+(zh?"｜"+zh:"")),en);
+      const copyButton=action("copy","複製"+label+"英文",()=>copy(titleText(item.text)));
+      copyButton.disabled=!item;
+      row.append(body,copyButton);list.append(row);
+    });
+    content.append(list);card.append(content);host.append(card);
+  }
+  function normalizedTitles(data,brief){
+    const clean=v=>validSingle(v)?{text:v.text.replace(/\s+/g," ").trim(),zh:(v.zh||"").trim()}:null;
+    const headline=clean(data?.titles?.headline);
+    if(!headline)return null;
+    return {headline,subhead:brief.sub?.trim()?clean(data?.titles?.subhead):null};
+  }
   function drawEntries(){
+    drawTitles();
     const host=q("proposal-cards");host.replaceChildren();
     styles.forEach((style,i)=>{
       const card=make("article","proposal-card");card.setAttribute("aria-label",style.name);
@@ -100,7 +140,8 @@
     p+="每個風格必須同時提供短、中、長、句子四個版本，各版本都須傳達完整核心意思，不能只截斷句子。short只輸出一個英文單字，不用片語，也不用連字號把多個字接在一起；standard目標4至6個英文單字；long目標7至12個英文單字；paragraph是連貫的小段英文廣告文案，1至2個完整句子，目標20至35個英文單字，語意自然完整優先，不是另一個短標。不要使用emoji或裝飾符號。\n";
     const shape={short:{text:"短英文",zh:"繁中意思"},standard:{text:"中英文",zh:"繁中意思"},long:{text:"長英文",zh:"繁中意思"},paragraph:{text:"小段英文文案，1至2句，20至35單字",zh:"繁中意思"}};
     if(index===null){
-      p+="請產生luxury（精品高級）、minimal（極簡利落）、impact（廣告吸睛）三種不同語氣，每種都包含短、中、長、句子四個版本，共12份英文。格式："+JSON.stringify({results:styles.map(style=>({style:style.id,...shape}))});
+      p+="另外在titles提供主標與副標各自的英文翻譯：headline翻譯主標、subhead翻譯副標。這是忠實翻譯，逐句對應原文意思，寫成可直接放在版面上的英文標題（標題用字、首字大寫的一般寫法，不加句號），不加入原文沒有的意思，也不套用上面三種語氣。"+(brief.sub.trim()?"":"這次沒有副標，subhead的text與zh都填空字串。")+"\n";
+      p+="請產生luxury（精品高級）、minimal（極簡利落）、impact（廣告吸睛）三種不同語氣，每種都包含短、中、長、句子四個版本，共12份英文。格式："+JSON.stringify({titles:{headline:{text:"主標英文翻譯",zh:"繁中意思"},subhead:{text:"副標英文翻譯",zh:"繁中意思"}},results:styles.map(style=>({style:style.id,...shape}))});
     }else{
       p+="只重寫「"+styles[index].name+"」的短、中、長、句子四個版本，避免與舊版本相同。舊版本："+JSON.stringify(entries[index])+"。格式："+JSON.stringify(shape);
     }return p;
@@ -110,7 +151,8 @@
     const properties=Object.fromEntries(variants.map(v=>[v.key,pair]));
     const item={type:"object",properties,required:variants.map(v=>v.key)};
     if(index!==null)return item;
-    return {type:"object",properties:{results:{type:"array",minItems:3,maxItems:3,items:{...item,properties:{style:{type:"string",enum:styles.map(s=>s.id)},...properties},required:["style",...item.required]}}},required:["results"]};
+    const titlePair={type:"object",properties:{text:{type:"string"},zh:{type:"string"}},required:["text","zh"]};
+    return {type:"object",properties:{titles:{type:"object",properties:{headline:titlePair,subhead:titlePair},required:["headline","subhead"]},results:{type:"array",minItems:3,maxItems:3,items:{...item,properties:{style:{type:"string",enum:styles.map(s=>s.id)},...properties},required:["style",...item.required]}}},required:["titles","results"]};
   }
   function availableLiteModels(list){
     const names=[...new Set((Array.isArray(list?.models)?list.models:[]).filter(m=>Array.isArray(m?.supportedGenerationMethods)&&m.supportedGenerationMethods.includes("generateContent")).map(m=>String(m.name||"").replace(/^models\//,"")))];
@@ -216,9 +258,9 @@
       result[variant.key]={text,zh:value.zh.trim()};
     }return result;
   }
-  function saveHistory(){const item={id:crypto.randomUUID(),created:new Date().toISOString(),brief:generationBrief,entries:entries.map(x=>({...x}))};const next=[item,...history].slice(0,20);if(writeArray(historyKey,next))history=next;drawHistory();}
-  function drawHistory(){const host=q("studio-history-list");host.replaceChildren();if(!history.length){host.append(make("p","dialog-note","尚無紀錄。"));return;}history.forEach(rec=>{const row=make("div","history-row"),open=make("button");open.type="button";open.disabled=loading;open.append(document.createTextNode(rec.brief.title),make("small",null,rec.brief.sub||"三組英文提案"));open.addEventListener("click",()=>{if(loading)return;const b=rec.brief;fillForm({...b,ctxOther:b.ctxOther||"",avoidOther:b.avoidOther||""});q("tone").value=b.tone||"balanced";entries=rec.entries.map(x=>({...x}));generationBrief={...b};drawEntries();q("history-dialog").close();status("已開啟歷史提案。");});const remove=make("button","text-button","移除");remove.type="button";remove.addEventListener("click",()=>{const next=history.filter(x=>x.id!==rec.id);if(writeArray(historyKey,next)){history=next;drawHistory();}});row.append(open,remove);host.append(row);});}
-  async function generate(index=null){if(loading||busy)return;const brief=index===null?snapshot():generationBrief;if(!brief?.title.trim()){showInputMsg("請先寫下中文主標，再產生英文。");els.title.setAttribute("aria-invalid","true");els.title.focus();return;}hideInputMsg();els.title.removeAttribute("aria-invalid");if(!apiKey){status("設定 Gemini 後，就能產生你的英文文案。");showKeyState(true);openDialog("settings-dialog");els.keyInput.focus();return;}if(index!==null&&!entries.length)return;let timedOut=false;controller=new AbortController();const timer=setTimeout(()=>{timedOut=true;controller.abort();},60000);setLoading(true);status(index===null?"產生中…":"正在重新寫「"+styles[index].name+"」…");try{const data=await ask(brief,index,controller.signal);if(index===null){if(!Array.isArray(data.results))throw new ApiError("incomplete","Google 回覆缺少三種風格的文案清單。");const ordered=styles.map(s=>data.results.find(x=>x?.style===s.id));const next=ordered.map(normalized);entries=next;generationBrief=brief;}else{const item=normalized(data);if(variants.every(v=>item[v.key].text.toLowerCase()===(entries[index]?.[v.key]?.text||"").toLowerCase()))throw new ApiError("incomplete","重寫結果與上一版相同，原文已保留。");entries[index]=item;}saveHistory();status("");if(window.matchMedia("(max-width:700px)").matches)q("workspace-results").scrollIntoView({block:"start",behavior:reduceMotion()?"auto":"smooth"});}catch(error){if(error instanceof ApiError&&error.kind==="no_model"){model="";saveLS(LS_MODEL,"");availableModelCache=null;availableModelCheckedAt=0;}showFailure(error,timedOut);}finally{clearTimeout(timer);controller=null;setLoading(false);}}
+  function saveHistory(){const item={id:crypto.randomUUID(),created:new Date().toISOString(),brief:generationBrief,titles,entries:entries.map(x=>({...x}))};const next=[item,...history].slice(0,20);if(writeArray(historyKey,next))history=next;drawHistory();}
+  function drawHistory(){const host=q("studio-history-list");host.replaceChildren();if(!history.length){host.append(make("p","dialog-note","尚無紀錄。"));return;}history.forEach(rec=>{const row=make("div","history-row"),open=make("button");open.type="button";open.disabled=loading;open.append(document.createTextNode(rec.brief.title),make("small",null,rec.brief.sub||"三組英文提案"));open.addEventListener("click",()=>{if(loading)return;const b=rec.brief;fillForm({...b,ctxOther:b.ctxOther||"",avoidOther:b.avoidOther||""});q("tone").value=b.tone||"balanced";entries=rec.entries.map(x=>({...x}));generationBrief={...b};titles=rec.titles&&validSingle(rec.titles.headline)?rec.titles:null;titleCase="original";drawEntries();q("history-dialog").close();status("已開啟歷史提案。");});const remove=make("button","text-button","移除");remove.type="button";remove.addEventListener("click",()=>{const next=history.filter(x=>x.id!==rec.id);if(writeArray(historyKey,next)){history=next;drawHistory();}});row.append(open,remove);host.append(row);});}
+  async function generate(index=null){if(loading||busy)return;const brief=index===null?snapshot():generationBrief;if(!brief?.title.trim()){showInputMsg("請先寫下中文主標，再產生英文。");els.title.setAttribute("aria-invalid","true");els.title.focus();return;}hideInputMsg();els.title.removeAttribute("aria-invalid");if(!apiKey){status("設定 Gemini 後，就能產生你的英文文案。");showKeyState(true);openDialog("settings-dialog");els.keyInput.focus();return;}if(index!==null&&!entries.length)return;let timedOut=false;controller=new AbortController();const timer=setTimeout(()=>{timedOut=true;controller.abort();},60000);setLoading(true);status(index===null?"產生中…":"正在重新寫「"+styles[index].name+"」…");try{const data=await ask(brief,index,controller.signal);if(index===null){if(!Array.isArray(data.results))throw new ApiError("incomplete","Google 回覆缺少三種風格的文案清單。");const ordered=styles.map(s=>data.results.find(x=>x?.style===s.id));const next=ordered.map(normalized);entries=next;generationBrief=brief;titles=normalizedTitles(data,brief);titleCase="original";}else{const item=normalized(data);if(variants.every(v=>item[v.key].text.toLowerCase()===(entries[index]?.[v.key]?.text||"").toLowerCase()))throw new ApiError("incomplete","重寫結果與上一版相同，原文已保留。");entries[index]=item;}saveHistory();status("");if(window.matchMedia("(max-width:700px)").matches)q("workspace-results").scrollIntoView({block:"start",behavior:reduceMotion()?"auto":"smooth"});}catch(error){if(error instanceof ApiError&&error.kind==="no_model"){model="";saveLS(LS_MODEL,"");availableModelCache=null;availableModelCheckedAt=0;}showFailure(error,timedOut);}finally{clearTimeout(timer);controller=null;setLoading(false);}}
   // 此頁是 AJAX 工作台，不使用原生 HTML form，避免 Safari 對未送出表單自動彈出關閉分頁確認。
   q("generate").addEventListener("click",()=>generate());
   q("form").addEventListener("keydown",event=>{

@@ -130,3 +130,6 @@ body{font:16px/1.6 var(--font)}
 .advanced>summary{align-items:center}
 .advanced>summary>span{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex:0 0 20px}
 @media(min-width:701px){.brief-panel,.output-panel{overflow-x:hidden}}
+/* 2026-11-18 主標・副標翻譯卡 */
+.title-cards{margin-bottom:10px}.title-card .variant-row{min-height:0!important}.title-card .variant-row .card-english{font-size:24px}.title-card .title-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));column-gap:24px}.title-card .variant-label{font-size:10px;color:#62626d}
+@media(max-width:700px){.title-cards{margin-bottom:14px}.title-card .title-rows{grid-template-columns:1fr}.title-card .variant-row .card-english{font-size:24px}}
